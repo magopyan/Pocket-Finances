@@ -18,6 +18,14 @@ public class AccountTypeWithAccounts {
     )
     private List<Account> accountList;
 
+    //////////////////////////////////////////
+
+
+    public AccountTypeWithAccounts(AccountType accountType, List<Account> accountList) {
+        this.accountType = accountType;
+        this.accountList = accountList;
+    }
+
     public AccountType getAccountType() {
         return accountType;
     }

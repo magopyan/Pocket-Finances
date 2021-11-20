@@ -10,7 +10,8 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "account",
         foreignKeys = @ForeignKey(entity = AccountType.class, parentColumns = "id", childColumns = "acc_type_id", onDelete = CASCADE, onUpdate = CASCADE),
-        indices = @Index(name = "Account_Index", value = {"id", "acc_type_id"}) )
+        indices = { @Index(name = "Account_PK", value = "id"),
+                    @Index(name = "Account_FK", value = "acc_type_id")} )
 public class Account {  // Parcelable? Serializable?
 
     @PrimaryKey(autoGenerate = true)
@@ -20,6 +21,8 @@ public class Account {  // Parcelable? Serializable?
 
     @ColumnInfo(name = "acc_type_id")
     private int accountTypeId;
+
+    // Currency ID zasega lipsva, zashtoto shte dobavi dopulnitelna slojnost
 
     //////////////////////////
 

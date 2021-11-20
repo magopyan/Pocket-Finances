@@ -12,7 +12,7 @@ public class TransactionDirection {
 
     private String name;
 
-    private int coefficient;
+    private int coefficient; // za transfer kakuv shte e? NULL?
 
 
     //////////////////////////

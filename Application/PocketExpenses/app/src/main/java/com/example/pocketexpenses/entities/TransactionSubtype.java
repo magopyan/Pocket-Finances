@@ -11,7 +11,8 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "transaction_subtype",
         foreignKeys = @ForeignKey(entity = TransactionType.class, parentColumns = "id", childColumns = "tran_type_id", onDelete = CASCADE, onUpdate = CASCADE),
-        indices = @Index(name = "Tran_Subtype_Index", value = {"id", "tran_type_id"}) )
+        indices = { @Index(name = "Tran_Subtype_PK", value = "id"),
+                    @Index(name = "Tran_Subtype_FK", value = "tran_type_id")} )
 public class TransactionSubtype {
 
     @PrimaryKey(autoGenerate = true)
