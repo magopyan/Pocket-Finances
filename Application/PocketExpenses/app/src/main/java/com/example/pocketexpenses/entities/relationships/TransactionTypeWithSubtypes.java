@@ -8,7 +8,7 @@ import com.example.pocketexpenses.entities.TransactionType;
 
 import java.util.List;
 
-public class TransactionTypeWithSubtypes {
+public class TransactionTypeWithSubtypes { // One TransactionTypes to many TransactionSubtypes
 
     @Embedded
     private TransactionType transactionType;

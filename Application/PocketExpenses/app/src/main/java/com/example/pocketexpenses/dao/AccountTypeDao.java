@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @Dao
-public interface AccountTypeDao {
+public interface AccountTypeDao {  // za AccountTypeWithAccounts
 
     @Insert
     long insertAccountType(AccountType accountType);
@@ -35,11 +35,26 @@ public interface AccountTypeDao {
     @Delete
     void deleteAccount(Account account);
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SELECT & SELECT WHERE id
+    // for:
+    // - AccountType (with Accounts ||| RELATIONSHIP)
+    // - Account (SIMPLE ||| NO RELATIONSHIP)   ---> for relationship with Transactions see *TransactionDao*
+
     @Transaction
     @Query("SELECT * FROM account_type")
-    List<AccountTypeWithAccounts> getAll();
+    List<AccountTypeWithAccounts> getAllAccountTypes();
 
     @Transaction
     @Query("SELECT * FROM account_type WHERE id = :id")
     AccountTypeWithAccounts getAccountTypeByID(int id);
+
+    @Transaction
+    @Query("SELECT * FROM account")
+    List<Account> getAllAccounts();  // N
+
+    @Transaction
+    @Query("SELECT * FROM account WHERE id = :id")
+    Account getAccountByID(int id);
 }

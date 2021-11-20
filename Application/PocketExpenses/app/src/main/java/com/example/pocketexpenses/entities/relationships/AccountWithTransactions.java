@@ -9,7 +9,7 @@ import com.example.pocketexpenses.entities.Transaction;
 
 import java.util.List;
 
-public class AccountWithTransactions {
+public class AccountWithTransactions { // One Account to many Transactions
 
     @Embedded
     private Account account;

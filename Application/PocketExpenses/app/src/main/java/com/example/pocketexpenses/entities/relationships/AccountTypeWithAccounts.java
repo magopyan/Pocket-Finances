@@ -8,7 +8,7 @@ import com.example.pocketexpenses.entities.AccountType;
 
 import java.util.List;
 
-public class AccountTypeWithAccounts {
+public class AccountTypeWithAccounts {  // One AccountType to many Accounts
 
     @Embedded
     private AccountType accountType;
@@ -16,7 +16,7 @@ public class AccountTypeWithAccounts {
             parentColumn = "id",
             entityColumn = "acc_type_id"
     )
-    private List<Account> accountList;
+    private List<Account> accountList;  // dali da bude AccountWithTransactions?
 
     //////////////////////////////////////////
 

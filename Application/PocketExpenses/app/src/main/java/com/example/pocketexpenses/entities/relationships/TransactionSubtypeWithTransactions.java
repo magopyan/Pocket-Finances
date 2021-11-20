@@ -8,7 +8,7 @@ import com.example.pocketexpenses.entities.TransactionSubtype;
 
 import java.util.List;
 
-public class TransactionSubtypeWithTransactions {
+public class TransactionSubtypeWithTransactions { // One TransactionSubtype to many Transactions
 
     @Embedded
     private TransactionSubtype transactionSubtype; // i ot tuk moje da se izvleche TransactionType ako trqbva s nego da se pravqt spravki

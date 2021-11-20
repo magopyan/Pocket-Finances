@@ -1,6 +1,5 @@
 package com.example.pocketexpenses.entities;
 
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -8,7 +7,6 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
-
 
 @Entity(tableName = "transaction_type",
         foreignKeys = @ForeignKey(entity = AccountType.class, parentColumns = "id", childColumns = "tran_dir_id", onDelete = CASCADE, onUpdate = CASCADE),
@@ -24,8 +22,8 @@ public class TransactionType {
     @ColumnInfo(name = "tran_dir_id")
     private int transactionDirectionId;
 
+    ///////////////////////////////////////////
 
-    //////////////////////////
 
     public TransactionType(String name, int transactionDirectionId) {
         this.name = name;
