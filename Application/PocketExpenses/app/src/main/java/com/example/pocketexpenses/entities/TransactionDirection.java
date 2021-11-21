@@ -17,8 +17,8 @@ public class TransactionDirection {
 
     //////////////////////////
 
-    public TransactionDirection(String directionName, int coefficient) {
-        this.name = directionName;
+    public TransactionDirection(String name, int coefficient) {
+        this.name = name;
         this.coefficient = coefficient;
     }
 
@@ -30,11 +30,11 @@ public class TransactionDirection {
         this.id = id;
     }
 
-    public String getDirectionName() {
+    public String getName() {
         return name;
     }
 
-    public void setDirectionName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

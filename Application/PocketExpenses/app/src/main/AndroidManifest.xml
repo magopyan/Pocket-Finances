@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketExpenses">
         <activity
-            android:name=".view.MainActivity"
-            android:label="@string/title_activity_main2">
+            android:name="MainActivity"
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
 
         <uses-library
             android:name="com.google.android.wearable"
-            android:required="true" />
+            android:required="false" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
