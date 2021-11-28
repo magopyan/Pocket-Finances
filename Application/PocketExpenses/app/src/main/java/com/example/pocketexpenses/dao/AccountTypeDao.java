@@ -1,5 +1,6 @@
 package com.example.pocketexpenses.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -17,24 +18,37 @@ import java.util.List;
 @Dao
 public interface AccountTypeDao {  // za AccountTypeWithAccounts
 
+    @Transaction
     @Insert
     long insertAccountType(AccountType accountType);
 
+    @Transaction
     @Insert
     long insertAccount(Account account);
 
+    @Transaction
     @Update
     void updateAccountType(AccountType accountType);
 
+    @Transaction
     @Update
     void updateAccount(Account account);
 
+    @Transaction
     @Delete
     void deleteAccountType(AccountType accountType);
 
+    @Transaction
     @Delete
     void deleteAccount(Account account);
 
+    @Transaction
+    @Query("DELETE FROM account_type")
+    void deleteAllAccountTypes();
+
+    @Transaction
+    @Query("DELETE FROM account")
+    void deleteAllAccounts();
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     // SELECT & SELECT WHERE id
@@ -44,15 +58,15 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
 
     @Transaction
     @Query("SELECT * FROM account_type")
-    List<AccountTypeWithAccounts> getAllAccountTypes();
+    LiveData<List<AccountType>> getAllAccountTypes();
 
     @Transaction
     @Query("SELECT * FROM account_type WHERE id = :id")
-    AccountTypeWithAccounts getAccountTypeByID(int id);
+    AccountType getAccountTypeByID(int id);
 
     @Transaction
     @Query("SELECT * FROM account")
-    List<Account> getAllAccounts();  // N
+    LiveData<List<Account>> getAllAccounts();  // N
 
     @Transaction
     @Query("SELECT * FROM account WHERE id = :id")

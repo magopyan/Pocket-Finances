@@ -1,10 +1,13 @@
 package com.example.pocketexpenses.database;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.pocketexpenses.dao.AccountTypeDao;
 import com.example.pocketexpenses.entities.Account;
@@ -25,9 +28,33 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context, AppDatabase.class, DB_NAME).build();  // dobavi opcii?
+            instance = Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
+                    //.addCallback(roomCallBack) Trqbva da se obmisli
+                    .build();  // dobavi opcii?
         }
         return instance;
+    }
+
+    private static RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            new PopulateDbAsyncTask(instance).execute();
+        }
+    };
+
+    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+        private AccountTypeDao oAccountTypeDao;
+
+        public PopulateDbAsyncTask(AppDatabase oAppDatabase) {
+            this.oAccountTypeDao = oAppDatabase.accountTypeDao();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // insert populated data here
+            return null;
+        }
     }
 
     public abstract AccountTypeDao accountTypeDao();
