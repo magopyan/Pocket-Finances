@@ -1,5 +1,6 @@
 package com.example.pocketexpenses.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,15 +16,21 @@ import java.util.List;
 @Dao
 public interface TransactionDao { // za AccountWithTransactions i TransactionSubtypeWithTransactions
 
+    @androidx.room.Transaction
     @Insert
     long insertTransaction(Transaction transaction);
 
+    @androidx.room.Transaction
     @Update
     void updateTransaction(Transaction transaction);
 
+    @androidx.room.Transaction
     @Delete
     void deleteTransaction(Transaction transaction);
 
+    @androidx.room.Transaction
+    @Query("DELETE FROM `transaction`")
+    void deleteAllTransactions();
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     // SELECT & SELECT WHERE id
@@ -35,7 +42,7 @@ public interface TransactionDao { // za AccountWithTransactions i TransactionSub
 
     @androidx.room.Transaction
     @Query("SELECT * FROM `transaction`")
-    List<Transaction> getAllTransactions();
+    LiveData<List<Transaction>> getAllTransactions();
 
     @androidx.room.Transaction
     @Query("SELECT * FROM `transaction` WHERE id = :id")
@@ -43,18 +50,18 @@ public interface TransactionDao { // za AccountWithTransactions i TransactionSub
 
     @androidx.room.Transaction
     @Query("SELECT * FROM account")
-    List<AccountWithTransactions> getAllAccounts();
+    LiveData<List<AccountWithTransactions>> getAllAccountsWithTransactions();
 
     @androidx.room.Transaction
     @Query("SELECT * FROM account WHERE id = :id")
-    AccountWithTransactions getAccountByID(int id);
+    AccountWithTransactions getAccountWithTransactionByID(int id);
 
     @androidx.room.Transaction
     @Query("SELECT * FROM transaction_subtype")
-    List<TransactionSubtypeWithTransactions> getAllTransactionSubtypes();
+    LiveData<List<TransactionSubtypeWithTransactions>> getAllTransactionSubtypesWithTransactions();
 
     @androidx.room.Transaction
     @Query("SELECT * FROM transaction_subtype WHERE id = :id")
-    TransactionSubtypeWithTransactions getTransactionSubtypeByID(int id);
+    TransactionSubtypeWithTransactions getTransactionSubtypesWithTransactionsByID(int id);
 
 }

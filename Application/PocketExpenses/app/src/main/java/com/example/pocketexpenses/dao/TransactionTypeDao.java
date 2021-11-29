@@ -1,6 +1,7 @@
 package com.example.pocketexpenses.dao;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -19,33 +20,53 @@ import java.util.List;
 @Dao
 public interface TransactionTypeDao { // Za TransactionDirectionWithTypesAndSubtypes (vkluchitelno TransactionTypeWithSubtypes)
 
+    @Transaction
     @Insert
     long insertTransactionDirection(TransactionDirection transactionDirection);
 
+    @Transaction
     @Insert
     long insertTransactionType(TransactionType transactionType);
 
+    @Transaction
     @Insert
     long insertTransactionSubtype(TransactionSubtype transactionSubtype);
 
+    @Transaction
     @Update
     void updateTransactionDirection(TransactionDirection transactionDirection);
 
+    @Transaction
     @Update
     void updateTransactionType(TransactionType transactionType);
 
+    @Transaction
     @Update
     void updateTransactionSubtype(TransactionSubtype transactionSubtype);
 
+    @Transaction
     @Delete
     void deleteTransactionDirection(TransactionDirection transactionDirection);
 
+    @Transaction
     @Delete
     void deleteTransactionType(TransactionType transactionType);
 
+    @Transaction
     @Delete
     void deleteTransactionSubtype(TransactionSubtype transactionSubtype);
 
+    @Transaction
+    @Query("DELETE FROM transaction_direction")
+    void deleteAllTransactionDirections();
+
+    @Transaction
+    @Query("DELETE FROM transaction_type")
+    void deleteAllTransactionTypes();
+
+    @Transaction
+    @Query("DELETE FROM transaction_subtype")
+    void deleteAllTransactionSubtypes();
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     // SELECT & SELECT WHERE id
@@ -56,25 +77,25 @@ public interface TransactionTypeDao { // Za TransactionDirectionWithTypesAndSubt
 
     @Transaction
     @Query("SELECT * FROM transaction_direction")
-    List<TransactionDirectionWithTypesAndSubtypes> getAllDirections();
+    LiveData<List<TransactionDirectionWithTypesAndSubtypes>> getAllTransactionDirectionWithTypesAndSubtypes();
 
     @Transaction
     @Query("SELECT * FROM transaction_direction WHERE id = :id")
-    List<TransactionDirectionWithTypesAndSubtypes> getDirectionById(int id);
+    TransactionDirectionWithTypesAndSubtypes getDirectionById(int id);
 
     @Transaction
     @Query("SELECT * FROM transaction_type")
-    List<TransactionTypeWithSubtypes> getAllTypes();
+    LiveData<List<TransactionTypeWithSubtypes>> getAllTransactionTypeWithSubtypes();
 
     @Transaction
     @Query("SELECT * FROM transaction_type WHERE id = :id")
-    List<TransactionTypeWithSubtypes> getTypeById(int id);
+    TransactionTypeWithSubtypes getTypeById(int id);
 
     @Transaction
     @Query("SELECT * FROM transaction_subtype")
-    List<TransactionSubtype> getAllSubtypes();
+    LiveData<List<TransactionSubtype>> getAllTransactionSubtype();
 
     @Transaction
     @Query("SELECT * FROM transaction_subtype WHERE id = :id")
-    List<TransactionSubtype> getSubtypeById(int id);
+    TransactionSubtype getSubtypeById(int id);
 }

@@ -10,6 +10,8 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.pocketexpenses.dao.AccountTypeDao;
+import com.example.pocketexpenses.dao.TransactionDao;
+import com.example.pocketexpenses.dao.TransactionTypeDao;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
 import com.example.pocketexpenses.entities.Transaction;
@@ -58,4 +60,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract AccountTypeDao accountTypeDao();
+    public abstract TransactionDao transactionDao();
+    public abstract TransactionTypeDao transactionTypeDao();
 }

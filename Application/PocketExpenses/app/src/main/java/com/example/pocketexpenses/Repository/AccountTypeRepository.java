@@ -9,6 +9,7 @@ import com.example.pocketexpenses.dao.AccountTypeDao;
 import com.example.pocketexpenses.database.AppDatabase;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
+import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class AccountTypeRepository {
     private AccountTypeDao oAccountTypeDao;
     private LiveData<List<Account>> oLiveDataListAllAccounts;
     private LiveData<List<AccountType>> oLiveDataListAllAccountTypes;
+    private LiveData<List<AccountTypeWithAccounts>> oLiveDataListAccountTypesWithAccounts;
 
     public AccountTypeRepository(Application application) {
         AppDatabase oAppDatabase = AppDatabase.getInstance(application);
@@ -24,6 +26,11 @@ public class AccountTypeRepository {
 
         oLiveDataListAllAccounts = oAccountTypeDao.getAllAccounts();
         oLiveDataListAllAccountTypes = oAccountTypeDao.getAllAccountTypes();
+        oLiveDataListAccountTypesWithAccounts = oAccountTypeDao.getAllAccountTypesWithAccounts();
+    }
+
+    public LiveData<List<AccountTypeWithAccounts>> getAllAccountTypesWithAccounts() {
+        return oLiveDataListAccountTypesWithAccounts;
     }
 
     public Account getAccountByID(int nID){
