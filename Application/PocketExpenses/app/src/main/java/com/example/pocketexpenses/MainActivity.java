@@ -1,11 +1,13 @@
 package com.example.pocketexpenses;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.pocketexpenses.Repository.AccountTypeRepository;
+import com.example.pocketexpenses.ViewModel.AccountTypeViewModel;
 import com.example.pocketexpenses.database.AppDatabase;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
 import com.example.pocketexpenses.entities.Account;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppDatabase oAppDataBase;
     private AccountTypeRepository m_oAccountTypeRepository;
+    private AccountTypeViewModel m_oAccountTypeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
