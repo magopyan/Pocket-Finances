@@ -3,18 +3,22 @@ package com.example.pocketexpenses;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.pocketexpenses.Repository.AccountTypeRepository;
 import com.example.pocketexpenses.ViewModel.AccountTypeViewModel;
+import com.example.pocketexpenses.activities.BaseActivity;
 import com.example.pocketexpenses.database.AppDatabase;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
+import com.example.pocketexpenses.entities.TransactionDirection;
+import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding binding;
     private AppDatabase oAppDataBase;
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         createDatabase();
         m_oAccountTypeRepository = new AccountTypeRepository(getApplication());
 
+        //////////////////
+
+        //////////
         binding.btnAddAccountType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 queryAccount();
             }
         });
+
+        binding.btnStartApp.setOnClickListener(this);
     }
     
     public void addAccountType(View v) {
@@ -82,5 +91,11 @@ public class MainActivity extends AppCompatActivity {
     public void createDatabase()
     {
         oAppDataBase = AppDatabase.getInstance(getApplicationContext());
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, BaseActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.pocketexpenses.entities.relationships;
 
 import androidx.room.Embedded;
+import androidx.room.Entity;
 import androidx.room.Relation;
 
 import com.example.pocketexpenses.entities.TransactionSubtype;
@@ -17,6 +18,7 @@ public class TransactionTypeWithSubtypes { // One TransactionTypes to many Trans
             entityColumn = "tran_type_id"
     )
     private List<TransactionSubtype> subtypesList;
+
 
 
    ///////////////////////////

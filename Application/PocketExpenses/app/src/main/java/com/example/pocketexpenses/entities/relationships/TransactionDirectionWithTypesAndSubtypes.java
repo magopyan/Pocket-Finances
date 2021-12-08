@@ -4,6 +4,7 @@ import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import com.example.pocketexpenses.entities.TransactionDirection;
+import com.example.pocketexpenses.entities.TransactionType;
 
 import java.util.List;
 
@@ -13,7 +14,8 @@ public class TransactionDirectionWithTypesAndSubtypes {  // One TransactionDirec
     private TransactionDirection transactionDirection;
     @Relation(
             parentColumn = "id",
-            entityColumn = "tran_dir_id"
+            entityColumn = "tran_dir_id",
+            entity = TransactionType.class
     )
     private List<TransactionTypeWithSubtypes> typeWithSubtypesList;
 
@@ -21,9 +23,9 @@ public class TransactionDirectionWithTypesAndSubtypes {  // One TransactionDirec
     ///////////////////////////////////////////
 
 
-    public TransactionDirectionWithTypesAndSubtypes(TransactionDirection transactionDirection, List<TransactionTypeWithSubtypes> typesList) {
+    public TransactionDirectionWithTypesAndSubtypes(TransactionDirection transactionDirection, List<TransactionTypeWithSubtypes> typeWithSubtypesList) {
         this.transactionDirection = transactionDirection;
-        this.typeWithSubtypesList = typesList;
+        this.typeWithSubtypesList = typeWithSubtypesList;
     }
 
     public TransactionDirection getTransactionDirection() {
@@ -39,6 +41,10 @@ public class TransactionDirectionWithTypesAndSubtypes {  // One TransactionDirec
     }
 
     public void setTypesWithSubtypesList(List<TransactionTypeWithSubtypes> typeWithSubtypesList) {
+        this.typeWithSubtypesList = typeWithSubtypesList;
+    }
+
+    public void setTypeWithSubtypesList(List<TransactionTypeWithSubtypes> typeWithSubtypesList) {
         this.typeWithSubtypesList = typeWithSubtypesList;
     }
 }

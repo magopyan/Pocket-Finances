@@ -19,6 +19,8 @@ public class Account {  // Parcelable? Serializable?
 
     private double balance;
 
+    private String name;
+
     @ColumnInfo(name = "acc_type_id")
     private int accountTypeId;
 
@@ -41,6 +43,14 @@ public class Account {  // Parcelable? Serializable?
 
     public double getBalance() {
         return balance;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setBalance(double balance) {

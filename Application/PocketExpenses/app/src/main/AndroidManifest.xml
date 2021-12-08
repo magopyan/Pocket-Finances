@@ -14,18 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketExpenses">
         <activity
-            android:name="MainActivity"
-            android:label="@string/title_activity_main">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".activities.BaseActivity"
+            android:label="@string/title_activity_base"></activity>
 
         <uses-library
             android:name="com.google.android.wearable"
-            android:required="false" />
+            android:required="true" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -33,6 +27,16 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
