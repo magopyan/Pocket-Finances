@@ -31,7 +31,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
-                    //.addCallback(roomCallBack) Trqbva da se obmisli
+                    .addCallback(roomCallBack)
                     .build();  // dobavi opcii?
         }
         return instance;

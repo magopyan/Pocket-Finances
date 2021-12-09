@@ -2,6 +2,7 @@ package com.example.pocketexpenses.Repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -45,6 +46,7 @@ public class TransactionTypeRepository {
 
     public TransactionDirectionWithTypesAndSubtypes getTransactionDirectionByID(int nID){
         new getTransactionDirectionByIDAsyncTask(oTransactionTypeDao).execute(nID);
+        //new getTransactionDirectionByIDAsyncTask(oTransactionTypeDao).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, nID); -sushto ne raboti
         return getTransactionDirectionByIDAsyncTask.getTransactionDirectionWithTypesAndSubtypes();
     }
 
@@ -87,10 +89,23 @@ public class TransactionTypeRepository {
         new DeleteAllTransactionTypeAsyncTask(oTransactionTypeDao).execute();
     }
 
-    public TransactionSubtype getTransactionSubtypeByID(int nID){
+    public TransactionSubtype getTransactionSubtypeByID(int nID) {
         new getTransactionSubtypeByIDAsyncTask(oTransactionTypeDao).execute(nID);
         return getTransactionSubtypeByIDAsyncTask.getTransactionSubtype();
     }
+
+//    public TransactionSubtype getTransactionSubtypeByID(int nID) {  - I tova ne raboti
+//
+//        final TransactionSubtype[] subtype = {null};
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                subtype[0] = oTransactionTypeDao.getSubtypeById(nID);
+//                Log.i("Returned subtype: ", subtype[0].toString());
+//            }
+//        });
+//        return subtype[0];
+//    }
 
     public int insertTransactionSubtype(TransactionSubtype oTransactionSubtype){
         new InsertTransactionSubtypeAsyncTask(oTransactionTypeDao).execute(oTransactionSubtype);
@@ -119,6 +134,7 @@ public class TransactionTypeRepository {
 
         @Override
         protected TransactionDirectionWithTypesAndSubtypes doInBackground(Integer... integers) {
+            Log.i("doInBackground() executed", "doInBackground() executed");
             return oTransactionTypeDao.getDirectionById(integers[0]);
         }
 
@@ -295,11 +311,13 @@ public class TransactionTypeRepository {
 
         @Override
         protected TransactionSubtype doInBackground(Integer... integers) {
+            Log.i("doInBackground() executed", "doInBackground() start");
             return oTransactionTypeDao.getSubtypeById(integers[0]);
         }
 
         @Override
         protected void onPostExecute(TransactionSubtype oTransactionSubtype) {
+            Log.i("doInBackground() executed", "doInBackground() finish");
             this.oTransactionSubtype = oTransactionSubtype;
         }
 

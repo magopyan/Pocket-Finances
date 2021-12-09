@@ -79,7 +79,7 @@ public class TransactionTypeViewModel extends AndroidViewModel {
         return oLiveDataListAllTransactionTypeWithSubtypes;
     }
 
-    public TransactionSubtype getTransactionSubtypeByID(int nID){
+    public TransactionSubtype getTransactionSubtypeByID(int nID) throws InterruptedException {
         return oTransactionTypeRepository.getTransactionSubtypeByID(nID);
     }
 

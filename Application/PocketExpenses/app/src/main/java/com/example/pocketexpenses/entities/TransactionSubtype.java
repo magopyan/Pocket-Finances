@@ -55,4 +55,13 @@ public class TransactionSubtype {
     public void setTransactionTypeId(int transactionTypeId) {
         this.transactionTypeId = transactionTypeId;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionSubtype{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", transactionTypeId=" + transactionTypeId +
+                '}';
+    }
 }
