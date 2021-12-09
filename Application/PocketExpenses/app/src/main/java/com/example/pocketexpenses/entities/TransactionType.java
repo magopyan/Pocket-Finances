@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "transaction_type",
-        foreignKeys = @ForeignKey(entity = AccountType.class, parentColumns = "id", childColumns = "tran_dir_id", onDelete = CASCADE, onUpdate = CASCADE),
+        foreignKeys = @ForeignKey(entity = TransactionDirection.class, parentColumns = "id", childColumns = "tran_dir_id", onDelete = CASCADE, onUpdate = CASCADE),
         indices = { @Index(name = "Tran_Type_PK", value = "id"),
                     @Index(name = "Tran_Type_FK", value = "tran_dir_id")} )
 public class TransactionType {

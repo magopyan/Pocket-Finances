@@ -24,7 +24,7 @@ public class TransactionTypeViewModel extends AndroidViewModel {
 
     public TransactionTypeViewModel(@NonNull Application application) {
         super(application);
-        TransactionTypeRepository oTransactionTypeRepository = new TransactionTypeRepository(application);
+        oTransactionTypeRepository = new TransactionTypeRepository(application);
         oLiveDataListAllTransactionDirectionWithTypesAndSubtypes = oTransactionTypeRepository.
                 getAllTransactionDirectionWithTypesAndSubtypes();
         oLiveDataListAllTransactionTypeWithSubtypes = oTransactionTypeRepository.getAllTransactionTypeWithSubtypes();

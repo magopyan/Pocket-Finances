@@ -45,23 +45,23 @@ public interface TransactionDao { // za AccountWithTransactions i TransactionSub
     LiveData<List<Transaction>> getAllTransactions();
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM `transaction` WHERE id = :id")
-    Transaction getTransactionByID(int id);
+    @Query("SELECT * FROM `transaction` WHERE id = :arg0")
+    Transaction getTransactionByID(int arg0);
 
     @androidx.room.Transaction
     @Query("SELECT * FROM account")
     LiveData<List<AccountWithTransactions>> getAllAccountsWithTransactions();
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM account WHERE id = :id")
-    AccountWithTransactions getAccountWithTransactionByID(int id);
+    @Query("SELECT * FROM account WHERE id = :arg0")
+    AccountWithTransactions getAccountWithTransactionByID(int arg0);
 
     @androidx.room.Transaction
     @Query("SELECT * FROM transaction_subtype")
     LiveData<List<TransactionSubtypeWithTransactions>> getAllTransactionSubtypesWithTransactions();
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM transaction_subtype WHERE id = :id")
-    TransactionSubtypeWithTransactions getTransactionSubtypesWithTransactionsByID(int id);
+    @Query("SELECT * FROM transaction_subtype WHERE id = :arg0")
+    TransactionSubtypeWithTransactions getTransactionSubtypesWithTransactionsByID(int arg0);
 
 }

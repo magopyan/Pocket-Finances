@@ -61,16 +61,16 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
     LiveData<List<AccountType>> getAllAccountTypes();
 
     @Transaction
-    @Query("SELECT * FROM account_type WHERE id = :id")
-    AccountType getAccountTypeByID(int id);
+    @Query("SELECT * FROM account_type WHERE id = :arg0")
+    AccountType getAccountTypeByID(int arg0);
 
     @Transaction
     @Query("SELECT * FROM account")
     LiveData<List<Account>> getAllAccounts();  // N
 
     @Transaction
-    @Query("SELECT * FROM account WHERE id = :id")
-    Account getAccountByID(int id);
+    @Query("SELECT * FROM account WHERE id = :arg0")
+    Account getAccountByID(int arg0);
 
     @Transaction
     @Query("SELECT * FROM account_type")

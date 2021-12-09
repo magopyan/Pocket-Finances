@@ -80,22 +80,22 @@ public interface TransactionTypeDao { // Za TransactionDirectionWithTypesAndSubt
     LiveData<List<TransactionDirectionWithTypesAndSubtypes>> getAllTransactionDirectionWithTypesAndSubtypes();
 
     @Transaction
-    @Query("SELECT * FROM transaction_direction WHERE id = :id")
-    TransactionDirectionWithTypesAndSubtypes getDirectionById(int id);
+    @Query("SELECT * FROM transaction_direction WHERE id = :arg0")
+    TransactionDirectionWithTypesAndSubtypes getDirectionById(int arg0);
 
     @Transaction
     @Query("SELECT * FROM transaction_type")
     LiveData<List<TransactionTypeWithSubtypes>> getAllTransactionTypeWithSubtypes();
 
     @Transaction
-    @Query("SELECT * FROM transaction_type WHERE id = :id")
-    TransactionTypeWithSubtypes getTypeById(int id);
+    @Query("SELECT * FROM transaction_type WHERE id = :arg0")
+    TransactionTypeWithSubtypes getTypeById(int arg0);
 
     @Transaction
     @Query("SELECT * FROM transaction_subtype")
     LiveData<List<TransactionSubtype>> getAllTransactionSubtype();
 
     @Transaction
-    @Query("SELECT * FROM transaction_subtype WHERE id = :id")
-    TransactionSubtype getSubtypeById(int id);
+    @Query("SELECT * FROM transaction_subtype WHERE id = :arg0")
+    TransactionSubtype getSubtypeById(int arg0);
 }
