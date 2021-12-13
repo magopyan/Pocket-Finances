@@ -11,4 +11,6 @@
     <string name="bottom_nav_trans">Transactions</string>
     <string name="bottom_nav_acc">Accounts</string>
     <string name="bottom_nav_stats">Statistics</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -19,7 +19,7 @@ public class Transaction {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private long date;   // = new Date().getTime() ili System.currentTimeMillis()
+    private String date;   // = new Date().getTime() ili System.currentTimeMillis()
 
     private double sum;
 
@@ -36,7 +36,7 @@ public class Transaction {
 
     //////////////////////////
 
-    public Transaction(long date, double sum, String note, int accountId, int transactionSubtypeId) {
+    public Transaction(String date, double sum, String note, int accountId, int transactionSubtypeId) {
         this.date = date;
         this.sum = sum;
         this.note = note;
@@ -52,11 +52,11 @@ public class Transaction {
         this.id = id;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

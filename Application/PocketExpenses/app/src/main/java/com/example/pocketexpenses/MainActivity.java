@@ -14,6 +14,7 @@ import com.example.pocketexpenses.Repository.AccountTypeRepository;
 import com.example.pocketexpenses.Repository.TransactionTypeRepository;
 import com.example.pocketexpenses.ViewModel.AccountTypeViewModel;
 import com.example.pocketexpenses.ViewModel.TransactionTypeViewModel;
+import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.BaseActivity;
 import com.example.pocketexpenses.dao.TransactionTypeDao;
 import com.example.pocketexpenses.database.AppDatabase;
@@ -45,30 +46,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(view); // promeneno ot default-a
 
         createDatabase();
-        m_oAccountTypeRepository = new AccountTypeRepository(getApplication());
+        /* NE IZTRIVAI */ TransactionSubtype dummyToCreateDatabase = new TransactionTypeRepository(getApplication()).getTransactionSubtypeByID(1);
 
 
         //////////////////
 
-        TransactionTypeRepository oTranTypeR = new TransactionTypeRepository(getApplication());
-
-        TransactionDirection direction1 = new TransactionDirection("Income", 1);
-        TransactionDirection direction2 = new TransactionDirection("Expense", -1);
-        int iDir1Id = oTranTypeR.insertTransactionDirection(direction1);
-        int iDir2Id = oTranTypeR.insertTransactionDirection(direction2);
-
-        TransactionType tranType1 = new TransactionType("Vehicle", 2);
-        oTranTypeR.insertTransactionType(tranType1);
-        TransactionSubtype tranSubtype1 = new TransactionSubtype("Fuel", 1);
-        TransactionSubtype tranSubtype2 = new TransactionSubtype("Repairs", 1);
-        oTranTypeR.insertTransactionSubtype(tranSubtype1);
-        oTranTypeR.insertTransactionSubtype(tranSubtype2);
-
-        TransactionSubtype subtype = oTranTypeR.getTransactionSubtypeByID(1);
-        int j = 1;
-        int i = j;
-
-        /////////////////
+        binding.btnAccounts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AccountsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         binding.btnAddAccountType.setOnClickListener(new View.OnClickListener() {
             @Override

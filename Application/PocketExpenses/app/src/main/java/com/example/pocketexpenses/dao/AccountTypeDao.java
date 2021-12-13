@@ -54,7 +54,7 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
     // SELECT & SELECT WHERE id
     // for:
     // - AccountType (with Accounts ||| RELATIONSHIP)
-    // - Account (SIMPLE ||| NO RELATIONSHIP)   ---> for relationship with Transactions see *TransactionDao*
+    // - Account (SIMPLE ||| NO RELATIONSHIP)  --->  for relationship with Transactions see *TransactionDao*
 
     @Transaction
     @Query("SELECT * FROM account_type")
@@ -76,4 +76,7 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
     @Query("SELECT * FROM account_type")
     LiveData<List<AccountTypeWithAccounts>> getAllAccountTypesWithAccounts();
 
+    @Transaction
+    @Query("SELECT * FROM account_type where id = :id")
+    AccountTypeWithAccounts getAccountTypeWithAccountsById(int id);
 }

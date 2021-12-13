@@ -14,6 +14,7 @@ import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts
 import java.util.List;
 
 public class AccountTypeViewModel extends AndroidViewModel {
+
     private AccountTypeRepository oAccountTypeRepository;
     private LiveData<List<Account>> oLiveDataListAllAccounts;
     private LiveData<List<AccountType>> oLiveDataListAllAccountTypes;

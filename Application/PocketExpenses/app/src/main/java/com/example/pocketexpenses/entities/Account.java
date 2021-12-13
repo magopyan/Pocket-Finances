@@ -28,8 +28,9 @@ public class Account {  // Parcelable? Serializable?
 
     //////////////////////////
 
-    public Account(double balance, int accountTypeId) {
+    public Account(double balance, String name, int accountTypeId) {
         this.balance = balance;
+        this.name=name;
         this.accountTypeId = accountTypeId;
     }
 
