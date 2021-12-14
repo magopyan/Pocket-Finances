@@ -71,8 +71,8 @@
         android:layout_marginBottom="80dp"
         android:text="query"
         app:layout_constraintBottom_toTopOf="@+id/btnStartApp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintEnd_toStartOf="@+id/btnTransactions"
+        app:layout_constraintHorizontal_bias="0.936"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -95,5 +95,15 @@
         app:layout_constraintEnd_toStartOf="@+id/btnQueryAccountType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddAccountType" />
+
+    <Button
+        android:id="@+id/btnTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="16dp"
+        android:text="Transactions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDeleteAccountType" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

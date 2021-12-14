@@ -11,11 +11,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.pocketexpenses.Repository.AccountTypeRepository;
+import com.example.pocketexpenses.Repository.TransactionRepository;
 import com.example.pocketexpenses.Repository.TransactionTypeRepository;
 import com.example.pocketexpenses.ViewModel.AccountTypeViewModel;
 import com.example.pocketexpenses.ViewModel.TransactionTypeViewModel;
+import com.example.pocketexpenses.ViewModel.TransactionViewModel;
 import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.BaseActivity;
+import com.example.pocketexpenses.activities.TransactionsActivity;
 import com.example.pocketexpenses.dao.TransactionTypeDao;
 import com.example.pocketexpenses.database.AppDatabase;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppDatabase oAppDataBase;
     private AccountTypeRepository m_oAccountTypeRepository;
     private AccountTypeViewModel m_oAccountTypeViewModel;
+    private TransactionRepository m_oTransactionRepository;
+    private TransactionViewModel m_oTransactionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //////////////////
+
+        binding.btnTransactions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TransactionsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         binding.btnAccounts.setOnClickListener(new View.OnClickListener() {
             @Override
