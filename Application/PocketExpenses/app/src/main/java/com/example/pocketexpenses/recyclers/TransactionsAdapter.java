@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
@@ -24,8 +25,12 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
     private List<Account> oListAccounts;
     private List<TransactionSubtype> oListTransactionSubtypes;
 
-    public TransactionsAdapter(TransactionViewModel oTransactionViewModel) {
+    public TransactionsAdapter(TransactionViewModel oTransactionViewModel, List<Transaction> oListTransactions,
+                               List<TransactionSubtype> oListTransactionSubtypes, List<Account> oListAccounts) {
         this.oTransactionViewModel = oTransactionViewModel;
+        this.oListTransactions = oListTransactions;
+        this.oListTransactionSubtypes = oListTransactionSubtypes;
+        this.oListAccounts = oListAccounts;
     }
 
     @NonNull

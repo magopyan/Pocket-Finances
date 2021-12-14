@@ -90,7 +90,8 @@ public class TransactionsListFragment extends Fragment {
         oTransactionTypeViewModel = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
         oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
 
-        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel);
+        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel, oTransactionViewModel.getAllTransactions().getValue(),
+                oTransactionTypeViewModel.getAllTransactionSubtype().getValue(), oAccountTypeViewModel.getAllAccounts().getValue());
         oTransactionsRV.setAdapter(adapter);
         oTransactionsRV.setLayoutManager(new LinearLayoutManager(getContext()));
 
