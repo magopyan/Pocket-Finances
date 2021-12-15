@@ -1,4 +1,4 @@
-package com.example.pocketexpenses.ViewModel;
+package com.example.pocketexpenses.viewmodels;
 
 import android.app.Application;
 

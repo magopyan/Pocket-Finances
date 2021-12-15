@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottomnav_transactions"
+        android:title="Transactions"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"/>
+    <item
+        android:id="@+id/bottomnav_accounts"
+        android:title="Accounts"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"/>
+    <item
+        android:id="@+id/bottomnav_statistics"
+        android:title="Statistics"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"/>
+</menu>

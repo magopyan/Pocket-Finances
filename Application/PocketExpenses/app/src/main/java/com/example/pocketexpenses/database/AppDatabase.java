@@ -270,6 +270,25 @@ public abstract class AppDatabase extends RoomDatabase {
 
             // Other
             // N/A
+
+
+            // Income Subtypes
+            TransactionSubtype wage = new TransactionSubtype("Wage", 1);                    // id=52
+            TransactionSubtype rentalIncome = new TransactionSubtype("Rental Income", 2);   // id=53
+            TransactionSubtype interest = new TransactionSubtype("Interest/Dividend", 3);   // id=54
+            TransactionSubtype coupon = new TransactionSubtype("Coupon/Voucher", 4);        // id=55
+            TransactionSubtype incomeGift = new TransactionSubtype("Gift", 5);              // id=56
+            TransactionSubtype welfare = new TransactionSubtype("Welfare", 6);              // id=57
+            TransactionSubtype refund = new TransactionSubtype("Refund", 7);                // id=58
+            TransactionSubtype otherIncome = new TransactionSubtype("Other", 8);            // id=59
+            oTranTypeDao.insertTransactionSubtype(wage);
+            oTranTypeDao.insertTransactionSubtype(rentalIncome);
+            oTranTypeDao.insertTransactionSubtype(interest);
+            oTranTypeDao.insertTransactionSubtype(coupon);
+            oTranTypeDao.insertTransactionSubtype(gift);
+            oTranTypeDao.insertTransactionSubtype(welfare);
+            oTranTypeDao.insertTransactionSubtype(refund);
+            oTranTypeDao.insertTransactionSubtype(otherIncome);
         }
 
         private void insertSampleAccountsAndTransactions() {

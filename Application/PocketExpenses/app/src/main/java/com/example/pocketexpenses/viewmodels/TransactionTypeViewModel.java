@@ -1,4 +1,4 @@
-package com.example.pocketexpenses.ViewModel;
+package com.example.pocketexpenses.viewmodels;
 
 import android.app.Application;
 
@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.pocketexpenses.Repository.TransactionTypeRepository;
-import com.example.pocketexpenses.entities.AccountType;
 import com.example.pocketexpenses.entities.TransactionDirection;
 import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.entities.TransactionType;

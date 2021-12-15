@@ -14,17 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pocketexpenses.R;
-import com.example.pocketexpenses.ViewModel.AccountTypeViewModel;
-import com.example.pocketexpenses.ViewModel.TransactionTypeViewModel;
-import com.example.pocketexpenses.ViewModel.TransactionViewModel;
-import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
+import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.databinding.FragmentTransactionsListBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.entities.TransactionSubtype;
-import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
-import com.example.pocketexpenses.recyclers.AccountsAdapter;
 import com.example.pocketexpenses.recyclers.TransactionsAdapter;
 
 import java.util.List;
@@ -34,7 +30,7 @@ import java.util.List;
  * Use the {@link TransactionsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TransactionsListFragment extends Fragment {
+public class TransactionsListFragment extends Fragment implements View.OnClickListener {
 
     private FragmentTransactionsListBinding binding;
     private RecyclerView oTransactionsRV;
@@ -85,16 +81,13 @@ public class TransactionsListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         oTransactionsRV = binding.recyclerTransactions;
+        binding.fabAddTransaction.setOnClickListener(this::onClick);
 
         oTransactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         oTransactionTypeViewModel = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
         oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
 
-        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel, oTransactionViewModel.getAllTransactions().getValue(),
-                oTransactionTypeViewModel.getAllTransactionSubtype().getValue(), oAccountTypeViewModel.getAllAccounts().getValue());
-        oTransactionsRV.setAdapter(adapter);
-        oTransactionsRV.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel);
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {
@@ -115,5 +108,14 @@ public class TransactionsListFragment extends Fragment {
                 adapter.setAccountsData(oListAccounts);
             }
         });
+        oTransactionsRV.setAdapter(adapter);
+        oTransactionsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void onClick(View v) {
+        //
+        //
+        //
     }
 }

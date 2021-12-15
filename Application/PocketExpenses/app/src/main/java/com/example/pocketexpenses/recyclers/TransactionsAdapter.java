@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
-import com.example.pocketexpenses.ViewModel.TransactionViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.entities.TransactionSubtype;
@@ -25,12 +24,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
     private List<Account> oListAccounts;
     private List<TransactionSubtype> oListTransactionSubtypes;
 
-    public TransactionsAdapter(TransactionViewModel oTransactionViewModel, List<Transaction> oListTransactions,
-                               List<TransactionSubtype> oListTransactionSubtypes, List<Account> oListAccounts) {
+    public TransactionsAdapter(TransactionViewModel oTransactionViewModel) {
         this.oTransactionViewModel = oTransactionViewModel;
-        this.oListTransactions = oListTransactions;
-        this.oListTransactionSubtypes = oListTransactionSubtypes;
-        this.oListAccounts = oListAccounts;
     }
 
     @NonNull
@@ -48,14 +43,23 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         holder.setTvTransactionSum(String.valueOf(oTransaction.getSum()));
         holder.setTvNote(oTransaction.getNote());
 
-        for(Account oAccount : oListAccounts){
-            if(oAccount.getId() == oTransaction.getAccountId())
-                holder.setTvAccountName(oAccount.getName());
+//        try {
+//            Thread.sleep(50);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        if(oListAccounts != null) {
+            for(Account oAccount : oListAccounts){
+                if(oAccount.getId() == oTransaction.getAccountId())
+                    holder.setTvAccountName(oAccount.getName());
+            }
         }
 
-        for(TransactionSubtype oTransactionSubtype : oListTransactionSubtypes){
-            if(oTransactionSubtype.getId() == oTransaction.getTransactionSubtypeId())
-                holder.setTvTransactionType(oTransactionSubtype.getName());
+        if(oListTransactionSubtypes != null) {
+            for(TransactionSubtype oTransactionSubtype : oListTransactionSubtypes){
+                if(oTransactionSubtype.getId() == oTransaction.getTransactionSubtypeId())
+                    holder.setTvTransactionType(oTransactionSubtype.getName());
+            }
         }
 
         holder.setOnLongClickListener(new View.OnLongClickListener() {
@@ -71,6 +75,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.edit:
+                                //
+                                //
+                                //
                                 return true;
                             case R.id.delete:
                                 oTransactionViewModel.deleteTransaction(oTransaction);
@@ -102,11 +109,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
 
     public void setAccountsData(List<Account> oListAccounts){
         this.oListAccounts = oListAccounts;
-        notifyDataSetChanged();
+       // notifyDataSetChanged();
     }
 
     public void setTransactionsData(List<Transaction> oListTransactions){
         this.oListTransactions = oListTransactions;
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 }

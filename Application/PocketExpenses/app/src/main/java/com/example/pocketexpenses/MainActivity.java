@@ -1,38 +1,22 @@
 package com.example.pocketexpenses;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.TransformationMethod;
-import android.util.Log;
 import android.view.View;
 
 import com.example.pocketexpenses.Repository.AccountTypeRepository;
 import com.example.pocketexpenses.Repository.TransactionRepository;
 import com.example.pocketexpenses.Repository.TransactionTypeRepository;
-import com.example.pocketexpenses.ViewModel.AccountTypeViewModel;
-import com.example.pocketexpenses.ViewModel.TransactionTypeViewModel;
-import com.example.pocketexpenses.ViewModel.TransactionViewModel;
+import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.BaseActivity;
 import com.example.pocketexpenses.activities.TransactionsActivity;
-import com.example.pocketexpenses.dao.TransactionTypeDao;
 import com.example.pocketexpenses.database.AppDatabase;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
-import com.example.pocketexpenses.entities.Account;
-import com.example.pocketexpenses.entities.AccountType;
-import com.example.pocketexpenses.entities.TransactionDirection;
 import com.example.pocketexpenses.entities.TransactionSubtype;
-import com.example.pocketexpenses.entities.TransactionType;
-import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
-import com.example.pocketexpenses.entities.relationships.TransactionDirectionWithTypesAndSubtypes;
-import com.example.pocketexpenses.entities.relationships.TransactionTypeWithSubtypes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
