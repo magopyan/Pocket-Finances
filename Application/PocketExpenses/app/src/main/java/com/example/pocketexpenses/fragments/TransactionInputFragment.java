@@ -2,6 +2,8 @@ package com.example.pocketexpenses.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,13 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pocketexpenses.R;
+import com.example.pocketexpenses.databinding.FragmentTransactionInputBinding;
+import com.example.pocketexpenses.databinding.FragmentTransactionsListBinding;
+import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TransactionInputFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TransactionInputFragment extends Fragment {
+public class TransactionInputFragment extends Fragment implements View.OnClickListener {
+
+    private FragmentTransactionInputBinding binding;
+    private TransactionViewModel oTransactionViewModel;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,6 +68,27 @@ public class TransactionInputFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_transaction_input, container, false);
+        binding = FragmentTransactionInputBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.saveButton.setOnClickListener(this::onClick);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        checkInputFields();
+        // if(no errors)
+        //oTransactionViewModel.insertTransaction()
+    }
+
+    private void checkInputFields() {
+
     }
 }
