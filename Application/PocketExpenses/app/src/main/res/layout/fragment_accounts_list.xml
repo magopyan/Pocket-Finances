@@ -17,5 +17,5 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:contentDescription="Add new account"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@drawable/ic_fab_plus"/>
 </FrameLayout>

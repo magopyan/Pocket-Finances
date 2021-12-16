@@ -35,50 +35,61 @@ public class AccountsActivity extends AppCompatActivity {
         transaction.add(R.id.fragmentContainer, defaultFragment, "Transactions");
         transaction.commit();
 
-//        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-//            switch (item.getItemId()) {
-//                case R.id.bottomnav_transactions:
-//                    TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
-//                    transaction.replace(R.id.fragmentContainer, transactionsFragment, "Transactions");
-//                    transaction.commit();
-//                    break;
-//                case R.id.bottomnav_accounts:
-//                    AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
-//                    transaction.replace(R.id.fragmentContainer, accountsFragment, "Accounts");
-//                    transaction.commit();
-//                    break;
-//                case R.id.bottomnav_statistics:
-//                    // navigate to StatisticsFragment
-//                    break;
-//            }
-//            return true;
-//        });
-
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.bottomnav_transactions:
-                        TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.bottomnav_transactions:
+                    TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
                                 replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
                         break;
-                    case R.id.bottomnav_accounts:
-                        AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
+                case R.id.bottomnav_accounts:
+                    AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, accountsFragment, "Transactions").commit();
+                                replace(R.id.fragmentContainer, accountsFragment, "Accounts").commit();
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
-                        break;
-                    case R.id.bottomnav_statistics:
-                        // navigate to StatisticsFragment
+                    break;
+                case R.id.bottomnav_statistics:
+                    // navigate to StatisticsFragment
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        });
+
+        binding.topAppBar.setNavigationOnClickListener(menuItem -> {
+            switch(menuItem.getId()) {
+
             }
         });
+
+//        binding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.bottomnav_transactions:
+//                        TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
+//                        getSupportFragmentManager().beginTransaction().
+//                                replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
+//                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
+//                        break;
+//                    case R.id.bottomnav_accounts:
+//                        AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
+//                        getSupportFragmentManager().beginTransaction().
+//                                replace(R.id.fragmentContainer, accountsFragment, "Transactions").commit();
+//                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
+//                        break;
+//                    case R.id.bottomnav_statistics:
+//                        // navigate to StatisticsFragment
+//                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
     }
 }

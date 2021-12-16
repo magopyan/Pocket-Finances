@@ -4,15 +4,15 @@
         android:id="@+id/bottomnav_transactions"
         android:title="Transactions"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:icon="@drawable/ic_botnav_transactions"/>
     <item
         android:id="@+id/bottomnav_accounts"
         android:title="Accounts"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:icon="@drawable/ic_botnav_accounts"/>
     <item
         android:id="@+id/bottomnav_statistics"
         android:title="Statistics"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:icon="@drawable/ic_botnav_statistics"/>
 </menu>
