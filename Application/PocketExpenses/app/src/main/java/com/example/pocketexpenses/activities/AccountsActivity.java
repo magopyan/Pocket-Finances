@@ -61,35 +61,11 @@ public class AccountsActivity extends AppCompatActivity {
 
         binding.topAppBar.setNavigationOnClickListener(menuItem -> {
             switch(menuItem.getId()) {
-
+                case R.id.top_search:
+                    break;
+                case R.id.top_sort:
+                    break;
             }
         });
-
-//        binding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.bottomnav_transactions:
-//                        TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
-//                        getSupportFragmentManager().beginTransaction().
-//                                replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
-//                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
-//                        break;
-//                    case R.id.bottomnav_accounts:
-//                        AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
-//                        getSupportFragmentManager().beginTransaction().
-//                                replace(R.id.fragmentContainer, accountsFragment, "Transactions").commit();
-//                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
-//                        break;
-//                    case R.id.bottomnav_statistics:
-//                        // navigate to StatisticsFragment
-//                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
     }
 }

@@ -16,6 +16,9 @@ import com.example.pocketexpenses.entities.AccountType;
 import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
 import com.example.pocketexpenses.viewholders.AccountViewHolder;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,11 +56,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         holder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //creating a popup menu
                 PopupMenu popup = new PopupMenu(v.getContext(), holder.itemView);
-                //inflating menu from xml resource
-                popup.inflate(R.menu.on_long_click_menu);
-                //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -75,7 +74,21 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
                         }
                     }
                 });
-                //displaying the popup
+                popup.inflate(R.menu.on_long_click_menu);
+
+                // Zaobikolen nachin da se pokazvat ikonki za vseki item, koeto po princip e nevuzmojno
+                Object menuHelper;
+                Class[] argTypes;
+                try {
+                    Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
+                    fMenuHelper.setAccessible(true);
+                    menuHelper = fMenuHelper.get(popup);
+                    argTypes = new Class[]{boolean.class};
+                    menuHelper.getClass().getDeclaredMethod("setForceShowIcon", argTypes).invoke(menuHelper, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 popup.show();
                 return true;
             }

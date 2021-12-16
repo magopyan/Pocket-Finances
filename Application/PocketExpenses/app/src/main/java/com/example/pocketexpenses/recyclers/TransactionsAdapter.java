@@ -15,6 +15,8 @@ import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.viewholders.TransactionViewHolder;
+
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
@@ -65,11 +67,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         holder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //creating a popup menu
                 PopupMenu popup = new PopupMenu(v.getContext(), holder.itemView);
-                //inflating menu from xml resource
                 popup.inflate(R.menu.on_long_click_menu);
-                //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -87,7 +86,19 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
                         }
                     }
                 });
-                //displaying the popup
+
+                Object menuHelper;
+                Class[] argTypes;
+                try {
+                    Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
+                    fMenuHelper.setAccessible(true);
+                    menuHelper = fMenuHelper.get(popup);
+                    argTypes = new Class[]{boolean.class};
+                    menuHelper.getClass().getDeclaredMethod("setForceShowIcon", argTypes).invoke(menuHelper, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 popup.show();
                 return true;
             }

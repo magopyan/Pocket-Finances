@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketExpenses">
-        <activity android:name=".activities.TransactionsActivity"></activity>
-        <activity android:name=".activities.AccountsActivity"></activity>
+        <activity android:name=".activities.TransactionInputActivity"></activity>
+        <activity android:name=".activities.TransactionsActivity" />
+        <activity android:name=".activities.AccountsActivity" />
         <activity
             android:name=".activities.BaseActivity"
             android:label="@string/title_activity_base" />
