@@ -32,7 +32,7 @@ public class AccountsActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         TransactionsListFragment defaultFragment = TransactionsListFragment.newInstance();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragmentContainer, defaultFragment, "Transactions");
+        transaction.replace(R.id.fragmentContainer, defaultFragment, "Transactions");
         transaction.commit();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {

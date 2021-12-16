@@ -301,7 +301,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate localDate = LocalDate.now();
-            String date = dtf.format(localDate); //2016/11/16
+            String date = dtf.format(localDate);
 
             // Transactions
             Transaction tran1 = new Transaction(date, 51.24, "canned food", 1, 1);

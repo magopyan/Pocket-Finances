@@ -66,9 +66,11 @@ public class TransactionInputActivity extends AppCompatActivity {
         });
 
         FragmentManager manager = getSupportFragmentManager();
-        TransactionInputFragment defaultFragment = TransactionInputFragment.newInstance();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragmentContainer, defaultFragment, "Expense Input");
-        transaction.commit();
+        if(manager.findFragmentByTag("Input") == null) {
+            TransactionInputFragment defaultFragment = TransactionInputFragment.newInstance();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(R.id.fragmentContainer, defaultFragment, "Input");
+            transaction.commit();
+        }
     }
 }

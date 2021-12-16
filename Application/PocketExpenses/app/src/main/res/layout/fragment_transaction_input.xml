@@ -8,7 +8,6 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dateTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -20,6 +19,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dateTextField"
+            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -27,7 +28,6 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/amountTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
@@ -36,18 +36,19 @@
         
         android:hint="Amount"
         app:helperTextEnabled="true"
-        app:helperText="Use . as a separator"
+        app:helperText="Use . as separator"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
+            android:id="@+id/amountTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:ems="10"
+            android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/accountTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
@@ -59,14 +60,15 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/accountTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/categoryTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="280dp"
@@ -78,6 +80,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/categoryTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -85,7 +88,6 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/subcategoryTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,13 +99,15 @@
         app:startIconDrawable="@drawable/ic_input_subcategory">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/subcategoryTextField"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusable="false" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/noteTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="440dp"
@@ -116,6 +120,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/noteTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -129,5 +134,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save" />
-
 </FrameLayout>
