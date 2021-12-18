@@ -95,7 +95,9 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
         oTransactionInputVM = new ViewModelProvider(requireActivity()).get(TransactionInputViewModel.class);
 
         oTransactionInputVM.getAccount().observe(getViewLifecycleOwner(), item -> {
-            binding.noteTextField.setText(item.getName());
+            if(item != null) {
+                binding.accountTextField.setText(item.getName());
+            }
         });
 
         binding.saveButton.setOnClickListener(this::onClick);
@@ -157,8 +159,4 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
         //
         //
     }
-
-//    public void setAccount(String accountName) {
-//        binding.accountTextField.setText(accountName);
-//    }
 }

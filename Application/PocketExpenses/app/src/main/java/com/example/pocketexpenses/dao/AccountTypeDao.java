@@ -62,7 +62,7 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
 
     @Transaction
     @Query("SELECT * FROM account_type WHERE id = :arg0")
-    AccountType getAccountTypeByID(int arg0);
+    LiveData<AccountType> getAccountTypeByID(int arg0);
 
     @Transaction
     @Query("SELECT * FROM account")
@@ -70,7 +70,7 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
 
     @Transaction
     @Query("SELECT * FROM account WHERE id = :arg0")
-    Account getAccountByID(int arg0);
+    LiveData<Account> getAccountByID(int arg0);
 
     @Transaction
     @Query("SELECT * FROM account_type")
@@ -78,5 +78,5 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
 
     @Transaction
     @Query("SELECT * FROM account_type where id = :id")
-    AccountTypeWithAccounts getAccountTypeWithAccountsById(int id);
+    LiveData<AccountTypeWithAccounts> getAccountTypeWithAccountsById(int id);
 }

@@ -39,4 +39,8 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
     public void setOnLongClickListener(View.OnLongClickListener listener) {
         itemView.setOnLongClickListener(listener);
     }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        itemView.setOnClickListener(listener);
+    }
 }

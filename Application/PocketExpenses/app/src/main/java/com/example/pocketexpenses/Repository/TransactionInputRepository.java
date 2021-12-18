@@ -12,7 +12,7 @@ public class TransactionInputRepository {
 
     // Singleton code
     ///////////////////////////////////////////////////////////
-    private static TransactionInputRepository instance;
+    private static TransactionInputRepository instance = null;
 
     private TransactionInputRepository() {}
 

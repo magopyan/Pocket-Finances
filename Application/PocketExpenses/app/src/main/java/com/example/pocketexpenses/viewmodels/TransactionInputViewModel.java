@@ -29,11 +29,10 @@ public class TransactionInputViewModel extends ViewModel {
     }
 
     public MutableLiveData<Account> getAccount() {
-//        if (oAccount == null) {
-//            oAccount = TransactionInputRepository.getInstance().getAccount();
-//        }
-//        return oAccount;
-        return TransactionInputRepository.getInstance().getAccount();
+        if (oAccount == null) {
+            oAccount = TransactionInputRepository.getInstance().getAccount();
+        }
+        return oAccount;
     }
     public void setAccount(Account account) {
         TransactionInputRepository.getInstance().setAccount(account);

@@ -2,6 +2,7 @@ package com.example.pocketexpenses.Repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -34,7 +35,7 @@ public class AccountTypeRepository {
         return oLiveDataListAccountTypesWithAccounts;
     }
 
-    public Account getAccountByID(int nID){
+    public LiveData<Account> getAccountByID(int nID){
         new getAccountByIDAsyncTask(oAccountTypeDao).execute(nID);
         return getAccountByIDAsyncTask.getAccount();
     }
@@ -60,7 +61,7 @@ public class AccountTypeRepository {
         return oLiveDataListAllAccounts;
     }
 
-    public AccountType getAccountTypeByID(int nID){
+    public LiveData<AccountType> getAccountTypeByID(int nID){
         new getAccountTypeByIDAsyncTask(oAccountTypeDao).execute(nID);
         return getAccountTypeByIDAsyncTask.getAccountType();
     }
@@ -86,25 +87,26 @@ public class AccountTypeRepository {
         return oLiveDataListAllAccountTypes;
     }
 
-    private static class getAccountByIDAsyncTask extends AsyncTask<Integer, Void, Account>{
+    private static class getAccountByIDAsyncTask extends AsyncTask<Integer, Void, LiveData<Account>> {
         private AccountTypeDao oAccountTypeDao;
-        private static Account oAccount;
+        private static LiveData<Account> oAccount;
 
         private getAccountByIDAsyncTask(AccountTypeDao oAccountTypeDao){
             this.oAccountTypeDao = oAccountTypeDao;
         }
 
         @Override
-        protected Account doInBackground(Integer... integers) {
+        protected LiveData<Account> doInBackground(Integer... integers) {
+            oAccount = oAccountTypeDao.getAccountByID(integers[0]);
             return oAccountTypeDao.getAccountByID(integers[0]);
         }
 
         @Override
-        protected void onPostExecute(Account oAccount) {
+        protected void onPostExecute(LiveData<Account> oAccount) {
             this.oAccount = oAccount;
         }
 
-        public static Account getAccount() {
+        public static LiveData<Account> getAccount() {
             return oAccount;
         }
     }
@@ -174,25 +176,25 @@ public class AccountTypeRepository {
         }
     }
 
-    private static class getAccountTypeByIDAsyncTask extends AsyncTask<Integer, Void, AccountType>{
+    private static class getAccountTypeByIDAsyncTask extends AsyncTask<Integer, Void, LiveData<AccountType>> {
         private AccountTypeDao oAccountTypeDao;
-        private static AccountType oAccountType;
+        private static LiveData<AccountType> oAccountType;
 
         private getAccountTypeByIDAsyncTask(AccountTypeDao oAccountTypeDao){
             this.oAccountTypeDao = oAccountTypeDao;
         }
 
         @Override
-        protected AccountType doInBackground(Integer... integers) {
+        protected LiveData<AccountType> doInBackground(Integer... integers) {
             return oAccountTypeDao.getAccountTypeByID(integers[0]);
         }
 
         @Override
-        protected void onPostExecute(AccountType oAccountType) {
+        protected void onPostExecute(LiveData<AccountType> oAccountType) {
             this.oAccountType = oAccountType;
         }
 
-        public static AccountType getAccountType() {
+        public static LiveData<AccountType> getAccountType() {
             return oAccountType;
         }
     }

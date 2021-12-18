@@ -1,5 +1,6 @@
 package com.example.pocketexpenses.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,30 +15,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
+import com.example.pocketexpenses.R;
+import com.example.pocketexpenses.activities.TransactionInputActivity;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
+import com.example.pocketexpenses.databinding.FragmentChooseAccountBinding;
+import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
+import com.example.pocketexpenses.onclicklisteners.OnAccountClickListener;
 import com.example.pocketexpenses.recyclers.AccountsAdapter;
+import com.example.pocketexpenses.recyclers.ChooseAccountAdapter;
+import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AccountsListFragment#newInstance} factory method to
+ * Use the {@link ChooseAccountFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccountsListFragment extends Fragment implements View.OnClickListener {
+public class ChooseAccountFragment extends Fragment implements OnAccountClickListener {
 
     private FragmentAccountsListBinding binding;
     private RecyclerView oAccountsRV;
     private AccountTypeViewModel oViewModel;
+    private TransactionInputViewModel oTransactionInputVM;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // TODO: Rename and change types of parameters
 
-    public AccountsListFragment() {
+    public ChooseAccountFragment() {
         // Required empty public constructor
     }
 
@@ -46,11 +55,11 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
      * this fragment using the provided parameters.
      *
 
-     * @return A new instance of fragment AccountsListFragment.
+     * @return A new instance of fragment ChooseAccountFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AccountsListFragment newInstance() {
-        AccountsListFragment fragment = new AccountsListFragment();
+    public static ChooseAccountFragment newInstance() {
+        ChooseAccountFragment fragment = new ChooseAccountFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -64,7 +73,6 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAccountsListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
@@ -74,15 +82,14 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         oAccountsRV = binding.recyclerAccounts;
-        binding.fabAddAccount.setOnClickListener(this::onClick);
 
         oViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
+        oTransactionInputVM = new ViewModelProvider(this).get(TransactionInputViewModel.class);
 
-        AccountsAdapter adapter = new AccountsAdapter(oViewModel);
+        ChooseAccountAdapter adapter = new ChooseAccountAdapter(oViewModel, this::onClickAccount);
         oViewModel.getAllAccountTypesWithAccounts().observe(getViewLifecycleOwner(), new Observer<List<AccountTypeWithAccounts>>() {
             @Override
             public void onChanged(@Nullable final List<AccountTypeWithAccounts> accTypesWithAccounts) {
-                // Update the cached copy of the words in the adapter.
                 adapter.setData(accTypesWithAccounts);
             }
         });
@@ -91,10 +98,9 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
-        // Add new fragment
-        //
-        //
-        //
+    public void onClickAccount(Account account) {
+        oTransactionInputVM.setAccount(account);
+        Intent intent = new Intent(getContext(), TransactionInputActivity.class);
+        startActivity(intent);
     }
 }
