@@ -12,7 +12,6 @@ import com.example.pocketexpenses.databinding.AccountViewholderBinding;
 
 public class AccountViewHolder extends RecyclerView.ViewHolder {
 
-    private AccountViewholderBinding binding;
     private TextView tvAccountName;
     private TextView tvAccountType;
     private TextView tvBalance;
@@ -21,7 +20,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         tvAccountName = itemView.findViewById(R.id.tvAccountName);
         tvAccountType = itemView.findViewById(R.id.tvAccountType);
-        tvBalance = itemView.findViewById(R.id.tvBalance);
+        tvBalance = itemView.findViewById(R.id.tvTranTypeName);
     }
 
     public void setTvAccountName(String tvAccountName) {

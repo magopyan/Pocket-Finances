@@ -15,8 +15,12 @@ import android.view.ViewGroup;
 
 import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.ChooseAccountActivity;
+import com.example.pocketexpenses.activities.ChooseTransactionTypeActivity;
 import com.example.pocketexpenses.databinding.FragmentTransactionInputBinding;
+import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
+import com.example.pocketexpenses.entities.TransactionSubtype;
+import com.example.pocketexpenses.entities.TransactionType;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -37,6 +41,10 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
     private FragmentTransactionInputBinding binding;
     private TransactionViewModel oTransactionVM;
     private TransactionInputViewModel oTransactionInputVM;
+
+    private Account chosenAccount;
+    private TransactionType chosenTransactionType;
+    private TransactionSubtype chosenTransactionSubtype;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -97,6 +105,13 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
         oTransactionInputVM.getAccount().observe(getViewLifecycleOwner(), item -> {
             if(item != null) {
                 binding.accountTextField.setText(item.getName());
+                chosenAccount = item;
+            }
+        });
+        oTransactionInputVM.getTransactionType().observe(getViewLifecycleOwner(), item -> {
+            if(item != null) {
+                binding.categoryTextField.setText(item.getName());
+                chosenTransactionType = item;
             }
         });
 
@@ -136,6 +151,14 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
                 startActivity(intent);
             }
         });
+
+        binding.categoryTextField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChooseTransactionTypeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -147,7 +170,7 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
         double amount = Double.parseDouble(binding.amountTextField.getText().toString());
         String note = binding.noteTextField.getText().toString();
 
-        Transaction inputTransaction = new Transaction(date, amount, note, 1, 1);
+        Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), 1);
         oTransactionVM.insertTransaction(inputTransaction);
 
         Intent intent = new Intent(getContext(), AccountsActivity.class);

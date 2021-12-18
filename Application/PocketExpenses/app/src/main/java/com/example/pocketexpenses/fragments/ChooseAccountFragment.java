@@ -100,7 +100,8 @@ public class ChooseAccountFragment extends Fragment implements OnAccountClickLis
     @Override
     public void onClickAccount(Account account) {
         oTransactionInputVM.setAccount(account);
-        Intent intent = new Intent(getContext(), TransactionInputActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), TransactionInputActivity.class);
+//        startActivity(intent);
+        getActivity().onBackPressed();
     }
 }
