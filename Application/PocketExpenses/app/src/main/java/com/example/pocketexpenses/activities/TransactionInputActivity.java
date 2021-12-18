@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 public class TransactionInputActivity extends AppCompatActivity {
 
     private ActivityTransactionInputBinding binding;
+    private TransactionInputFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +67,18 @@ public class TransactionInputActivity extends AppCompatActivity {
         });
 
         FragmentManager manager = getSupportFragmentManager();
+        TransactionInputFragment defaultFragment;
         if(manager.findFragmentByTag("Input") == null) {
-            TransactionInputFragment defaultFragment = TransactionInputFragment.newInstance();
+            defaultFragment = TransactionInputFragment.newInstance();
+            fragment = defaultFragment;
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.fragmentContainer, defaultFragment, "Input");
             transaction.commit();
         }
+
+//        Bundle bundle = receivedIntent.getExtras();
+//        if(bundle.getString("account") != null) {
+//            fragment.setAccount(bundle.getString("account"));
+//        }
     }
 }
