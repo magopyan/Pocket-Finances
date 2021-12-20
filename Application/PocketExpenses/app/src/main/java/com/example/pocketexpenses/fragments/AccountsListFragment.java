@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pocketexpenses.activities.AccountsInputActivity;
 import com.example.pocketexpenses.activities.TransactionInputActivity;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
@@ -94,8 +95,8 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //Intent intent = new Intent(getContext(), AccountsInputActivity.class);
-        //intent.putExtra("topBarTitle", "Add Account");
-        //startActivity(intent);
+        Intent intent = new Intent(getContext(), AccountsInputActivity.class);
+        intent.putExtra("topBarTitle", "Add Account");
+        startActivity(intent);
     }
 }
