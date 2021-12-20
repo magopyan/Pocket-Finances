@@ -1,5 +1,6 @@
 package com.example.pocketexpenses.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pocketexpenses.activities.TransactionInputActivity;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
 import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
@@ -92,9 +94,8 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        // Add new fragment
-        //
-        //
-        //
+        //Intent intent = new Intent(getContext(), AccountsInputActivity.class);
+        //intent.putExtra("topBarTitle", "Add Account");
+        //startActivity(intent);
     }
 }

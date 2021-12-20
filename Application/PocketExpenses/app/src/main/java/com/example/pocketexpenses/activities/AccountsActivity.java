@@ -14,6 +14,7 @@ import com.example.pocketexpenses.databinding.ActivityAccountsBinding;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
 import com.example.pocketexpenses.fragments.AccountsListFragment;
+import com.example.pocketexpenses.fragments.StatisticsFragment;
 import com.example.pocketexpenses.fragments.TransactionsListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -50,7 +51,10 @@ public class AccountsActivity extends AppCompatActivity {
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
                     break;
                 case R.id.bottomnav_statistics:
-                    // navigate to StatisticsFragment
+                    StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().
+                            replace(R.id.fragmentContainer, statisticsFragment, "Statistics").commit();
+                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
                     break;
                 default:
