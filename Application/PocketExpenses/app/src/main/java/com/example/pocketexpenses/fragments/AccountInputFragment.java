@@ -12,16 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.AccountsActivity;
-import com.example.pocketexpenses.activities.ChooseAccountActivity;
+import com.example.pocketexpenses.activities.ChooseAccountTypeActivity;
 import com.example.pocketexpenses.databinding.FragmentAccountInputBinding;
-import com.example.pocketexpenses.databinding.FragmentTransactionInputBinding;
 import com.example.pocketexpenses.entities.Account;
-import com.example.pocketexpenses.entities.Transaction;
+import com.example.pocketexpenses.entities.AccountType;
+import com.example.pocketexpenses.viewmodels.AccountTypeInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
-import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +30,9 @@ import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 public class AccountInputFragment extends Fragment implements View.OnClickListener{
 
     private FragmentAccountInputBinding binding;
-    private AccountTypeViewModel oAccountTypeVM;
+    private AccountTypeInputViewModel oAccountTypeInputVM;
+    private AccountTypeViewModel oAccountTypeViewModel;
+    private AccountType oAccountType;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,19 +74,20 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountTypeInputViewModel.class);
+        oAccountTypeViewModel = new ViewModelProvider(requireActivity()).get(AccountTypeViewModel.class);
+        oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountTypeInputViewModel.class);
 
-        /*oAccountTypeInputVM.get().observe(getViewLifecycleOwner(), item -> {
+        oAccountTypeInputVM.getAccountType().observe(getViewLifecycleOwner(), item -> {
             if(item != null) {
-                binding.accountTypeTextField.setText(item.);
-                chosenAccount = item;
+                binding.accountTypeTextField.setText(item.getName());
+                oAccountType = item;
             }
-        });*/
+        });
 
         binding.accountTypeTextField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ChooseAccountActivity.class); //ChooseAccountTypeActivity
+                Intent intent = new Intent(getContext(), ChooseAccountTypeActivity.class);
                 startActivity(intent);
             }
         });
@@ -101,8 +103,8 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
         double dBalance = Double.parseDouble(binding.balanceTextField.getText().toString());
         String strAccountName = binding.nameTextField.getText().toString();
 
-        Account inputAccount = new Account(dBalance, strAccountName, 0);
-        oAccountTypeVM.insertAccount(inputAccount);
+        Account inputAccount = new Account(dBalance, strAccountName, oAccountType.getId());
+        oAccountTypeViewModel.insertAccount(inputAccount);
 
         Intent intent = new Intent(getContext(), AccountsActivity.class);
         startActivity(intent);

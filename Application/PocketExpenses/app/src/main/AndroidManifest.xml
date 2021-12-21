@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketExpenses">
-        <activity android:name=".activities.ChooseTransactionTypeActivity"></activity>
+        <activity android:name=".activities.ChooseAccountTypeActivity"></activity>
+        <activity android:name=".activities.ChooseTransactionTypeActivity" />
         <activity android:name=".activities.ChooseAccountActivity" />
         <activity android:name=".activities.TransactionInputActivity" />
         <activity android:name=".activities.TransactionsActivity" />
