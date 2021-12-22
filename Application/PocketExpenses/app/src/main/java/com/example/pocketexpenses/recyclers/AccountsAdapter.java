@@ -1,5 +1,7 @@
 package com.example.pocketexpenses.recyclers;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +12,8 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
+import com.example.pocketexpenses.activities.AccountsEditActivity;
+import com.example.pocketexpenses.activities.AccountsInputActivity;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
@@ -62,9 +66,12 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.edit:
-                                //
-                                //
-                                //
+                                Intent intent = new Intent(v.getContext(), AccountsEditActivity.class);
+                                intent.putExtra("topBarTitle", "Add Account");
+                                intent.putExtra("AccountItem", account);
+                                Activity tempActivity = new Activity();
+                                tempActivity.startActivity(intent);
+                                //tempActivity.startActivityForResult(intent, REQUEST_EDIT_CODE);
                                 return true;
                             case R.id.delete:
                                 oViewModel.deleteAccount(account);
