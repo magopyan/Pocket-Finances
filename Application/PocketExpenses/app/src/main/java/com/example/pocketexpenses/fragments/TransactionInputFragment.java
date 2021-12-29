@@ -30,6 +30,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -119,28 +120,24 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
         TextInputEditText etDate = binding.dateTextField;
 
         MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select a date").setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setTitleText("Select a date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build();
 
         datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Object selection) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-                Date varDate = null;
-                try {
-                    varDate = dateFormat.parse(datePicker.getHeaderText());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                etDate.setText(dateFormat.format(varDate));
+                Date date = new Date((Long) selection);
+                etDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(date));
             }
         });
 
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePicker.show(fragmentManager, "someTag");
+                if(fragmentManager.findFragmentByTag("datePicker") == null) {
+                    datePicker.show(fragmentManager, "datePicker");
+                }
             }
         });
 
