@@ -71,7 +71,7 @@ public class TransactionInputRepository {
         oTransactionSubtype.setValue(transactionSubtype);
     }
 
-    public void reset() {
+   public void reset() {
         oTransaction = null;
         oAccount = null;
         oTransactionType = null;

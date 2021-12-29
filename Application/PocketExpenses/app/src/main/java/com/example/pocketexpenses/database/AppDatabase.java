@@ -109,34 +109,16 @@ public abstract class AppDatabase extends RoomDatabase {
             oTranTypeDao.insertTransactionDirection(income);
             oTranTypeDao.insertTransactionDirection(expense);
 
-            // Income Types
-            TransactionType wage = new TransactionType("Wage", 1);                    // id=1
-            TransactionType rentalIncome = new TransactionType("Rental Income", 1);   // id=2
-            TransactionType interest = new TransactionType("Interest/Dividend", 1);   // id=3
-            TransactionType coupon = new TransactionType("Coupon/Voucher", 1);        // id=4
-            TransactionType gift = new TransactionType("Gift", 1);                    // id=5
-            TransactionType welfare = new TransactionType("Welfare", 1);              // id=6
-            TransactionType refund = new TransactionType("Refund", 1);                // id=7
-            TransactionType otherIncome = new TransactionType("Other", 1);            // id=8
-            oTranTypeDao.insertTransactionType(wage);
-            oTranTypeDao.insertTransactionType(rentalIncome);
-            oTranTypeDao.insertTransactionType(interest);
-            oTranTypeDao.insertTransactionType(coupon);
-            oTranTypeDao.insertTransactionType(gift);
-            oTranTypeDao.insertTransactionType(welfare);
-            oTranTypeDao.insertTransactionType(refund);
-            oTranTypeDao.insertTransactionType(otherIncome);
-
             // Expenses Types
-            TransactionType foodAndDrink= new TransactionType("Food & Drinks", 2);                 // id=9
-            TransactionType shopping = new TransactionType("Shopping", 2);                         // id=10
-            TransactionType entertainment = new TransactionType("Entertainment", 2);               // id=11
-            TransactionType transport = new TransactionType("Transportation", 2);                  // id=12
-            TransactionType vehicle = new TransactionType("Vehicle", 2);                           // id=13
-            TransactionType taxes = new TransactionType("Taxes & Charges", 2);                     // id=14
-            TransactionType housing = new TransactionType("Housing", 2);                           // id=15
-            TransactionType investments = new TransactionType("Investments", 2);                   // id=16
-            TransactionType otherExpenses = new TransactionType("Other", 2);                       // id=17
+            TransactionType foodAndDrink= new TransactionType("Food & Drinks", 2);                 // id=1
+            TransactionType shopping = new TransactionType("Shopping", 2);                         // id=2
+            TransactionType entertainment = new TransactionType("Entertainment", 2);               // id=3
+            TransactionType transport = new TransactionType("Transportation", 2);                  // id=4
+            TransactionType vehicle = new TransactionType("Vehicle", 2);                           // id=5
+            TransactionType taxes = new TransactionType("Taxes & Charges", 2);                     // id=6
+            TransactionType housing = new TransactionType("Housing", 2);                           // id=7
+            TransactionType investments = new TransactionType("Investments", 2);                   // id=8
+            TransactionType otherExpenses = new TransactionType("Other", 2);                       // id=9
             oTranTypeDao.insertTransactionType(foodAndDrink);
             oTranTypeDao.insertTransactionType(shopping);
             oTranTypeDao.insertTransactionType(entertainment);
@@ -146,6 +128,26 @@ public abstract class AppDatabase extends RoomDatabase {
             oTranTypeDao.insertTransactionType(housing);
             oTranTypeDao.insertTransactionType(investments);
             oTranTypeDao.insertTransactionType(otherExpenses);
+
+            // Income Types
+            TransactionType wage = new TransactionType("Wage", 1);                    // id=10
+            TransactionType rentalIncome = new TransactionType("Rental Income", 1);   // id=11
+            TransactionType interest = new TransactionType("Interest/Dividend", 1);   // id=12
+            TransactionType coupon = new TransactionType("Coupon/Voucher", 1);        // id=13
+            TransactionType gift = new TransactionType("Gift", 1);                    // id=14
+            TransactionType welfare = new TransactionType("Welfare", 1);              // id=15
+            TransactionType refund = new TransactionType("Refund", 1);                // id=16
+            TransactionType otherIncome = new TransactionType("Other", 1);            // id=17
+            oTranTypeDao.insertTransactionType(wage);
+            oTranTypeDao.insertTransactionType(rentalIncome);
+            oTranTypeDao.insertTransactionType(interest);
+            oTranTypeDao.insertTransactionType(coupon);
+            oTranTypeDao.insertTransactionType(gift);
+            oTranTypeDao.insertTransactionType(welfare);
+            oTranTypeDao.insertTransactionType(refund);
+            oTranTypeDao.insertTransactionType(otherIncome);
+
+
         }
 
 

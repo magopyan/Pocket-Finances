@@ -73,7 +73,6 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentTransactionsListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;

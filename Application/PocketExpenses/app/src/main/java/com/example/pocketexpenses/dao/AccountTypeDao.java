@@ -77,6 +77,6 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
     LiveData<List<AccountTypeWithAccounts>> getAllAccountTypesWithAccounts();
 
     @Transaction
-    @Query("SELECT * FROM account_type where id = :id")
-    LiveData<AccountTypeWithAccounts> getAccountTypeWithAccountsById(int id);
+    @Query("SELECT * FROM account_type where id = :arg0")
+    LiveData<AccountTypeWithAccounts> getAccountTypeWithAccountsById(int arg0);
 }

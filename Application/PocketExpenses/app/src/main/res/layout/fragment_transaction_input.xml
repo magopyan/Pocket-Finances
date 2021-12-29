@@ -8,6 +8,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dateLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -15,6 +16,7 @@
         app:startIconDrawable="@drawable/ic_input_date"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_dropdown"
+        app:errorEnabled="true"
         android:hint="Date"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -23,16 +25,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false" />
-    </com.google.android.material.textfield.TextInputLayout>
+         </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/amountLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
         android:layout_marginTop="110dp"
         app:startIconDrawable="@drawable/ic_input_sum"
-        
+        app:errorEnabled="true"
         android:hint="Amount"
         app:helperTextEnabled="true"
         app:helperText="Use . as separator"
@@ -48,6 +51,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/accountLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
@@ -55,6 +59,7 @@
         app:startIconDrawable="@drawable/ic_input_account"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_dropdown"
+        app:errorEnabled="true"
         android:hint="Account"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -68,6 +73,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="280dp"
@@ -75,6 +81,7 @@
         app:startIconDrawable="@drawable/ic_input_category"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_dropdown"
+        app:errorEnabled="true"
         android:hint="Category"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -88,6 +95,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/subcategoryLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,6 +103,7 @@
         android:layout_marginTop="360dp"
         android:hint="Subcategory"
         app:endIconDrawable="@drawable/ic_dropdown"
+        app:errorEnabled="true"
         app:endIconMode="custom"
         app:startIconDrawable="@drawable/ic_input_subcategory">
 

@@ -6,36 +6,40 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.pocketexpenses.R;
+import com.example.pocketexpenses.databinding.ActivityChooseTransactionSubtypeBinding;
 import com.example.pocketexpenses.databinding.ActivityChooseTransactionTypeBinding;
-import com.example.pocketexpenses.entities.TransactionType;
+import com.example.pocketexpenses.entities.TransactionDirection;
+import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.entities.relationships.TransactionDirectionWithTypesAndSubtypes;
-import com.example.pocketexpenses.onclicklisteners.OnTransactionTypeClickListener;
+import com.example.pocketexpenses.onclicklisteners.OnTransactionSubtypeClickListener;
+import com.example.pocketexpenses.recyclers.ChooseTransactionSubtypeAdapter;
 import com.example.pocketexpenses.recyclers.ChooseTransactionTypeAdapter;
-import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ChooseTransactionTypeActivity extends AppCompatActivity implements OnTransactionTypeClickListener {
+public class ChooseTransactionSubtypeActivity extends AppCompatActivity implements OnTransactionSubtypeClickListener {
 
-    private ActivityChooseTransactionTypeBinding binding;
+
+    private ActivityChooseTransactionSubtypeBinding binding;
     private TransactionTypeViewModel oTransactionTypeVM;
     private TransactionInputViewModel oTransactionInputVM;
-    private RecyclerView oTransactionTypesRV;
+    private RecyclerView oTransactionSubtypesRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChooseTransactionTypeBinding.inflate(getLayoutInflater());
+        binding = ActivityChooseTransactionSubtypeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
-        oTransactionTypesRV = binding.recyclerViewHolder;
+        oTransactionSubtypesRV = binding.recyclerViewHolder;
 
         binding.topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,22 +51,33 @@ public class ChooseTransactionTypeActivity extends AppCompatActivity implements 
         oTransactionTypeVM = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
         oTransactionInputVM = new ViewModelProvider(this).get(TransactionInputViewModel.class);
 
-        ChooseTransactionTypeAdapter adapter = new ChooseTransactionTypeAdapter(oTransactionTypeVM, this::onClickTransactionType);
+        int tranTypeId = getIntent().getIntExtra("TransactionTypeID", -1);
+        ChooseTransactionSubtypeAdapter adapter = new ChooseTransactionSubtypeAdapter(oTransactionTypeVM, this::onClickTransactionSubtype, tranTypeId);
+
+        // Send all Subtypes
+//        oTransactionTypeVM.getAllTransactionSubtype().observe(this, new Observer<List<TransactionSubtype>>() {
+//            @Override
+//            public void onChanged(List<TransactionSubtype> transactionSubtypes) {
+//                adapter.setData(transactionSubtypes);
+//            }
+//        });
+
+        // Send double nested relationhip
         oTransactionTypeVM.getAllTransactionDirectionWithTypesAndSubtypes().observe(this, new Observer<List<TransactionDirectionWithTypesAndSubtypes>>() {
             @Override
             public void onChanged(List<TransactionDirectionWithTypesAndSubtypes> transactionDirectionWithTypesAndSubtypes) {
                 adapter.setData(transactionDirectionWithTypesAndSubtypes);
             }
         });
-        oTransactionTypesRV.setAdapter(adapter);
-        oTransactionTypesRV.setLayoutManager(new LinearLayoutManager(this));
+
+        oTransactionSubtypesRV.setAdapter(adapter);
+        oTransactionSubtypesRV.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
     @Override
-    public void onClickTransactionType(TransactionType tranType) {
-        oTransactionInputVM.setTransactionType(tranType);
-        oTransactionInputVM.setTransactionSubtype(null);
+    public void onClickTransactionSubtype(TransactionSubtype tranSubtype) {
+        oTransactionInputVM.setTransactionSubtype(tranSubtype);
         onBackPressed();
     }
 }

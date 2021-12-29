@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.TransactionInputActivity;
-import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
+import com.example.pocketexpenses.databinding.FragmentChooseAccountBinding;
 import com.example.pocketexpenses.databinding.FragmentChooseAccountBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class ChooseAccountFragment extends Fragment implements OnAccountClickListener {
 
-    private FragmentAccountsListBinding binding;
+    private FragmentChooseAccountBinding binding;
     private RecyclerView oAccountsRV;
     private AccountTypeViewModel oViewModel;
     private TransactionInputViewModel oTransactionInputVM;
@@ -73,7 +73,7 @@ public class ChooseAccountFragment extends Fragment implements OnAccountClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAccountsListBinding.inflate(inflater, container, false);
+        binding = FragmentChooseAccountBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
     }
