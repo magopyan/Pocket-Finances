@@ -37,6 +37,13 @@ public class ChooseTransactionTypeActivity extends AppCompatActivity implements 
 
         oTransactionTypesRV = binding.recyclerViewHolder;
 
+        binding.topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         oTransactionTypeVM = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
         oTransactionInputVM = new ViewModelProvider(this).get(TransactionInputViewModel.class);
 
@@ -51,9 +58,11 @@ public class ChooseTransactionTypeActivity extends AppCompatActivity implements 
         oTransactionTypesRV.setLayoutManager(new LinearLayoutManager(this));
     }
 
+
     @Override
     public void onClickTransactionType(TransactionType tranType) {
         oTransactionInputVM.setTransactionType(tranType);
+        oTransactionInputVM.setTransactionSubtype(null);
         onBackPressed();
     }
 }

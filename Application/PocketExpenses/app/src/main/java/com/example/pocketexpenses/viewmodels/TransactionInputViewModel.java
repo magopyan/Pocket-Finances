@@ -50,15 +50,19 @@ public class TransactionInputViewModel extends ViewModel {
 
     public MutableLiveData<TransactionSubtype> getTransactionSubtype() {
         if(oTransactionSubtype == null) {
-            oTransactionSubtype = new MutableLiveData<>();
+            oTransactionSubtype = TransactionInputRepository.getInstance().getTransactionSubtype();
         }
         return oTransactionSubtype;
     }
     public void setTransactionSubtype(TransactionSubtype transactionSubtype) {
-        oTransactionSubtype.setValue(transactionSubtype);
+        TransactionInputRepository.getInstance().setTransactionSubtype(transactionSubtype);
     }
 
-    private void reset() {
+    public void reset() {
+        oTransaction = null;
+        oAccount = null;
+        oTransactionType = null;
+        oTransactionSubtype = null;
         TransactionInputRepository.getInstance().reset();
     }
 }

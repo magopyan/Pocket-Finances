@@ -1,15 +1,24 @@
 package com.example.pocketexpenses.recyclers;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
+import com.example.pocketexpenses.activities.TransactionInputActivity;
+import com.example.pocketexpenses.entities.AccountType;
+import com.example.pocketexpenses.viewholders.AccountTypeViewHolder;
+import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
+import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
@@ -22,12 +31,20 @@ import java.util.List;
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
 
     private TransactionViewModel oTransactionViewModel;
+    private TransactionInputViewModel oTransactionInputVM;
+    private AccountTypeViewModel oAccountTypeVM;
+    private TransactionTypeViewModel oTransactionTypeVM;
+
     private List<Transaction> oListTransactions;
     private List<Account> oListAccounts;
     private List<TransactionSubtype> oListTransactionSubtypes;
 
-    public TransactionsAdapter(TransactionViewModel oTransactionViewModel) {
+    public TransactionsAdapter(TransactionViewModel oTransactionViewModel, TransactionInputViewModel oTransactionInputVM,
+                               AccountTypeViewModel oAccountTypeVM, TransactionTypeViewModel oTransactionTypeVM) {
         this.oTransactionViewModel = oTransactionViewModel;
+        this.oTransactionInputVM = oTransactionInputVM;
+        this.oAccountTypeVM = oAccountTypeVM;
+        this.oTransactionTypeVM = oTransactionTypeVM;
     }
 
     @NonNull
@@ -45,11 +62,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         holder.setTvTransactionSum(String.valueOf(oTransaction.getSum()));
         holder.setTvNote(oTransaction.getNote());
 
-//        try {
-//            Thread.sleep(50);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         if(oListAccounts != null) {
             for(Account oAccount : oListAccounts){
                 if(oAccount.getId() == oTransaction.getAccountId())
@@ -74,9 +86,12 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.edit:
-                                //
-                                //
-                                //
+                                boolean isExpense = setTransactionInputData(v, oTransaction);
+                                Intent intent = new Intent(v.getContext(), TransactionInputActivity.class);
+                                intent.putExtra("topBarTitle", "Edit Expense"); // ???
+                                // How to find if expense or Income ???
+                                intent.putExtra("Edit Transaction", oTransaction);
+
                                 return true;
                             case R.id.delete:
                                 oTransactionViewModel.deleteTransaction(oTransaction);
@@ -103,6 +118,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
                 return true;
             }
         });
+    }
+
+    private boolean setTransactionInputData(View view, Transaction transaction) {
+
+        Account account = oAccountTypeVM.getAccountByID(transaction.getAccountId());
+        oTransactionInputVM.setAccount(account);
+        oTransactionInputVM.setTransaction(transaction);
+        return true;
     }
 
     @Override
