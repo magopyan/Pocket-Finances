@@ -74,7 +74,7 @@ public class ChooseTransactionSubtypeAdapter extends RecyclerView.Adapter<Transa
 //    }
 
     // Get from double nested relationship
-    public void setData(List<TransactionDirectionWithTypesAndSubtypes> oTranDirWithTypesAndSubtypes) {
+    public void setDataForExpense(List<TransactionDirectionWithTypesAndSubtypes> oTranDirWithTypesAndSubtypes) {
         this.oTranDirWithTypesAndSubtypes = oTranDirWithTypesAndSubtypes;
         oTransactionSubtypes = new ArrayList<>();
         for(TransactionDirectionWithTypesAndSubtypes tranDir : oTranDirWithTypesAndSubtypes) {
@@ -83,6 +83,21 @@ public class ChooseTransactionSubtypeAdapter extends RecyclerView.Adapter<Transa
                     if(tranTypeWithSubtype.getTransactionType().getId() == tranTypeId) {
                         oTransactionSubtypes.addAll(tranTypeWithSubtype.getSubtypesList());
                     }
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setDataForIncome(List<TransactionDirectionWithTypesAndSubtypes> oTranDirWithTypesAndSubtypes) {
+        this.oTranDirWithTypesAndSubtypes = oTranDirWithTypesAndSubtypes;
+        oTransactionSubtypes = new ArrayList<>();
+        for(TransactionDirectionWithTypesAndSubtypes tranDir : oTranDirWithTypesAndSubtypes) {
+            if(tranDir.getTransactionDirection().getId() == 1) { // Income
+                List<TransactionTypeWithSubtypes> tranTypesWithSubtypes = tranDir.getTypeWithSubtypesList();
+                for(TransactionTypeWithSubtypes tranTypeWithSubtype : tranTypesWithSubtypes) {
+                    TransactionTypeWithSubtypes transactionTypeWithSubtypes = tranTypeWithSubtype;
+                    oTransactionSubtypes.addAll(tranTypeWithSubtype.getSubtypesList());
                 }
             }
         }

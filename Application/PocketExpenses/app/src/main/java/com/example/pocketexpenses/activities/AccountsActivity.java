@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.databinding.ActivityAccountsBinding;
@@ -29,6 +31,11 @@ public class AccountsActivity extends AppCompatActivity {
         binding = ActivityAccountsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        Intent receivedIntent = getIntent();
+        String toastMessage = receivedIntent.getStringExtra("Toast Message");
+        if(toastMessage != null)
+            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
 
         FragmentManager manager = getSupportFragmentManager();
         TransactionsListFragment defaultFragment = TransactionsListFragment.newInstance();

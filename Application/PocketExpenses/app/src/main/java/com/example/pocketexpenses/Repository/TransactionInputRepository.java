@@ -38,6 +38,9 @@ public class TransactionInputRepository {
         return oTransaction;
     }
     public void setTransaction(Transaction transaction) {
+        if(oTransaction == null) {
+            oTransaction = new MutableLiveData<>();
+        }
         oTransaction.setValue(transaction);
     }
 

@@ -9,23 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.databinding.ActivityChooseTransactionSubtypeBinding;
-import com.example.pocketexpenses.databinding.ActivityChooseTransactionTypeBinding;
-import com.example.pocketexpenses.entities.TransactionDirection;
 import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.entities.relationships.TransactionDirectionWithTypesAndSubtypes;
 import com.example.pocketexpenses.onclicklisteners.OnTransactionSubtypeClickListener;
 import com.example.pocketexpenses.recyclers.ChooseTransactionSubtypeAdapter;
-import com.example.pocketexpenses.recyclers.ChooseTransactionTypeAdapter;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ChooseTransactionSubtypeActivity extends AppCompatActivity implements OnTransactionSubtypeClickListener {
-
 
     private ActivityChooseTransactionSubtypeBinding binding;
     private TransactionTypeViewModel oTransactionTypeVM;
@@ -54,21 +48,23 @@ public class ChooseTransactionSubtypeActivity extends AppCompatActivity implemen
         int tranTypeId = getIntent().getIntExtra("TransactionTypeID", -1);
         ChooseTransactionSubtypeAdapter adapter = new ChooseTransactionSubtypeAdapter(oTransactionTypeVM, this::onClickTransactionSubtype, tranTypeId);
 
-        // Send all Subtypes
-//        oTransactionTypeVM.getAllTransactionSubtype().observe(this, new Observer<List<TransactionSubtype>>() {
-//            @Override
-//            public void onChanged(List<TransactionSubtype> transactionSubtypes) {
-//                adapter.setData(transactionSubtypes);
-//            }
-//        });
-
-        // Send double nested relationhip
-        oTransactionTypeVM.getAllTransactionDirectionWithTypesAndSubtypes().observe(this, new Observer<List<TransactionDirectionWithTypesAndSubtypes>>() {
-            @Override
-            public void onChanged(List<TransactionDirectionWithTypesAndSubtypes> transactionDirectionWithTypesAndSubtypes) {
-                adapter.setData(transactionDirectionWithTypesAndSubtypes);
-            }
-        });
+        if(tranTypeId != -1) { // -> Choose Subtype for Expense (list only subtypes from chosen type
+            // Send double nested relationhip
+            oTransactionTypeVM.getAllTransactionDirectionWithTypesAndSubtypes().observe(this, new Observer<List<TransactionDirectionWithTypesAndSubtypes>>() {
+                @Override
+                public void onChanged(List<TransactionDirectionWithTypesAndSubtypes> transactionDirectionWithTypesAndSubtypes) {
+                    adapter.setDataForExpense(transactionDirectionWithTypesAndSubtypes);
+                }
+            });
+        }
+        else {  // -> Choose Subtype for Income (list all subtypes for income)
+            oTransactionTypeVM.getAllTransactionDirectionWithTypesAndSubtypes().observe(this, new Observer<List<TransactionDirectionWithTypesAndSubtypes>>() {
+                @Override
+                public void onChanged(List<TransactionDirectionWithTypesAndSubtypes> transactionDirectionWithTypesAndSubtypes) {
+                    adapter.setDataForIncome(transactionDirectionWithTypesAndSubtypes);
+                }
+            });
+        }
 
         oTransactionSubtypesRV.setAdapter(adapter);
         oTransactionSubtypesRV.setLayoutManager(new LinearLayoutManager(this));

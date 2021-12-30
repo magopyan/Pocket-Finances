@@ -271,18 +271,19 @@ public abstract class AppDatabase extends RoomDatabase {
             oTranTypeDao.insertTransactionSubtype(collection);
 
             // Other
-            // N/A
+            TransactionSubtype otherExpense = new TransactionSubtype("Other", 9);            // 52
+            oTranTypeDao.insertTransactionSubtype(otherExpense);
 
 
             // Income Subtypes
-            TransactionSubtype wage = new TransactionSubtype("Wage", 1);                    // id=52
-            TransactionSubtype rentalIncome = new TransactionSubtype("Rental Income", 2);   // id=53
-            TransactionSubtype interest = new TransactionSubtype("Interest/Dividend", 3);   // id=54
-            TransactionSubtype coupon = new TransactionSubtype("Coupon/Voucher", 4);        // id=55
-            TransactionSubtype incomeGift = new TransactionSubtype("Gift", 5);              // id=56
-            TransactionSubtype welfare = new TransactionSubtype("Welfare", 6);              // id=57
-            TransactionSubtype refund = new TransactionSubtype("Refund", 7);                // id=58
-            TransactionSubtype otherIncome = new TransactionSubtype("Other", 8);            // id=59
+            TransactionSubtype wage = new TransactionSubtype("Wage", 10);                    // id=53
+            TransactionSubtype rentalIncome = new TransactionSubtype("Rental Income", 11);   // id=54
+            TransactionSubtype interest = new TransactionSubtype("Interest/Dividend", 12);   // id=55
+            TransactionSubtype coupon = new TransactionSubtype("Coupon/Voucher", 13);        // id=56
+            TransactionSubtype incomeGift = new TransactionSubtype("Gift", 14);              // id=57
+            TransactionSubtype welfare = new TransactionSubtype("Welfare", 15);              // id=58
+            TransactionSubtype refund = new TransactionSubtype("Refund", 16);                // id=59
+            TransactionSubtype otherIncome = new TransactionSubtype("Other", 17);            // id=60
             oTranTypeDao.insertTransactionSubtype(wage);
             oTranTypeDao.insertTransactionSubtype(rentalIncome);
             oTranTypeDao.insertTransactionSubtype(interest);

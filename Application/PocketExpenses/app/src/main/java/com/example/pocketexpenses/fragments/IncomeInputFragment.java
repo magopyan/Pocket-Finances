@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.ChooseAccountActivity;
 import com.example.pocketexpenses.activities.ChooseTransactionSubtypeActivity;
 import com.example.pocketexpenses.activities.ChooseTransactionTypeActivity;
+import com.example.pocketexpenses.databinding.FragmentIncomeInputBinding;
 import com.example.pocketexpenses.databinding.FragmentTransactionInputBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
@@ -32,25 +34,22 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TransactionInputFragment#newInstance} factory method to
+ * Use the {@link IncomeInputFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TransactionInputFragment extends Fragment implements View.OnClickListener {
+public class IncomeInputFragment extends Fragment implements View.OnClickListener {
 
-    private FragmentTransactionInputBinding binding;
+    private FragmentIncomeInputBinding binding;
     private TransactionViewModel oTransactionVM;
     private TransactionInputViewModel oTransactionInputVM;
     private AccountTypeViewModel oAccountTypeVM;
 
     private Account chosenAccount;
-    private TransactionType chosenTransactionType;
     private TransactionSubtype chosenTransactionSubtype;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -62,7 +61,7 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
 //    private String mParam1;
 //    private String mParam2;
 
-    public TransactionInputFragment() {
+    public IncomeInputFragment() {
         // Required empty public constructor
     }
 
@@ -72,11 +71,11 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
      *
 //     * @param param1 Parameter 1.
 //     * @param param2 Parameter 2.
-     * @return A new instance of fragment TransactionInputFragment.
+     * @return A new instance of fragment IncomeInputFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TransactionInputFragment newInstance(/*String param1, String param2*/) {
-        TransactionInputFragment fragment = new TransactionInputFragment();
+    public static IncomeInputFragment newInstance(/*String param1, String param2*/) {
+        IncomeInputFragment fragment = new IncomeInputFragment();
         Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -96,10 +95,11 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentTransactionInputBinding.inflate(inflater, container, false);
+        binding = FragmentIncomeInputBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -116,15 +116,9 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
                 chosenAccount = item;
             }
         });
-        oTransactionInputVM.getTransactionType().observe(getViewLifecycleOwner(), item -> {
-            if(item != null) {
-                binding.categoryTextField.setText(item.getName());
-                chosenTransactionType = item;
-            }
-        });
         oTransactionInputVM.getTransactionSubtype().observe(getViewLifecycleOwner(), item -> {
             if(item != null) {
-                binding.subcategoryTextField.setText(item.getName());
+                binding.categoryTextField.setText(item.getName());
                 chosenTransactionSubtype = item;
             }
         });
@@ -182,23 +176,9 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 binding.categoryLayout.setError(null);
-                Intent intent = new Intent(getContext(), ChooseTransactionTypeActivity.class);
+                Intent intent = new Intent(getContext(), ChooseTransactionSubtypeActivity.class);
+                intent.putExtra("TransactionTypeID", -1);
                 startActivity(intent);
-            }
-        });
-
-        binding.subcategoryTextField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(chosenTransactionType == null) {
-                    binding.subcategoryLayout.setError("You need to select a Category first!");
-                }
-                else {
-                    binding.subcategoryLayout.setError(null);
-                    Intent intent = new Intent(getContext(), ChooseTransactionSubtypeActivity.class);
-                    intent.putExtra("TransactionTypeID", chosenTransactionType.getId());
-                    startActivity(intent);
-                }
             }
         });
 
@@ -217,15 +197,13 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
             Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId());
             oTransactionVM.insertTransaction(inputTransaction);
 
-            double newBalance = chosenAccount.getBalance() - amount;
-            String toastMessage = "You have exceeded " + chosenAccount.getName() + "'s balance, it is now negative.";
+            double newBalance = chosenAccount.getBalance() + amount;
             chosenAccount.setBalance(newBalance);
             oAccountTypeVM.updateAccount(chosenAccount);
+
             oTransactionInputVM.reset();
 
             Intent intent = new Intent(getContext(), AccountsActivity.class);
-            if(newBalance < 0)
-                intent.putExtra("Toast Message", toastMessage);
             startActivity(intent);
         }
     }
@@ -246,13 +224,11 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
             binding.accountLayout.setError("You have to select an account!");
         if(binding.categoryTextField.getText().toString().isEmpty() || binding.categoryTextField.getText().toString() == null)
             binding.categoryLayout.setError("You have to select a category!");
-        if(binding.subcategoryTextField.getText().toString().isEmpty() || binding.subcategoryTextField.getText().toString() == null)
-            binding.subcategoryLayout.setError("You have to select a subcategory!");
     }
 
     private boolean noErrors() {
         if(binding.dateLayout.getError() == null && binding.amountLayout.getError() == null && binding.accountLayout.getError() == null
-            && binding.categoryLayout.getError() == null && binding.subcategoryLayout.getError() == null)
+                && binding.categoryLayout.getError() == null)
             return true;
         else
             return false;
