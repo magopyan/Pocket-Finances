@@ -3,6 +3,7 @@ package com.example.pocketexpenses.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -26,7 +27,9 @@ public class TransactionSubtype {
 
     //////////////////////////
 
+    public TransactionSubtype() {}
 
+    @Ignore
     public TransactionSubtype(String name, int transactionTypeId) {
         this.name = name;
         this.transactionTypeId = transactionTypeId;
@@ -54,14 +57,5 @@ public class TransactionSubtype {
 
     public void setTransactionTypeId(int transactionTypeId) {
         this.transactionTypeId = transactionTypeId;
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionSubtype{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", transactionTypeId=" + transactionTypeId +
-                '}';
     }
 }

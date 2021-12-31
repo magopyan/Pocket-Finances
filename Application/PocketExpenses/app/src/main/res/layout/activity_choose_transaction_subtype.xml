@@ -21,7 +21,7 @@
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Choose a Category"
+                app:title="Choose a Subcategory"
                 app:titleCentered="true"
                 app:navigationIcon="@drawable/ic_topnav_back"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
@@ -37,7 +37,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBarContainer" />
-        />
-
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
