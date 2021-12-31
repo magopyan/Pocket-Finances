@@ -1,7 +1,6 @@
 package com.example.pocketexpenses.entities.relationships;
 
 import androidx.room.Embedded;
-import androidx.room.Junction;
 import androidx.room.Relation;
 
 import com.example.pocketexpenses.entities.TransactionDirection;

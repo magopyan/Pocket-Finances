@@ -1,12 +1,8 @@
 package com.example.pocketexpenses.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -18,12 +14,12 @@ import static androidx.room.ForeignKey.CASCADE;
         indices = { @Index(name = "Transaction_PK", value = "id"),
                     @Index(name = "Transaction_FK1", value = "account_id"),
                     @Index(name = "Transaction_FK2", value = "tran_subtype_id") } )
-public class Transaction implements Parcelable {
+public class Transaction {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String date;
+    private String date;   // = new Date().getTime() ili System.currentTimeMillis()
 
     private double sum;
 
@@ -47,28 +43,6 @@ public class Transaction implements Parcelable {
         this.accountId = accountId;
         this.transactionSubtypeId = transactionSubtypeId;
     }
-
-    protected Transaction(Parcel in) {
-        id = in.readInt();
-        date = in.readString();
-        sum = in.readDouble();
-        note = in.readString();
-        accountId = in.readInt();
-        transactionSubtypeId = in.readInt();
-    }
-
-    @Ignore
-    public static final Creator<Transaction> CREATOR = new Creator<Transaction>() {
-        @Override
-        public Transaction createFromParcel(Parcel in) {
-            return new Transaction(in);
-        }
-
-        @Override
-        public Transaction[] newArray(int size) {
-            return new Transaction[size];
-        }
-    };
 
     public int getId() {
         return id;
@@ -116,20 +90,5 @@ public class Transaction implements Parcelable {
 
     public void setTransactionSubtypeId(int transactionSubtypeId) {
         this.transactionSubtypeId = transactionSubtypeId;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(date);
-        dest.writeDouble(sum);
-        dest.writeString(note);
-        dest.writeInt(accountId);
-        dest.writeInt(transactionSubtypeId);
     }
 }

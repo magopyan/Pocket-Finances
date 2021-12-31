@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 
 import com.example.pocketexpenses.activities.TransactionInputActivity;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
-import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.databinding.FragmentTransactionsListBinding;
@@ -40,8 +39,6 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
     private TransactionViewModel oTransactionViewModel;
     private TransactionTypeViewModel oTransactionTypeViewModel;
     private AccountTypeViewModel oAccountTypeViewModel;
-    private TransactionInputViewModel oTransactionInputVM;
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,6 +73,7 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         binding = FragmentTransactionsListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
@@ -90,9 +88,8 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
         oTransactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         oTransactionTypeViewModel = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
         oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
-        oTransactionInputVM = new ViewModelProvider(this).get(TransactionInputViewModel.class);
 
-        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel, oTransactionInputVM, oAccountTypeViewModel, oTransactionTypeViewModel);
+        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel);
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {

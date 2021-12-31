@@ -3,19 +3,15 @@ package com.example.pocketexpenses.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.databinding.ActivityTransactionInputBinding;
-import com.example.pocketexpenses.fragments.IncomeInputFragment;
 import com.example.pocketexpenses.fragments.TransactionInputFragment;
 import com.example.pocketexpenses.fragments.TransactionsListFragment;
-import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -23,7 +19,6 @@ public class TransactionInputActivity extends AppCompatActivity {
 
     private ActivityTransactionInputBinding binding;
     private TransactionInputFragment fragment;
-    private TransactionInputViewModel oTransactionInputVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +26,6 @@ public class TransactionInputActivity extends AppCompatActivity {
         binding = ActivityTransactionInputBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        oTransactionInputVM = new ViewModelProvider(this).get(TransactionInputViewModel.class);
 
         Intent receivedIntent = getIntent();
 
@@ -52,18 +45,16 @@ public class TransactionInputActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch(tab.getPosition()) {
                     case 0:
-                        oTransactionInputVM.reset();
                         binding.topAppBar.setTitle("Add new Expense");
                         TransactionInputFragment tranInputFragment = TransactionInputFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, tranInputFragment, "Current Tab").commit();
+                                replace(R.id.fragmentContainer, tranInputFragment, "Transactions").commit();
                         break;
                     case 1:
-                        oTransactionInputVM.reset();
                         binding.topAppBar.setTitle("Add new Income");
-                        IncomeInputFragment incomeInputFragment = IncomeInputFragment.newInstance();
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, incomeInputFragment, "Current Tab").commit();
+                        //
+                        //
+                        //
                         break;
                 }
             }
@@ -84,5 +75,10 @@ public class TransactionInputActivity extends AppCompatActivity {
             transaction.add(R.id.fragmentContainer, defaultFragment, "Input");
             transaction.commit();
         }
+
+//        Bundle bundle = receivedIntent.getExtras();
+//        if(bundle.getString("account") != null) {
+//            fragment.setAccount(bundle.getString("account"));
+//        }
     }
 }

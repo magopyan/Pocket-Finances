@@ -15,18 +15,15 @@ public class TransactionTypeWithSubtypes { // One TransactionTypes to many Trans
     private TransactionType transactionType;
     @Relation(
             parentColumn = "id",
-            entityColumn = "tran_type_id",
-            entity = TransactionSubtype.class
+            entityColumn = "tran_type_id"
     )
     private List<TransactionSubtype> subtypesList;
 
 
+
    ///////////////////////////
 
-    public TransactionTypeWithSubtypes(TransactionTypeWithSubtypes tranTypeWithSubtypes) {
-        this.transactionType = transactionType;
-        this.subtypesList = subtypesList;
-    }
+
     public TransactionTypeWithSubtypes(TransactionType transactionType, List<TransactionSubtype> subtypesList) {
         this.transactionType = transactionType;
         this.subtypesList = subtypesList;
@@ -47,6 +44,4 @@ public class TransactionTypeWithSubtypes { // One TransactionTypes to many Trans
     public void setSubtypesList(List<TransactionSubtype> subtypesList) {
         this.subtypesList = subtypesList;
     }
-
-
 }

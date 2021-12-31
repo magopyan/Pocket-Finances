@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -31,7 +30,6 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
     // Currency ID zasega lipsva, zashtoto shte dobavi dopulnitelna slojnost
 
     //////////////////////////
-
 
     public Account(double balance, String name, int accountTypeId) {
         this.balance = balance;

@@ -52,7 +52,7 @@ public class AccountTypeViewModel extends AndroidViewModel {
         return oLiveDataListAllAccountTypes;
     }
 
-    public Account getAccountByID(int nID){
+    public LiveData<Account> getAccountByID(int nID){
         return oAccountTypeRepository.getAccountByID(nID);
     }
 
