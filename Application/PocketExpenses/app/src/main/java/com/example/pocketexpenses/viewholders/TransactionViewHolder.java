@@ -19,7 +19,7 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
     public TransactionViewHolder(@NonNull View itemView) {
         super(itemView);
         tvDate = itemView.findViewById(R.id.tvDate);
-        tvTransactionSum = itemView.findViewById(R.id.tvTransactionSum);
+        tvTransactionSum = itemView.findViewById(R.id.tvAmount);
         tvNote = itemView.findViewById(R.id.tvNote);
         tvAccountName = itemView.findViewById(R.id.tvAccountNameInTransaction);
         tvTransactionSubType = itemView.findViewById(R.id.tvTransactionSubType);

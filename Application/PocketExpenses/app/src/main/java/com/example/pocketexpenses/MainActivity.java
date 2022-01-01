@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.pocketexpenses.Repository.AccountTypeRepository;
-import com.example.pocketexpenses.Repository.TransactionRepository;
-import com.example.pocketexpenses.Repository.TransactionTypeRepository;
+import com.example.pocketexpenses.repositories.AccountTypeRepository;
+import com.example.pocketexpenses.repositories.TransactionRepository;
+import com.example.pocketexpenses.repositories.TransactionTypeRepository;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.activities.AccountsActivity;

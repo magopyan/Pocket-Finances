@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pocketexpenses.activities.AccountsInputActivity;
-import com.example.pocketexpenses.activities.TransactionInputActivity;
+import com.example.pocketexpenses.activities.AccountInputActivity;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
 import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts;
@@ -67,7 +67,6 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAccountsListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
@@ -85,18 +84,20 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
         oViewModel.getAllAccountTypesWithAccounts().observe(getViewLifecycleOwner(), new Observer<List<AccountTypeWithAccounts>>() {
             @Override
             public void onChanged(@Nullable final List<AccountTypeWithAccounts> accTypesWithAccounts) {
-                // Update the cached copy of the words in the adapter.
                 adapter.setData(accTypesWithAccounts);
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        oAccountsRV.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
+        oAccountsRV.setLayoutManager(layoutManager);
         oAccountsRV.setAdapter(adapter);
-        oAccountsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getContext(), AccountsInputActivity.class);
-        intent.putExtra("topBarTitle", "Add Account");
+        Intent intent = new Intent(getContext(), AccountInputActivity.class);
+        intent.putExtra("topBarTitle", "Add new Account");
         startActivity(intent);
     }
 }

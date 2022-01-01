@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -99,22 +100,22 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
                 adapter.setTransactionsData(oListTransactions);
             }
         });
-
         oTransactionTypeViewModel.getAllTransactionSubtype().observe(getViewLifecycleOwner(), new Observer<List<TransactionSubtype>>() {
             @Override
             public void onChanged(@Nullable final List<TransactionSubtype> oListTransactionSubtypes) {
                 adapter.setTransactionSubtypesData(oListTransactionSubtypes);
             }
         });
-
         oAccountTypeViewModel.getAllAccounts().observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
             @Override
             public void onChanged(@Nullable final List<Account> oListAccounts) {
                 adapter.setAccountsData(oListAccounts);
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        oTransactionsRV.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
+        oTransactionsRV.setLayoutManager(layoutManager);
         oTransactionsRV.setAdapter(adapter);
-        oTransactionsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override

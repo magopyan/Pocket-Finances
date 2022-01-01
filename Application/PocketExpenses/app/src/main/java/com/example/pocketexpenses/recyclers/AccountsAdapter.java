@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.AccountsEditActivity;
-import com.example.pocketexpenses.activities.AccountsInputActivity;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
@@ -21,8 +20,6 @@ import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts
 import com.example.pocketexpenses.viewholders.AccountViewHolder;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +41,10 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         return new AccountViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull AccountViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AccountViewHolder holder, int position)
+    {
         Account account = oAccountsList.get(position);
         String accountTypeName = null;
         for(AccountTypeWithAccounts accTypeWithAccounts : oAccountTypesWithAccounts) {
@@ -60,6 +59,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         holder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                // Popup menu
                 PopupMenu popup = new PopupMenu(v.getContext(), holder.itemView);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -102,6 +102,8 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         });
     }
 
+
+
     @Override
     public int getItemCount() {
         if(oAccountsList != null && oAccountsList.size() != 0) {
@@ -110,7 +112,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         else return 0;
     }
 
-    public void setData(List<AccountTypeWithAccounts> accTypesWithAccounts){
+    public void setData(List<AccountTypeWithAccounts> accTypesWithAccounts) {
         oAccountTypesWithAccounts = accTypesWithAccounts;
         oAccountsList = new ArrayList<>();
         for(AccountTypeWithAccounts accTypeWithAccounts : oAccountTypesWithAccounts) {

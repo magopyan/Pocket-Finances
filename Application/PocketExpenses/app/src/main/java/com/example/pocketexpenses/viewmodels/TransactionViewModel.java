@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.pocketexpenses.Repository.TransactionRepository;
+import com.example.pocketexpenses.repositories.TransactionRepository;
 import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.entities.relationships.AccountWithTransactions;
 import com.example.pocketexpenses.entities.relationships.TransactionSubtypeWithTransactions;

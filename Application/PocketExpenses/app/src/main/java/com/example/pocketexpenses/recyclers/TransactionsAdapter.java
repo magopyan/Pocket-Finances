@@ -26,7 +26,11 @@ import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.viewholders.TransactionViewHolder;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
 
@@ -55,10 +59,19 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position)
+    {
         Transaction oTransaction = oListTransactions.get(position);
 
-        holder.setTvDate(oTransaction.getDate());
+        String date = oTransaction.getDate();
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = df.format(currentDate);
+        if(date.equals(formattedDate))
+            holder.setTvDate("Today");
+        else
+            holder.setTvDate(date);
+
         holder.setTvTransactionSum(String.valueOf(oTransaction.getSum()));
         holder.setTvNote(oTransaction.getNote());
 
@@ -68,7 +81,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
                     holder.setTvAccountName(oAccount.getName());
             }
         }
-
         if(oListTransactionSubtypes != null) {
             for(TransactionSubtype oTransactionSubtype : oListTransactionSubtypes){
                 if(oTransactionSubtype.getId() == oTransaction.getTransactionSubtypeId())
@@ -76,6 +88,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
             }
         }
 
+
+        // Popup menu
         holder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -120,8 +134,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         });
     }
 
-    private boolean setTransactionInputData(View view, Transaction transaction) {
 
+    private boolean setTransactionInputData(View view, Transaction transaction)
+    {
         Account account = oAccountTypeVM.getAccountByID(transaction.getAccountId());
         oTransactionInputVM.setAccount(account);
         oTransactionInputVM.setTransaction(transaction);
@@ -140,14 +155,12 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         this.oListTransactionSubtypes = oListTransactionSubtypes;
         notifyDataSetChanged();
     }
-
     public void setAccountsData(List<Account> oListAccounts){
         this.oListAccounts = oListAccounts;
-       // notifyDataSetChanged();
+        notifyDataSetChanged();
     }
-
     public void setTransactionsData(List<Transaction> oListTransactions){
         this.oListTransactions = oListTransactions;
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 }

@@ -17,9 +17,9 @@ import com.example.pocketexpenses.activities.ChooseAccountTypeActivity;
 import com.example.pocketexpenses.databinding.FragmentAccountInputBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
-import com.example.pocketexpenses.viewmodels.AccountTypeInputViewModel;
+import com.example.pocketexpenses.entities.Transaction;
+import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
-import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 
 
 /**
@@ -27,12 +27,13 @@ import com.example.pocketexpenses.viewmodels.TransactionViewModel;
  * Use the {@link AccountInputFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccountInputFragment extends Fragment implements View.OnClickListener{
+public class AccountInputFragment extends Fragment implements View.OnClickListener {
 
     private FragmentAccountInputBinding binding;
-    private AccountTypeInputViewModel oAccountTypeInputVM;
+    private AccountInputViewModel oAccountTypeInputVM;
     private AccountTypeViewModel oAccountTypeViewModel;
-    private AccountType oAccountType;
+
+    private AccountType chosenAccountType;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,12 +76,12 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
 
         oAccountTypeViewModel = new ViewModelProvider(requireActivity()).get(AccountTypeViewModel.class);
-        oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountTypeInputViewModel.class);
+        oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountInputViewModel.class);
 
         oAccountTypeInputVM.getAccountType().observe(getViewLifecycleOwner(), item -> {
-            if(item != null) {
+            if (item != null) {
                 binding.accountTypeTextField.setText(item.getName());
-                oAccountType = item;
+                chosenAccountType = item;
             }
         });
 
@@ -98,21 +99,45 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         checkInputFields();
-        // if(no errors)
 
-        double dBalance = Double.parseDouble(binding.balanceTextField.getText().toString());
-        String strAccountName = binding.nameTextField.getText().toString();
+        if(noErrors())
+        {
+            double dBalance = Double.parseDouble(binding.balanceTextField.getText().toString());
+            String strAccountName = binding.nameTextField.getText().toString();
 
-        Account inputAccount = new Account(dBalance, strAccountName, oAccountType.getId());
-        oAccountTypeViewModel.insertAccount(inputAccount);
+            Account inputAccount = new Account(dBalance, strAccountName, chosenAccountType.getId());
+            oAccountTypeViewModel.insertAccount(inputAccount);
 
-        Intent intent = new Intent(getContext(), AccountsActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(getContext(), AccountsActivity.class);
+            startActivity(intent);
+        }
     }
 
-    private void checkInputFields() {
-        //
-        //
-        //
+
+    private void checkInputFields()
+    {
+        String balanceInput = binding.balanceTextField.getText().toString();
+        if(balanceInput == null || balanceInput.isEmpty() || balanceInput.trim().isEmpty())
+            binding.balanceLayout.setError("You have to enter an amount!");
+        if(balanceInput.contains(","))
+            binding.balanceLayout.setError("Use . instead of , as separator!");
+        String[] splitter = balanceInput.split("\\.");
+        if(balanceInput.contains(".") && splitter[1].length() > 2)
+            binding.balanceLayout.setError("There can be only 2 digits after the separator!");
+
+        String nameInput = binding.nameTextField.getText().toString();
+        if(nameInput == null || nameInput.isEmpty() || nameInput.trim().isEmpty())
+            binding.nameLayout.setError("You have to enter a name for the account!");
+
+        String accountTypeInput = binding.accountTypeTextField.getText().toString();
+        if(accountTypeInput == null || accountTypeInput.isEmpty() || accountTypeInput.trim().isEmpty())
+            binding.accountTypeLayout.setError("You have to select a type!");
+    }
+
+    private boolean noErrors() {
+        if(binding.balanceLayout.getError() == null && binding.nameLayout.getError() == null && binding.accountTypeLayout.getError() == null)
+            return true;
+        else
+            return false;
     }
 }

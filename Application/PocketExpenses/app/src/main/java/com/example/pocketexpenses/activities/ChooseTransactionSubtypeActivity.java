@@ -3,6 +3,7 @@ package com.example.pocketexpenses.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,9 +66,10 @@ public class ChooseTransactionSubtypeActivity extends AppCompatActivity implemen
                 }
             });
         }
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        oTransactionSubtypesRV.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
+        oTransactionSubtypesRV.setLayoutManager(layoutManager);
         oTransactionSubtypesRV.setAdapter(adapter);
-        oTransactionSubtypesRV.setLayoutManager(new LinearLayoutManager(this));
     }
 
 

@@ -3,7 +3,7 @@ package com.example.pocketexpenses.viewmodels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.pocketexpenses.Repository.TransactionInputRepository;
+import com.example.pocketexpenses.repositories.TransactionInputRepository;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.entities.TransactionSubtype;

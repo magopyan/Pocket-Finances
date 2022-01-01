@@ -1,6 +1,5 @@
-package com.example.pocketexpenses.Repository;
+package com.example.pocketexpenses.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.pocketexpenses.entities.Account;

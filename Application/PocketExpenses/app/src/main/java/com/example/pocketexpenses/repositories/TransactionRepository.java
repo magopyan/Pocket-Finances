@@ -1,4 +1,4 @@
-package com.example.pocketexpenses.Repository;
+package com.example.pocketexpenses.repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;

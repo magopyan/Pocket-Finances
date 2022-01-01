@@ -230,16 +230,20 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void checkInputFields() {
-        if(binding.dateTextField.getText().toString().isEmpty() || binding.dateTextField.getText().toString() == null)
+    private void checkInputFields()
+    {
+        String dateInput = binding.dateTextField.getText().toString();
+        if(dateInput == null || dateInput.isEmpty() || dateInput.trim().isEmpty())
             binding.dateLayout.setError("You have to select a date!");
-        if(binding.amountTextField.getText().toString().isEmpty() || binding.amountTextField.getText().toString() == null)
+
+        String amountInput = binding.amountTextField.getText().toString();
+        if(amountInput.isEmpty() || amountInput == null || amountInput.trim().isEmpty())
             binding.amountLayout.setError("You have to enter an amount!");
-        if(binding.amountTextField.getText().toString().contains(","))
+        if(amountInput.contains(","))
             binding.amountLayout.setError("Use . instead of , as separator!");
 
-        String[] splitter = binding.amountTextField.getText().toString().split("\\.");
-        if(binding.amountTextField.getText().toString().contains(".") && splitter[1].length() > 2)
+        String[] splitter = amountInput.split("\\.");
+        if(amountInput.contains(".") && splitter[1].length() > 2)
             binding.amountLayout.setError("There can be only 2 digits after the separator!");
 
         if(binding.accountTextField.getText().toString().isEmpty() || binding.accountTextField.getText().toString() == null)

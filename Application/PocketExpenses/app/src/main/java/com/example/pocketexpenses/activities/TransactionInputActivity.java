@@ -22,8 +22,8 @@ import com.google.android.material.tabs.TabLayout;
 public class TransactionInputActivity extends AppCompatActivity {
 
     private ActivityTransactionInputBinding binding;
-    private TransactionInputFragment fragment;
     private TransactionInputViewModel oTransactionInputVM;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +36,18 @@ public class TransactionInputActivity extends AppCompatActivity {
 
         Intent receivedIntent = getIntent();
 
+
         MaterialToolbar topAppBar = binding.topAppBar;
         String title = receivedIntent.getStringExtra("topBarTitle");
         topAppBar.setTitle(title);
         topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                oTransactionInputVM.reset();
                 onBackPressed();
             }
         });
+
 
         TabLayout tabLayout = binding.tabLayout;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -75,11 +78,11 @@ public class TransactionInputActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
+
         FragmentManager manager = getSupportFragmentManager();
         TransactionInputFragment defaultFragment;
         if(manager.findFragmentByTag("Input") == null) {
             defaultFragment = TransactionInputFragment.newInstance();
-            fragment = defaultFragment;
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.fragmentContainer, defaultFragment, "Input");
             transaction.commit();

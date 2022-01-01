@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,8 +94,10 @@ public class ChooseAccountFragment extends Fragment implements OnAccountClickLis
                 adapter.setData(accTypesWithAccounts);
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        oAccountsRV.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
+        oAccountsRV.setLayoutManager(layoutManager);
         oAccountsRV.setAdapter(adapter);
-        oAccountsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override

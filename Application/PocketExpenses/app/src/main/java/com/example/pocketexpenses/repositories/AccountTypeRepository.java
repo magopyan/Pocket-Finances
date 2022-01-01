@@ -1,11 +1,9 @@
-package com.example.pocketexpenses.Repository;
+package com.example.pocketexpenses.repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.example.pocketexpenses.dao.AccountTypeDao;
 import com.example.pocketexpenses.database.AppDatabase;

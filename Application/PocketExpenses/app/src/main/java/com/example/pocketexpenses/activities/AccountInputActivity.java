@@ -7,17 +7,19 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.databinding.ActivityAccountsInputBinding;
 import com.example.pocketexpenses.fragments.AccountInputFragment;
+import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 
 
-public class AccountsInputActivity extends AppCompatActivity {
+public class AccountInputActivity extends AppCompatActivity {
 
     private ActivityAccountsInputBinding binding;
-    private AccountInputFragment fragment;
+    private AccountInputViewModel oAccountInputVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,10 @@ public class AccountsInputActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        oAccountInputVM = new ViewModelProvider(this).get(AccountInputViewModel.class);
+
         Intent receivedIntent = getIntent();
+
 
         MaterialToolbar topAppBar = binding.topAppBar;
         String title = receivedIntent.getStringExtra("topBarTitle");
@@ -34,15 +39,16 @@ public class AccountsInputActivity extends AppCompatActivity {
         topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                oAccountInputVM.reset();
                 onBackPressed();
             }
         });
+
 
         FragmentManager manager = getSupportFragmentManager();
         AccountInputFragment defaultFragment;
         if(manager.findFragmentByTag("Input") == null) {
             defaultFragment = AccountInputFragment.newInstance();
-            fragment = defaultFragment;
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.fragmentContainer, defaultFragment, "Input");
             transaction.commit();

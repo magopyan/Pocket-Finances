@@ -14,15 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pocketexpenses.R;
-import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.ChooseAccountTypeActivity;
 import com.example.pocketexpenses.databinding.FragmentAccountEditBinding;
-import com.example.pocketexpenses.databinding.FragmentAccountInputBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
 import com.example.pocketexpenses.onclicklisteners.OnEditAccountListener;
-import com.example.pocketexpenses.viewmodels.AccountTypeInputViewModel;
+import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 
 /**
@@ -33,7 +30,7 @@ import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 public class AccountEditFragment extends Fragment implements View.OnClickListener{
 
     private FragmentAccountEditBinding binding;
-    private AccountTypeInputViewModel oAccountTypeInputVM;
+    private AccountInputViewModel oAccountTypeInputVM;
     private AccountTypeViewModel oAccountTypeViewModel;
     private AccountType oAccountType;
     private OnEditAccountListener listener;
@@ -97,7 +94,7 @@ public class AccountEditFragment extends Fragment implements View.OnClickListene
         binding.nameTextFieldEdit.setText(oAccount.getName());
 
         oAccountTypeViewModel = new ViewModelProvider(requireActivity()).get(AccountTypeViewModel.class);
-        oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountTypeInputViewModel.class);
+        oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountInputViewModel.class);
 
         oAccountTypeInputVM.getAccountType().observe(getViewLifecycleOwner(), item -> {
             if(item != null) {

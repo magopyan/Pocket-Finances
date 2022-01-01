@@ -21,7 +21,7 @@
         <activity android:name=".activities.TransactionInputActivity" />
         <activity android:name=".activities.TransactionsActivity" />
         <activity android:name=".activities.AccountsActivity" />
-        <activity android:name=".activities.AccountsInputActivity" />
+        <activity android:name=".activities.AccountInputActivity" />
         <activity
             android:name=".activities.BaseActivity"
             android:label="@string/title_activity_base" />

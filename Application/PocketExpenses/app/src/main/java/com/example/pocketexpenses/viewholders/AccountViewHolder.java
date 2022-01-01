@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
-import com.example.pocketexpenses.databinding.AccountViewholderBinding;
 
 
 public class AccountViewHolder extends RecyclerView.ViewHolder {
@@ -22,7 +21,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         tvAccountName = itemView.findViewById(R.id.tvAccountName);
         tvAccountType = itemView.findViewById(R.id.tvAccountType);
-        tvBalance = itemView.findViewById(R.id.tvTranTypeName);
+        tvBalance = itemView.findViewById(R.id.tvBalance);
     }
 
     public void setTvAccountName(String tvAccountName) {
