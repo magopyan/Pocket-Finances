@@ -194,7 +194,7 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
             double amount = Double.parseDouble(binding.amountTextField.getText().toString());
             String note = binding.noteTextField.getText().toString();
 
-            Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId());
+            Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId(), chosenTransactionSubtype.getImageId());
             oTransactionVM.insertTransaction(inputTransaction);
 
             double newBalance = chosenAccount.getBalance() + amount;

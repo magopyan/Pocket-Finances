@@ -21,6 +21,8 @@ public class TransactionSubtype {
 
     private String name;
 
+    private Integer ImageId;
+
     @ColumnInfo(name = "tran_type_id")
     private int transactionTypeId;
 
@@ -30,9 +32,10 @@ public class TransactionSubtype {
     public TransactionSubtype() {}
 
     @Ignore
-    public TransactionSubtype(String name, int transactionTypeId) {
+    public TransactionSubtype(String name, int transactionTypeId, Integer ImageId) {
         this.name = name;
         this.transactionTypeId = transactionTypeId;
+        this.ImageId = ImageId;
     }
 
     public int getId() {
@@ -57,5 +60,13 @@ public class TransactionSubtype {
 
     public void setTransactionTypeId(int transactionTypeId) {
         this.transactionTypeId = transactionTypeId;
+    }
+
+    public Integer getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        ImageId = imageId;
     }
 }

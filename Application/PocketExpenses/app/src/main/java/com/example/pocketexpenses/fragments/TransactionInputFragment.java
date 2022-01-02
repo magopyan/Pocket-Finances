@@ -214,7 +214,7 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
             double amount = Double.parseDouble(binding.amountTextField.getText().toString());
             String note = binding.noteTextField.getText().toString();
 
-            Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId());
+            Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId(), chosenTransactionSubtype.getImageId());
             oTransactionVM.insertTransaction(inputTransaction);
 
             double newBalance = chosenAccount.getBalance() - amount;

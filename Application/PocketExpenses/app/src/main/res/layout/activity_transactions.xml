@@ -25,5 +25,6 @@
             android:layout_margin="16dp"
             android:contentDescription="Add new account"
             app:srcCompat="@drawable/ic_launcher_background"/>
+
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.pocketexpenses.entities;
 
+import android.media.Image;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -24,6 +26,8 @@ public class TransactionType {
 
     private String name;
 
+    private Integer ImageId;
+
     @ColumnInfo(name = "tran_dir_id")
     private int transactionDirectionId;
 
@@ -34,16 +38,18 @@ public class TransactionType {
 
     public TransactionType() {}
 
-    public TransactionType(String name, int transactionDirectionId) {
+    public TransactionType(String name, int transactionDirectionId, Integer ImageId) {
         this.name = name;
         this.transactionDirectionId = transactionDirectionId;
+        this.ImageId = ImageId;
     }
 
     @Ignore
-    public TransactionType(String name, int transactionDirectionId, List<TransactionSubtype> transactionSubtypeList) {
+    public TransactionType(String name, int transactionDirectionId, Integer ImageId, List<TransactionSubtype> transactionSubtypeList) {
         super();
         this.name = name;
         this.transactionDirectionId = transactionDirectionId;
+        this.ImageId = ImageId;
         this.transactionSubtypeList = transactionSubtypeList;
     }
 
@@ -75,6 +81,14 @@ public class TransactionType {
 
     public void setTransactionDirectionId(int transactionDirectionId) {
         this.transactionDirectionId = transactionDirectionId;
+    }
+
+    public Integer getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        ImageId = imageId;
     }
 
     public List<TransactionSubtype> getTransactionSubtypeList() {

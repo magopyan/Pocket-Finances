@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.ChooseAccountTypeActivity;
 import com.example.pocketexpenses.databinding.FragmentAccountEditBinding;
 import com.example.pocketexpenses.entities.Account;
@@ -122,7 +123,7 @@ public class AccountEditFragment extends Fragment implements View.OnClickListene
         double dBalance = Double.parseDouble(binding.balanceTextFieldEdit.getText().toString());
         String strAccountName = binding.nameTextFieldEdit.getText().toString();
 
-        Account editAccount = new Account(dBalance, strAccountName, oAccountType.getId());
+        Account editAccount = new Account(dBalance, strAccountName, oAccountType.getId(), R.drawable.ic_input_account);
         oAccountTypeViewModel.updateAccount(editAccount);
 
         listener.EditAccount(editAccount);

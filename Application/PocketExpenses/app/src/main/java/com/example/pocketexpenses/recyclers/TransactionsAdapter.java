@@ -74,6 +74,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
 
         holder.setTvTransactionSum(String.valueOf(oTransaction.getSum()));
         holder.setTvNote(oTransaction.getNote());
+        holder.setImage(oTransaction.getImageId());
 
         if(oListAccounts != null) {
             for(Account oAccount : oListAccounts){

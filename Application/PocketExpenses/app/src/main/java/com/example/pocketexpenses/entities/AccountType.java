@@ -16,19 +16,23 @@ public class AccountType {
 
     private String name;
 
+    private Integer ImageId;
+
     @Ignore
     private List<Account> oAccountsList = null;
 
     //////////////////////////
 
-    public AccountType(String name) {
+    public AccountType(String name, Integer ImageId) {
         this.name = name;
+        this.ImageId = ImageId;
     }
 
     public AccountType(AccountTypeWithAccounts oAccountTypeWithAccounts) {
         this.id = oAccountTypeWithAccounts.getAccountType().getId();
         this.name = oAccountTypeWithAccounts.getAccountType().getName();
         this.oAccountsList = oAccountTypeWithAccounts.getAccountList();
+        this.ImageId = oAccountTypeWithAccounts.getAccountType().getImageId();
     }
 
     public int getId() {
@@ -45,5 +49,13 @@ public class AccountType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        ImageId = imageId;
     }
 }

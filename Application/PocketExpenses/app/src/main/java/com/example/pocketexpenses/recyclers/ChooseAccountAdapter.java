@@ -51,6 +51,7 @@ public class ChooseAccountAdapter extends RecyclerView.Adapter<AccountViewHolder
         holder.setTvAccountName(account.getName());
         holder.setTvAccountType(accountTypeName);
         holder.setTvBalance(String.valueOf(account.getBalance()));
+        holder.setImage(account.getImageId());
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -38,6 +38,7 @@ public class ChooseAccountTypeAdapter extends RecyclerView.Adapter<AccountTypeVi
     public void onBindViewHolder(@NonNull AccountTypeViewHolder holder, int position) {
         AccountType oAccountType = oAccountTypes.get(position);
         holder.setAccountTypeName(oAccountType.getName());
+        holder.setImage(oAccountType.getImageId());
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override

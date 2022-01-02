@@ -55,6 +55,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         holder.setTvAccountName(account.getName());
         holder.setTvAccountType(accountTypeName);
         holder.setTvBalance(String.valueOf(account.getBalance()));
+        holder.setImage(account.getImageId());
 
         holder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

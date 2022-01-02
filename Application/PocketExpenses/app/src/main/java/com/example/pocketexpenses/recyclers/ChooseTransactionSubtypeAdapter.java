@@ -47,6 +47,7 @@ public class ChooseTransactionSubtypeAdapter extends RecyclerView.Adapter<Transa
     public void onBindViewHolder(@NonNull TransactionSubtypeViewHolder holder, int position) {
         TransactionSubtype transactionSubtype = oTransactionSubtypes.get(position);
         holder.setTvTranSubtypeName(transactionSubtype.getName());
+        holder.setImage(transactionSubtype.getImageId());
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override

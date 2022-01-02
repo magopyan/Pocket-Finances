@@ -1,5 +1,6 @@
 package com.example.pocketexpenses.entities;
 
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -29,6 +30,8 @@ public class Transaction implements Parcelable {
 
     private String note;
 
+    private Integer ImageId;
+
     @ColumnInfo(name = "account_id")
     private int accountId;
 
@@ -40,12 +43,13 @@ public class Transaction implements Parcelable {
 
     //////////////////////////
 
-    public Transaction(String date, double sum, String note, int accountId, int transactionSubtypeId) {
+    public Transaction(String date, double sum, String note, int accountId, int transactionSubtypeId, Integer ImageId) {
         this.date = date;
         this.sum = sum;
         this.note = note;
         this.accountId = accountId;
         this.transactionSubtypeId = transactionSubtypeId;
+        this.ImageId = ImageId;
     }
 
     protected Transaction(Parcel in) {
@@ -55,6 +59,11 @@ public class Transaction implements Parcelable {
         note = in.readString();
         accountId = in.readInt();
         transactionSubtypeId = in.readInt();
+        if (in.readByte() == 0) {
+            ImageId = null;
+        } else {
+            ImageId = in.readInt();
+        }
     }
 
     @Ignore
@@ -118,6 +127,14 @@ public class Transaction implements Parcelable {
         this.transactionSubtypeId = transactionSubtypeId;
     }
 
+    public Integer getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        ImageId = imageId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -131,5 +148,11 @@ public class Transaction implements Parcelable {
         dest.writeString(note);
         dest.writeInt(accountId);
         dest.writeInt(transactionSubtypeId);
+        if (ImageId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(ImageId);
+        }
     }
 }

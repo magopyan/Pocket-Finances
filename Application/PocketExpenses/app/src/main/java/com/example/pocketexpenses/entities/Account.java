@@ -25,6 +25,8 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
 
     private String name;
 
+    private Integer ImageId;
+
     @ColumnInfo(name = "acc_type_id")
     private int accountTypeId;
 
@@ -33,10 +35,11 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
     //////////////////////////
 
 
-    public Account(double balance, String name, int accountTypeId) {
+    public Account(double balance, String name, int accountTypeId, Integer ImageId) {
         this.balance = balance;
         this.name=name;
         this.accountTypeId = accountTypeId;
+        this.ImageId = ImageId;
     }
 
     protected Account(Parcel in) {
@@ -44,6 +47,11 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
         balance = in.readDouble();
         name = in.readString();
         accountTypeId = in.readInt();
+        if (in.readByte() == 0) {
+            ImageId = null;
+        } else {
+            ImageId = in.readInt();
+        }
     }
 
     public static final Creator<Account> CREATOR = new Creator<Account>() {
@@ -90,6 +98,14 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
         this.accountTypeId = accountTypeId;
     }
 
+    public Integer getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        ImageId = imageId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,5 +117,11 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
         dest.writeDouble(balance);
         dest.writeString(name);
         dest.writeInt(accountTypeId);
+        if (ImageId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(ImageId);
+        }
     }
 }

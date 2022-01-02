@@ -1,6 +1,7 @@
 package com.example.pocketexpenses.viewholders;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
     private TextView tvNote;
     private TextView tvAccountName;
     private TextView tvTransactionSubType;
+    private ImageView oImageView;
 
     public TransactionViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -23,6 +25,7 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
         tvNote = itemView.findViewById(R.id.tvNote);
         tvAccountName = itemView.findViewById(R.id.tvAccountNameInTransaction);
         tvTransactionSubType = itemView.findViewById(R.id.tvTransactionSubType);
+        oImageView = itemView.findViewById(R.id.transactionImageView);
     }
 
     public void setTvDate(String tvDate) {
@@ -43,6 +46,10 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
 
     public void setTvTransactionType(String tvTransactionType) {
         this.tvTransactionSubType.setText(tvTransactionType);
+    }
+
+    public void setImage(int imageId) {
+        this.oImageView.setImageResource(imageId);
     }
 
     public void setOnLongClickListener(View.OnLongClickListener listener) {

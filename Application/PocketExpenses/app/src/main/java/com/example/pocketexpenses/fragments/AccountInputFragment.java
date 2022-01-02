@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.AccountsActivity;
 import com.example.pocketexpenses.activities.ChooseAccountTypeActivity;
 import com.example.pocketexpenses.databinding.FragmentAccountInputBinding;
@@ -105,7 +106,7 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
             double dBalance = Double.parseDouble(binding.balanceTextField.getText().toString());
             String strAccountName = binding.nameTextField.getText().toString();
 
-            Account inputAccount = new Account(dBalance, strAccountName, chosenAccountType.getId());
+            Account inputAccount = new Account(dBalance, strAccountName, chosenAccountType.getId(), R.drawable.ic_input_account);
             oAccountTypeViewModel.insertAccount(inputAccount);
 
             Intent intent = new Intent(getContext(), AccountsActivity.class);
