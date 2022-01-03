@@ -27,6 +27,7 @@
             android:layout_marginTop="12dp"
             android:textSize="15dp"
             android:text="TextView"
+            android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
@@ -37,6 +38,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="5dp"
             android:textSize="15dp"
+            android:textColor="@color/black"
             android:text="TextView" />
     </LinearLayout>
 

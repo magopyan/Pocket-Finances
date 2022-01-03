@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
@@ -54,8 +55,15 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         }
         holder.setTvAccountName(account.getName());
         holder.setTvAccountType(accountTypeName);
-        holder.setTvBalance(String.valueOf(account.getBalance()));
         holder.setImage(account.getImageId());
+
+        double balance = account.getBalance();
+        if(balance < 0)
+            holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.red));
+        else if(balance > 0)
+            holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.green));
+        holder.setTvBalance(String.valueOf(balance));
+
 
         holder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

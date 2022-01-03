@@ -43,6 +43,14 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         this.oImageView.setImageResource(imageId);
     }
 
+    public TextView getBalanceTextView() {
+        return tvBalance;
+    }
+
+    public void setTvBalanceColor(int color) {
+        tvBalance.setTextColor(color);
+    }
+
     public void setOnLongClickListener(View.OnLongClickListener listener) {
         itemView.setOnLongClickListener(listener);
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,7 +73,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         else
             holder.setTvDate(date);
 
-        holder.setTvTransactionSum(String.valueOf(oTransaction.getSum()));
+        double transactionSum = oTransaction.getSum();
+        if(transactionSum < 0)
+            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
+        else if(transactionSum > 0)
+            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
+
+        holder.setTvTransactionSum(String.valueOf(transactionSum));
         holder.setTvNote(oTransaction.getNote());
         holder.setImage(oTransaction.getImageId());
 

@@ -52,6 +52,14 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
         this.oImageView.setImageResource(imageId);
     }
 
+    public void setTvTransactionSumColor(int color) {
+        this.tvTransactionSum.setTextColor(color);
+    }
+
+    public TextView getTransactionSumTextView() {
+        return tvTransactionSum;
+    }
+
     public void setOnLongClickListener(View.OnLongClickListener listener) {
         itemView.setOnLongClickListener(listener);
     }
