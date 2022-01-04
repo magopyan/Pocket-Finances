@@ -18,19 +18,26 @@ import java.util.List;
 public class TransactionTypeViewModel extends AndroidViewModel {
     private TransactionTypeRepository oTransactionTypeRepository;
     private LiveData<List<TransactionDirectionWithTypesAndSubtypes>> oLiveDataListAllTransactionDirectionWithTypesAndSubtypes;
+    private LiveData<List<TransactionDirection>> oLiveDataListAllTransactionDirections;
     private LiveData<List<TransactionTypeWithSubtypes>> oLiveDataListAllTransactionTypeWithSubtypes;
+    private LiveData<List<TransactionType>> oLiveDataListAllTransactionTypes;
     private LiveData<List<TransactionSubtype>> oLiveDataListAllTransactionSubtype;
 
     public TransactionTypeViewModel(@NonNull Application application) {
         super(application);
         oTransactionTypeRepository = new TransactionTypeRepository(application);
-        oLiveDataListAllTransactionDirectionWithTypesAndSubtypes = oTransactionTypeRepository.
-                getAllTransactionDirectionWithTypesAndSubtypes();
+        oLiveDataListAllTransactionDirectionWithTypesAndSubtypes = oTransactionTypeRepository.getAllTransactionDirectionWithTypesAndSubtypes();
+        oLiveDataListAllTransactionDirections = oTransactionTypeRepository.getAllTransactionDirections();
         oLiveDataListAllTransactionTypeWithSubtypes = oTransactionTypeRepository.getAllTransactionTypeWithSubtypes();
+        oLiveDataListAllTransactionTypes = oTransactionTypeRepository.getAllTransactionTypes();
         oLiveDataListAllTransactionSubtype = oTransactionTypeRepository.getAllTransactionSubtype();
     }
 
-    public TransactionDirectionWithTypesAndSubtypes getTransactionDirectionByID(int nID){
+    public LiveData<TransactionDirectionWithTypesAndSubtypes> getTransactionDirectionWithTypesAndSubtypesByID(int nID){
+        return oTransactionTypeRepository.getTransactionDirectionWithTypesAndSubtypesByID(nID);
+    }
+
+    public LiveData<TransactionDirection> getTransactionDirectionByID(int nID){
         return oTransactionTypeRepository.getTransactionDirectionByID(nID);
     }
 
@@ -54,7 +61,15 @@ public class TransactionTypeViewModel extends AndroidViewModel {
         return oLiveDataListAllTransactionDirectionWithTypesAndSubtypes;
     }
 
-    public TransactionTypeWithSubtypes getTransactionTypeByID(int nID){
+    public LiveData<List<TransactionDirection>> getAllTransactionDirections(){
+        return oLiveDataListAllTransactionDirections;
+    }
+
+    public LiveData<TransactionTypeWithSubtypes> getTransactionTypeWithSubtypesByID(int nID){
+        return oTransactionTypeRepository.getTransactionTypeWithSubtypesByID(nID);
+    }
+
+    public LiveData<TransactionType> getTransactionTypeByID(int nID){
         return oTransactionTypeRepository.getTransactionTypeByID(nID);
     }
 
@@ -78,7 +93,11 @@ public class TransactionTypeViewModel extends AndroidViewModel {
         return oLiveDataListAllTransactionTypeWithSubtypes;
     }
 
-    public TransactionSubtype getTransactionSubtypeByID(int nID) throws InterruptedException {
+    public LiveData<List<TransactionType>> getAllTransactionTypes(){
+        return oLiveDataListAllTransactionTypes;
+    }
+
+    public LiveData<TransactionSubtype> getTransactionSubtypeByID(int nID) {
         return oTransactionTypeRepository.getTransactionSubtypeByID(nID);
     }
 
@@ -98,7 +117,7 @@ public class TransactionTypeViewModel extends AndroidViewModel {
         oTransactionTypeRepository.deleteAllTransactionSubtype();
     }
 
-    public LiveData<List<TransactionSubtype>> getAllTransactionSubtype(){
+    public LiveData<List<TransactionSubtype>> getAllTransactionSubtypes(){
         return oLiveDataListAllTransactionSubtype;
     }
 }

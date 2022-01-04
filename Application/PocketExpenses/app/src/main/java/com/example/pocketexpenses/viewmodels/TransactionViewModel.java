@@ -27,7 +27,7 @@ public class TransactionViewModel extends AndroidViewModel {
         oLiveDataListAllTransactionSubtypesWithTransactions = oTransactionRepository.getAllTransactionSubtypesWithTransactions();
     }
 
-    public Transaction getTransactionByID(int nID){
+    public LiveData<Transaction> getTransactionByID(int nID){
         return oTransactionRepository.getTransactionByID(nID);
     }
 
@@ -59,11 +59,11 @@ public class TransactionViewModel extends AndroidViewModel {
         return oLiveDataListAllTransactionSubtypesWithTransactions;
     }
 
-    public AccountWithTransactions getAccountWithTransactionByID(int nID){
+    public LiveData<AccountWithTransactions> getAccountWithTransactionByID(int nID){
         return oTransactionRepository.getAccountWithTransactionByID(nID);
     }
 
-    public TransactionSubtypeWithTransactions getTransactionSubtypeWithTransactionsByID(int nID){
+    public LiveData<TransactionSubtypeWithTransactions> getTransactionSubtypeWithTransactionsByID(int nID){
         return oTransactionRepository.getTransactionSubtypeWithTransactionsByID(nID);
     }
 }

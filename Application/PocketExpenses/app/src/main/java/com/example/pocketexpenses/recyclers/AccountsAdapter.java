@@ -13,7 +13,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketexpenses.R;
+import com.example.pocketexpenses.activities.AccountInputActivity;
 import com.example.pocketexpenses.activities.AccountsEditActivity;
+import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.AccountType;
@@ -75,11 +77,17 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.edit:
-                                Intent intent = new Intent(v.getContext(), AccountsEditActivity.class);
-                                intent.putExtra("topBarTitle", "Add Account");
-                                intent.putExtra("AccountItem", account);
-                                v.getContext().startActivity(intent);
-                                //tempActivity.startActivityForResult(intent, REQUEST_EDIT_CODE);
+                                //Intent intent = new Intent(v.getContext(), AccountsEditActivity.class); // mojem da preizpolzvame AccountInputActivity
+                                Intent intent = new Intent(v.getContext(), AccountInputActivity.class);
+                                intent.putExtra("topBarTitle", "Edit Account");
+
+                                // Ne e podhodqshto v intenta da se slaga. Vmesto tova polzvai AccountInputVM.setAccount(account) i
+                                // posle v InputFragment ako AccInputVM.getAccount.observe(......) != null, set-ni poletata ot tozi account
+                                //intent.putExtra("AccountItem", account);
+
+                                // oAccountInputVM.setAccount(account); !!!
+                                v.getContext().startActivity(intent); // tova veche raboti
+
                                 return true;
                             case R.id.delete:
                                 oViewModel.deleteAccount(account);

@@ -19,8 +19,11 @@ import java.util.List;
 public class TransactionTypeRepository {
     private TransactionTypeDao oTransactionTypeDao;
     private LiveData<List<TransactionDirectionWithTypesAndSubtypes>> oLiveDataListAllTransactionDirectionWithTypesAndSubtypes;
+    private LiveData<List<TransactionDirection>> oLiveDataListAllTransactionDirections;
     private LiveData<List<TransactionTypeWithSubtypes>> oLiveDataListAllTransactionTypeWithSubtypes;
+    private LiveData<List<TransactionType>> oLiveDataListAllTransactionTypes;
     private LiveData<List<TransactionSubtype>> oLiveDataListAllTransactionSubtype;
+
 
     public TransactionTypeRepository(Application application) {
         AppDatabase oAppDatabase = AppDatabase.getInstance(application);
@@ -28,7 +31,9 @@ public class TransactionTypeRepository {
         oTransactionTypeDao = oAppDatabase.transactionTypeDao();
 
         oLiveDataListAllTransactionDirectionWithTypesAndSubtypes = oTransactionTypeDao.getAllTransactionDirectionWithTypesAndSubtypes();
+        oLiveDataListAllTransactionDirections = oTransactionTypeDao.getAllTransactionDirections();
         oLiveDataListAllTransactionTypeWithSubtypes = oTransactionTypeDao.getAllTransactionTypeWithSubtypes();
+        oLiveDataListAllTransactionTypes = oTransactionTypeDao.getAllTransactionTypes();
         oLiveDataListAllTransactionSubtype = oTransactionTypeDao.getAllTransactionSubtype();
     }
 
@@ -36,18 +41,28 @@ public class TransactionTypeRepository {
         return oLiveDataListAllTransactionDirectionWithTypesAndSubtypes;
     }
 
+    public LiveData<List<TransactionDirection>> getAllTransactionDirections() {
+        return oLiveDataListAllTransactionDirections;
+    }
+
     public LiveData<List<TransactionTypeWithSubtypes>> getAllTransactionTypeWithSubtypes() {
         return oLiveDataListAllTransactionTypeWithSubtypes;
+    }
+
+    public LiveData<List<TransactionType>> getAllTransactionTypes() {
+        return oLiveDataListAllTransactionTypes;
     }
 
     public LiveData<List<TransactionSubtype>> getAllTransactionSubtype() {
         return oLiveDataListAllTransactionSubtype;
     }
 
-    public TransactionDirectionWithTypesAndSubtypes getTransactionDirectionByID(int nID){
-        new getTransactionDirectionByIDAsyncTask(oTransactionTypeDao).execute(nID);
-        //new getTransactionDirectionByIDAsyncTask(oTransactionTypeDao).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, nID); -sushto ne raboti
-        return getTransactionDirectionByIDAsyncTask.getTransactionDirectionWithTypesAndSubtypes();
+    public LiveData<TransactionDirectionWithTypesAndSubtypes> getTransactionDirectionWithTypesAndSubtypesByID(int nID){
+        return oTransactionTypeDao.getDirectionWithTypesAndSubtypesById(nID);
+    }
+
+    public LiveData<TransactionDirection> getTransactionDirectionByID(int nID){
+        return oTransactionTypeDao.getDirectionById(nID);
     }
 
     public int insertTransactionDirection(TransactionDirection oTransactionDirection){
@@ -67,9 +82,12 @@ public class TransactionTypeRepository {
         new DeleteAllTransactionDirectionAsyncTask(oTransactionTypeDao).execute();
     }
 
-    public TransactionTypeWithSubtypes getTransactionTypeByID(int nID){
-        new getTransactionTypeByIDAsyncTask(oTransactionTypeDao).execute(nID);
-        return getTransactionTypeByIDAsyncTask.getTransactionTypeWithSubtypes();
+    public LiveData<TransactionTypeWithSubtypes> getTransactionTypeWithSubtypesByID(int nID){
+        return oTransactionTypeDao.getTypeWithSubtypesById(nID);
+    }
+
+    public LiveData<TransactionType> getTransactionTypeByID(int nID){
+        return oTransactionTypeDao.getTypeById(nID);
     }
 
     public int insertTransactionType(TransactionType oTransactionType){
@@ -89,23 +107,9 @@ public class TransactionTypeRepository {
         new DeleteAllTransactionTypeAsyncTask(oTransactionTypeDao).execute();
     }
 
-    public TransactionSubtype getTransactionSubtypeByID(int nID) {
-        new getTransactionSubtypeByIDAsyncTask(oTransactionTypeDao).execute(nID);
-        return getTransactionSubtypeByIDAsyncTask.getTransactionSubtype();
+    public LiveData<TransactionSubtype> getTransactionSubtypeByID(int nID) {
+        return oTransactionTypeDao.getSubtypeById(nID);
     }
-
-//    public TransactionSubtype getTransactionSubtypeByID(int nID) {  - I tova ne raboti
-//
-//        final TransactionSubtype[] subtype = {null};
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                subtype[0] = oTransactionTypeDao.getSubtypeById(nID);
-//                Log.i("Returned subtype: ", subtype[0].toString());
-//            }
-//        });
-//        return subtype[0];
-//    }
 
     public int insertTransactionSubtype(TransactionSubtype oTransactionSubtype){
         new InsertTransactionSubtypeAsyncTask(oTransactionTypeDao).execute(oTransactionSubtype);
@@ -124,29 +128,29 @@ public class TransactionTypeRepository {
         new DeleteAllTransactionSubtypeAsyncTask(oTransactionTypeDao).execute();
     }
 
-    private static class getTransactionDirectionByIDAsyncTask extends AsyncTask<Integer, Void, TransactionDirectionWithTypesAndSubtypes> {
-        private TransactionTypeDao oTransactionTypeDao;
-        private static TransactionDirectionWithTypesAndSubtypes oTransactionDirectionWithTypesAndSubtypes;
-
-        private getTransactionDirectionByIDAsyncTask(TransactionTypeDao oTransactionTypeDao){
-            this.oTransactionTypeDao = oTransactionTypeDao;
-        }
-
-        @Override
-        protected TransactionDirectionWithTypesAndSubtypes doInBackground(Integer... integers) {
-            Log.i("doInBackground() executed", "doInBackground() executed");
-            return oTransactionTypeDao.getDirectionById(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(TransactionDirectionWithTypesAndSubtypes oTransactionDirectionWithTypesAndSubtypes) {
-            this.oTransactionDirectionWithTypesAndSubtypes = oTransactionDirectionWithTypesAndSubtypes;
-        }
-
-        public static TransactionDirectionWithTypesAndSubtypes getTransactionDirectionWithTypesAndSubtypes() {
-            return oTransactionDirectionWithTypesAndSubtypes;
-        }
-    }
+//    private static class getTransactionDirectionByIDAsyncTask extends AsyncTask<Integer, Void, TransactionDirectionWithTypesAndSubtypes> {
+//        private TransactionTypeDao oTransactionTypeDao;
+//        private static TransactionDirectionWithTypesAndSubtypes oTransactionDirectionWithTypesAndSubtypes;
+//
+//        private getTransactionDirectionByIDAsyncTask(TransactionTypeDao oTransactionTypeDao){
+//            this.oTransactionTypeDao = oTransactionTypeDao;
+//        }
+//
+//        @Override
+//        protected TransactionDirectionWithTypesAndSubtypes doInBackground(Integer... integers) {
+//            Log.i("doInBackground() executed", "doInBackground() executed");
+//            return oTransactionTypeDao.getDirectionById(integers[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(TransactionDirectionWithTypesAndSubtypes oTransactionDirectionWithTypesAndSubtypes) {
+//            this.oTransactionDirectionWithTypesAndSubtypes = oTransactionDirectionWithTypesAndSubtypes;
+//        }
+//
+//        public static TransactionDirectionWithTypesAndSubtypes getTransactionDirectionWithTypesAndSubtypes() {
+//            return oTransactionDirectionWithTypesAndSubtypes;
+//        }
+//    }
 
     private static class InsertTransactionDirectionAsyncTask extends AsyncTask<TransactionDirection, Void, Long>{
         private TransactionTypeDao oTransactionTypeDao;
@@ -213,28 +217,28 @@ public class TransactionTypeRepository {
         }
     }
 
-    private static class getTransactionTypeByIDAsyncTask extends AsyncTask<Integer, Void, TransactionTypeWithSubtypes> {
-        private TransactionTypeDao oTransactionTypeDao;
-        private static TransactionTypeWithSubtypes oTransactionTypeWithSubtypes;
-
-        private getTransactionTypeByIDAsyncTask(TransactionTypeDao oTransactionTypeDao){
-            this.oTransactionTypeDao = oTransactionTypeDao;
-        }
-
-        @Override
-        protected TransactionTypeWithSubtypes doInBackground(Integer... integers) {
-            return oTransactionTypeDao.getTypeById(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(TransactionTypeWithSubtypes oTransactionTypeWithSubtypes) {
-            this.oTransactionTypeWithSubtypes = oTransactionTypeWithSubtypes;
-        }
-
-        public static TransactionTypeWithSubtypes getTransactionTypeWithSubtypes() {
-            return oTransactionTypeWithSubtypes;
-        }
-    }
+//    private static class getTransactionTypeByIDAsyncTask extends AsyncTask<Integer, Void, TransactionTypeWithSubtypes> {
+//        private TransactionTypeDao oTransactionTypeDao;
+//        private static TransactionTypeWithSubtypes oTransactionTypeWithSubtypes;
+//
+//        private getTransactionTypeByIDAsyncTask(TransactionTypeDao oTransactionTypeDao){
+//            this.oTransactionTypeDao = oTransactionTypeDao;
+//        }
+//
+//        @Override
+//        protected LiveData<TransactionTypeWithSubtypes> doInBackground(Integer... integers) {
+//            return oTransactionTypeDao.getTypeWithSubtypesById(integers[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(TransactionTypeWithSubtypes oTransactionTypeWithSubtypes) {
+//            this.oTransactionTypeWithSubtypes = oTransactionTypeWithSubtypes;
+//        }
+//
+//        public static TransactionTypeWithSubtypes getTransactionTypeWithSubtypes() {
+//            return oTransactionTypeWithSubtypes;
+//        }
+//    }
 
     private static class InsertTransactionTypeAsyncTask extends AsyncTask<TransactionType, Void, Long>{
         private TransactionTypeDao oTransactionTypeDao;
@@ -301,30 +305,30 @@ public class TransactionTypeRepository {
         }
     }
 
-    private static class getTransactionSubtypeByIDAsyncTask extends AsyncTask<Integer, Void, TransactionSubtype> {
-        private TransactionTypeDao oTransactionTypeDao;
-        private static TransactionSubtype oTransactionSubtype;
-
-        private getTransactionSubtypeByIDAsyncTask(TransactionTypeDao oTransactionTypeDao){
-            this.oTransactionTypeDao = oTransactionTypeDao;
-        }
-
-        @Override
-        protected TransactionSubtype doInBackground(Integer... integers) {
-            Log.i("doInBackground() executed", "doInBackground() start");
-            return oTransactionTypeDao.getSubtypeById(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(TransactionSubtype oTransactionSubtype) {
-            Log.i("doInBackground() executed", "doInBackground() finish");
-            this.oTransactionSubtype = oTransactionSubtype;
-        }
-
-        public static TransactionSubtype getTransactionSubtype() {
-            return oTransactionSubtype;
-        }
-    }
+//    private static class getTransactionSubtypeByIDAsyncTask extends AsyncTask<Integer, Void, TransactionSubtype> {
+//        private TransactionTypeDao oTransactionTypeDao;
+//        private static TransactionSubtype oTransactionSubtype;
+//
+//        private getTransactionSubtypeByIDAsyncTask(TransactionTypeDao oTransactionTypeDao){
+//            this.oTransactionTypeDao = oTransactionTypeDao;
+//        }
+//
+//        @Override
+//        protected TransactionSubtype doInBackground(Integer... integers) {
+//            Log.i("doInBackground() executed", "doInBackground() start");
+//            return oTransactionTypeDao.getSubtypeById(integers[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(TransactionSubtype oTransactionSubtype) {
+//            Log.i("doInBackground() executed", "doInBackground() finish");
+//            this.oTransactionSubtype = oTransactionSubtype;
+//        }
+//
+//        public static TransactionSubtype getTransactionSubtype() {
+//            return oTransactionSubtype;
+//        }
+//    }
 
     private static class InsertTransactionSubtypeAsyncTask extends AsyncTask<TransactionSubtype, Void, Long>{
         private TransactionTypeDao oTransactionTypeDao;

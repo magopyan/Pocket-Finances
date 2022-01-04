@@ -41,9 +41,8 @@ public class TransactionRepository {
         return oLiveDataListAllTransactionSubtypesWithTransactions;
     }
 
-    public Transaction getTransactionByID(int nID){
-        new getTransactionByIDAsyncTask(oTransactionDao).execute(nID);
-        return getTransactionByIDAsyncTask.getTransaction();
+    public LiveData<Transaction> getTransactionByID(int nID){
+        return oTransactionDao.getTransactionByID(nID);
     }
 
     public int insertTransaction(Transaction oTransaction){
@@ -63,14 +62,12 @@ public class TransactionRepository {
         new DeleteAllTransactionsAsyncTask(oTransactionDao).execute();
     }
 
-    public AccountWithTransactions getAccountWithTransactionByID(int nID){
-        new getAccountWithTransactionByIDAsyncTask(oTransactionDao).execute(nID);
-        return getAccountWithTransactionByIDAsyncTask.getAccountWithTransactions();
+    public LiveData<AccountWithTransactions> getAccountWithTransactionByID(int nID){
+        return oTransactionDao.getAccountWithTransactionByID(nID);
     }
 
-    public TransactionSubtypeWithTransactions getTransactionSubtypeWithTransactionsByID(int nID){
-        new getTransactionSubtypeWithTransactionsByIDAsyncTask(oTransactionDao).execute(nID);
-        return getTransactionSubtypeWithTransactionsByIDAsyncTask.getTransactionSubtypeWithTransactions();
+    public LiveData<TransactionSubtypeWithTransactions> getTransactionSubtypeWithTransactionsByID(int nID){
+        return oTransactionDao.getTransactionSubtypesWithTransactionsByID(nID);
     }
 
     private static class InsertTransactionAsyncTask extends AsyncTask<Transaction, Void, Long> {
@@ -138,72 +135,72 @@ public class TransactionRepository {
         }
     }
 
-    private static class getTransactionByIDAsyncTask extends AsyncTask<Integer, Void, Transaction>{
-        private TransactionDao oTransactionDao;
-        private static Transaction oTransaction;
+//    private static class getTransactionByIDAsyncTask extends AsyncTask<Integer, Void, Transaction>{
+//        private TransactionDao oTransactionDao;
+//        private static Transaction oTransaction;
+//
+//        private getTransactionByIDAsyncTask(TransactionDao oTransactionDao){
+//            this.oTransactionDao = oTransactionDao;
+//        }
+//
+//        @Override
+//        protected Transaction doInBackground(Integer... integers) {
+//            return oTransactionDao.getTransactionByID(integers[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Transaction oTransaction) {
+//            this.oTransaction = oTransaction;
+//        }
+//
+//        public static Transaction getTransaction() {
+//            return oTransaction;
+//        }
+//    }
 
-        private getTransactionByIDAsyncTask(TransactionDao oTransactionDao){
-            this.oTransactionDao = oTransactionDao;
-        }
+//    private static class getAccountWithTransactionByIDAsyncTask extends AsyncTask<Integer, Void, AccountWithTransactions>{
+//        private TransactionDao oTransactionDao;
+//        private static AccountWithTransactions oAccountWithTransactions;
+//
+//        private getAccountWithTransactionByIDAsyncTask(TransactionDao oTransactionDao){
+//            this.oTransactionDao = oTransactionDao;
+//        }
+//
+//        @Override
+//        protected AccountWithTransactions doInBackground(Integer... integers) {
+//            return oTransactionDao.getAccountWithTransactionByID(integers[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(AccountWithTransactions oAccountWithTransactions) {
+//            this.oAccountWithTransactions = oAccountWithTransactions;
+//        }
+//
+//        public static AccountWithTransactions getAccountWithTransactions() {
+//            return oAccountWithTransactions;
+//        }
+//    }
 
-        @Override
-        protected Transaction doInBackground(Integer... integers) {
-            return oTransactionDao.getTransactionByID(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Transaction oTransaction) {
-            this.oTransaction = oTransaction;
-        }
-
-        public static Transaction getTransaction() {
-            return oTransaction;
-        }
-    }
-
-    private static class getAccountWithTransactionByIDAsyncTask extends AsyncTask<Integer, Void, AccountWithTransactions>{
-        private TransactionDao oTransactionDao;
-        private static AccountWithTransactions oAccountWithTransactions;
-
-        private getAccountWithTransactionByIDAsyncTask(TransactionDao oTransactionDao){
-            this.oTransactionDao = oTransactionDao;
-        }
-
-        @Override
-        protected AccountWithTransactions doInBackground(Integer... integers) {
-            return oTransactionDao.getAccountWithTransactionByID(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(AccountWithTransactions oAccountWithTransactions) {
-            this.oAccountWithTransactions = oAccountWithTransactions;
-        }
-
-        public static AccountWithTransactions getAccountWithTransactions() {
-            return oAccountWithTransactions;
-        }
-    }
-
-    private static class getTransactionSubtypeWithTransactionsByIDAsyncTask extends AsyncTask<Integer, Void, TransactionSubtypeWithTransactions>{
-        private TransactionDao oTransactionDao;
-        private static TransactionSubtypeWithTransactions oTransactionSubtypeWithTransactions;
-
-        private getTransactionSubtypeWithTransactionsByIDAsyncTask(TransactionDao oTransactionDao){
-            this.oTransactionDao = oTransactionDao;
-        }
-
-        @Override
-        protected TransactionSubtypeWithTransactions doInBackground(Integer... integers) {
-            return oTransactionDao.getTransactionSubtypesWithTransactionsByID(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(TransactionSubtypeWithTransactions oTransactionSubtypeWithTransactions) {
-            this.oTransactionSubtypeWithTransactions = oTransactionSubtypeWithTransactions;
-        }
-
-        public static TransactionSubtypeWithTransactions getTransactionSubtypeWithTransactions() {
-            return oTransactionSubtypeWithTransactions;
-        }
-    }
+//    private static class getTransactionSubtypeWithTransactionsByIDAsyncTask extends AsyncTask<Integer, Void, TransactionSubtypeWithTransactions>{
+//        private TransactionDao oTransactionDao;
+//        private static TransactionSubtypeWithTransactions oTransactionSubtypeWithTransactions;
+//
+//        private getTransactionSubtypeWithTransactionsByIDAsyncTask(TransactionDao oTransactionDao){
+//            this.oTransactionDao = oTransactionDao;
+//        }
+//
+//        @Override
+//        protected TransactionSubtypeWithTransactions doInBackground(Integer... integers) {
+//            return oTransactionDao.getTransactionSubtypesWithTransactionsByID(integers[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(TransactionSubtypeWithTransactions oTransactionSubtypeWithTransactions) {
+//            this.oTransactionSubtypeWithTransactions = oTransactionSubtypeWithTransactions;
+//        }
+//
+//        public static TransactionSubtypeWithTransactions getTransactionSubtypeWithTransactions() {
+//            return oTransactionSubtypeWithTransactions;
+//        }
+//    }
 }

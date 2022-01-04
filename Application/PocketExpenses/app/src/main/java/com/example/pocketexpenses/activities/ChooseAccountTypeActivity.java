@@ -17,6 +17,7 @@ import com.example.pocketexpenses.recyclers.ChooseAccountTypeAdapter;
 import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseAccountTypeActivity extends AppCompatActivity implements OnAccountTypeClickListener {
@@ -41,10 +42,10 @@ public class ChooseAccountTypeActivity extends AppCompatActivity implements OnAc
         ChooseAccountTypeAdapter adapter = new ChooseAccountTypeAdapter(oAccountTypeViewModel, this::onClickAccountType);
 
         oAccountTypeViewModel.getAllAccountTypes().observe(this, new Observer<List<AccountType>>() {
-            @Override
-            public void onChanged(List<AccountType> oListAccountType) {
-                adapter.setData(oListAccountType);
-            }
+                    @Override
+                    public void onChanged(List<AccountType> accountTypes) {
+                        adapter.setData(accountTypes);
+                    }
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         oAccountTypesRV.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));

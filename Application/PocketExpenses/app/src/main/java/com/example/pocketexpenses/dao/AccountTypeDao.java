@@ -61,22 +61,22 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
     LiveData<List<AccountType>> getAllAccountTypes();
 
     @Transaction
-    @Query("SELECT * FROM account_type WHERE id = :arg0")
-    LiveData<List<AccountType>> getAccountTypeByID(int arg0);
+    @Query("SELECT * FROM account_type WHERE id = :arg0 LIMIT 1")
+    LiveData<AccountType> getAccountTypeByID(int arg0);
 
     @Transaction
     @Query("SELECT * FROM account")
-    LiveData<List<Account>> getAllAccounts();  // N
+    LiveData<List<Account>> getAllAccounts();
 
     @Transaction
     @Query("SELECT * FROM account WHERE id = :arg0 LIMIT 1")
-    Account getAccountByID(int arg0);
+    LiveData<Account> getAccountByID(int arg0);
 
     @Transaction
     @Query("SELECT * FROM account_type")
     LiveData<List<AccountTypeWithAccounts>> getAllAccountTypesWithAccounts();
 
     @Transaction
-    @Query("SELECT * FROM account_type where id = :arg0")
+    @Query("SELECT * FROM account_type where id = :arg0 LIMIT 1")
     LiveData<AccountTypeWithAccounts> getAccountTypeWithAccountsById(int arg0);
 }

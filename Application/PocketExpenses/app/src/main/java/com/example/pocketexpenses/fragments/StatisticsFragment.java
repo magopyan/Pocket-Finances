@@ -19,14 +19,11 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.ChooseAccountActivity;
-import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
 import com.example.pocketexpenses.databinding.FragmentStatisticsBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.entities.TransactionSubtype;
-import com.example.pocketexpenses.recyclers.TransactionsAdapter;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
@@ -127,7 +124,7 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        oTransactionTypeViewModel.getAllTransactionSubtype().observe(getViewLifecycleOwner(), new Observer<List<TransactionSubtype>>() {
+        oTransactionTypeViewModel.getAllTransactionSubtypes().observe(getViewLifecycleOwner(), new Observer<List<TransactionSubtype>>() {
             @Override
             public void onChanged(@Nullable final List<TransactionSubtype> oListTransactionSubtypes) {
                 m_oListTransactionSubtypes = oListTransactionSubtypes;

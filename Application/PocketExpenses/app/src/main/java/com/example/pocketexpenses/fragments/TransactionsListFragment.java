@@ -100,7 +100,7 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
                 adapter.setTransactionsData(oListTransactions);
             }
         });
-        oTransactionTypeViewModel.getAllTransactionSubtype().observe(getViewLifecycleOwner(), new Observer<List<TransactionSubtype>>() {
+        oTransactionTypeViewModel.getAllTransactionSubtypes().observe(getViewLifecycleOwner(), new Observer<List<TransactionSubtype>>() {
             @Override
             public void onChanged(@Nullable final List<TransactionSubtype> oListTransactionSubtypes) {
                 adapter.setTransactionSubtypesData(oListTransactionSubtypes);
