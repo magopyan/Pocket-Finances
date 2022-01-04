@@ -108,11 +108,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.edit:
-                                boolean isExpense = setTransactionInputData(v, oTransaction);
-                                Intent intent = new Intent(v.getContext(), TransactionInputActivity.class);
-                                intent.putExtra("topBarTitle", "Edit Expense"); // ???
-                                // How to find if expense or Income ???
-                                intent.putExtra("Edit Transaction", oTransaction);
+//                                boolean isExpense = setTransactionInputData(v, oTransaction);
+//                                Intent intent = new Intent(v.getContext(), TransactionInputActivity.class);
+//                                intent.putExtra("topBarTitle", "Edit Expense"); // ???
+//                                // How to find if expense or Income ???
+//                                intent.putExtra("Edit Transaction", oTransaction);
 
                                 return true;
                             case R.id.delete:
@@ -143,13 +143,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
     }
 
 
-    private boolean setTransactionInputData(View view, Transaction transaction)
-    {
-        Account account = oAccountTypeVM.getAccountByID(transaction.getAccountId());
-        oTransactionInputVM.setAccount(account);
-        oTransactionInputVM.setTransaction(transaction);
-        return true;
-    }
+//    private boolean setTransactionInputData(View view, Transaction transaction)
+//    {
+//        Account account = oAccountTypeVM.getAccountByID(transaction.getAccountId());
+//        oTransactionInputVM.setAccount(account);
+//        oTransactionInputVM.setTransaction(transaction);
+//        return true;
+//    }
 
     @Override
     public int getItemCount() {

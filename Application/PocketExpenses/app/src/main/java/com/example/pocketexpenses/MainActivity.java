@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(view); // promeneno ot default-a
 
         createDatabase();
-        /* NE IZTRIVAI */ TransactionSubtype dummyToCreateDatabase = new TransactionTypeRepository(getApplication()).getTransactionSubtypeByID(1);
+        /* NE IZTRIVAI */ // TransactionSubtype dummyToCreateDatabase = new TransactionTypeRepository(getApplication()).getTransactionSubtypeByID(1);
 
         oAccountTypeVM = new ViewModelProvider(this).get(AccountTypeViewModel.class);
         //////////////////

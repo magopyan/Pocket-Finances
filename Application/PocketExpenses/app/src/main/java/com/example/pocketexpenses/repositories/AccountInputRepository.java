@@ -32,6 +32,9 @@ public class AccountInputRepository {
         return oAccount;
     }
     public void setAccount(Account oAccountArg) {
+        if(oAccount == null) {
+            oAccount = new MutableLiveData<>();
+        }
         oAccount.setValue(oAccountArg);
     }
 
@@ -42,6 +45,9 @@ public class AccountInputRepository {
         return oAccountType;
     }
     public void setAccountType(AccountType oAccountTypeArg) {
+        if(oAccountType == null) {
+            oAccountType = new MutableLiveData<>();
+        }
         oAccountType.setValue(oAccountTypeArg);
     }
 

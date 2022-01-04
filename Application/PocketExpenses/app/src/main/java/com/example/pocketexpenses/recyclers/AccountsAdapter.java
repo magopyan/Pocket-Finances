@@ -29,12 +29,14 @@ import java.util.List;
 public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
 
     private AccountTypeViewModel oViewModel;
+    private AccountInputViewModel oAccountInputVM;
 
     private List<AccountTypeWithAccounts> oAccountTypesWithAccounts;
     private List<Account> oAccountsList;
 
-    public AccountsAdapter(AccountTypeViewModel viewModel) {
-        this.oViewModel = viewModel;
+    public AccountsAdapter(AccountTypeViewModel oViewModel, AccountInputViewModel oAccountInputVM) {
+        this.oViewModel = oViewModel;
+        this.oAccountInputVM = oAccountInputVM;
     }
 
     @NonNull
@@ -85,7 +87,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
                                 // posle v InputFragment ako AccInputVM.getAccount.observe(......) != null, set-ni poletata ot tozi account
                                 //intent.putExtra("AccountItem", account);
 
-                                // oAccountInputVM.setAccount(account); !!!
+                                oAccountInputVM.setAccount(account);
                                 v.getContext().startActivity(intent); // tova veche raboti
 
                                 return true;

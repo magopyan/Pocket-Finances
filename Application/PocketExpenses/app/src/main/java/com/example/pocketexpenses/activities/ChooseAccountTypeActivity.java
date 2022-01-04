@@ -51,6 +51,13 @@ public class ChooseAccountTypeActivity extends AppCompatActivity implements OnAc
         oAccountTypesRV.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
         oAccountTypesRV.setLayoutManager(layoutManager);
         oAccountTypesRV.setAdapter(adapter);
+
+        binding.topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

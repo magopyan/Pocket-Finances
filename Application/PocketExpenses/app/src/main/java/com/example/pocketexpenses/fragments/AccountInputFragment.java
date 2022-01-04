@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
     private FragmentAccountInputBinding binding;
     private AccountInputViewModel oAccountTypeInputVM;
     private AccountTypeViewModel oAccountTypeViewModel;
+    private boolean isAccountEdit;
+    private Account accountForEdit;
 
     private AccountType chosenAccountType;
 
@@ -76,8 +79,28 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        isAccountEdit = false;
+
         oAccountTypeViewModel = new ViewModelProvider(requireActivity()).get(AccountTypeViewModel.class);
         oAccountTypeInputVM = new ViewModelProvider(requireActivity()).get(AccountInputViewModel.class);
+
+        oAccountTypeInputVM.getAccount().observe(getViewLifecycleOwner(), item -> {
+            if(item != null) {  // Ako sme izbrali Edit za nqkoi adapter, t.e sme zapazili ot adaptera izbraniq Account v InputRepository
+                isAccountEdit = true;
+                accountForEdit = item;
+
+                binding.nameTextField.setText(item.getName());
+                binding.balanceTextField.setText(String.valueOf(item.getBalance()));
+                // Observe i na AccountType s ID-to ot Account, za da set-nem TextBoxa i sushto v InputRepository
+                oAccountTypeViewModel.getAccountTypeByID(item.getAccountTypeId()).observe(getViewLifecycleOwner(), new Observer<AccountType>() {
+                    @Override
+                    public void onChanged(AccountType accountType) {
+                        binding.accountTypeTextField.setText(accountType.getName());
+                        oAccountTypeInputVM.setAccountType(accountType);
+                    }
+                });
+            }
+        });
 
         oAccountTypeInputVM.getAccountType().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
@@ -106,8 +129,17 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
             double dBalance = Double.parseDouble(binding.balanceTextField.getText().toString());
             String strAccountName = binding.nameTextField.getText().toString();
 
-            Account inputAccount = new Account(dBalance, strAccountName, chosenAccountType.getId(), R.drawable.ic_input_account);
-            oAccountTypeViewModel.insertAccount(inputAccount);
+            if(isAccountEdit == false) {
+                Account newAccount = new Account(dBalance, strAccountName, chosenAccountType.getId(), R.drawable.ic_input_account);
+                oAccountTypeViewModel.insertAccount(newAccount);
+            }
+            else {
+                accountForEdit.setBalance(dBalance);
+                accountForEdit.setName(strAccountName);
+                accountForEdit.setAccountTypeId(chosenAccountType.getId());
+                accountForEdit.setImageId(R.drawable.ic_input_account);
+                oAccountTypeViewModel.updateAccount(accountForEdit);
+            }
 
             Intent intent = new Intent(getContext(), AccountsActivity.class);
             startActivity(intent);
