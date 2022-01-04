@@ -43,7 +43,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="10dp"
             android:hint="Name"
             app:endIconMode="clear_text"
             app:layout_constraintBottom_toTopOf="@+id/accountTypeLayout"

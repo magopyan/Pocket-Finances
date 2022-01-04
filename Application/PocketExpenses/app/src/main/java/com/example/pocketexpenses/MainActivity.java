@@ -1,14 +1,18 @@
 package com.example.pocketexpenses;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.pocketexpenses.entities.AccountType;
 import com.example.pocketexpenses.repositories.AccountTypeRepository;
 import com.example.pocketexpenses.repositories.TransactionRepository;
 import com.example.pocketexpenses.repositories.TransactionTypeRepository;
+import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.example.pocketexpenses.activities.AccountsActivity;
@@ -18,6 +22,8 @@ import com.example.pocketexpenses.database.AppDatabase;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
 import com.example.pocketexpenses.entities.TransactionSubtype;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding binding;
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AccountTypeViewModel m_oAccountTypeViewModel;
     private TransactionRepository m_oTransactionRepository;
     private TransactionViewModel m_oTransactionViewModel;
+    private AccountTypeViewModel oAccountTypeVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         createDatabase();
         /* NE IZTRIVAI */ TransactionSubtype dummyToCreateDatabase = new TransactionTypeRepository(getApplication()).getTransactionSubtypeByID(1);
 
-
+        oAccountTypeVM = new ViewModelProvider(this).get(AccountTypeViewModel.class);
         //////////////////
 
         binding.btnTransactions.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +92,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         binding.btnStartApp.setOnClickListener(this);
+
+//        oAccountTypeVM.getAccountTypeByID(1).observe(this, new Observer<List<AccountType>>() {
+//            @Override
+//            public void onChanged(List<AccountType> accountTypes) {
+//                List<AccountType> list = accountTypes;
+//                for(AccountType type : accountTypes) {
+//                    System.out.println(type.getName());
+//                }
+//            }
+//        });
     }
     
     public void addAccountType(View v) {

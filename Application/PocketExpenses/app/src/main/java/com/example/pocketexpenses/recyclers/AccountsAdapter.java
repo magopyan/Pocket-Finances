@@ -78,8 +78,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
                                 Intent intent = new Intent(v.getContext(), AccountsEditActivity.class);
                                 intent.putExtra("topBarTitle", "Add Account");
                                 intent.putExtra("AccountItem", account);
-                                Activity tempActivity = new Activity();
-                                tempActivity.startActivity(intent);
+                                v.getContext().startActivity(intent);
                                 //tempActivity.startActivityForResult(intent, REQUEST_EDIT_CODE);
                                 return true;
                             case R.id.delete:

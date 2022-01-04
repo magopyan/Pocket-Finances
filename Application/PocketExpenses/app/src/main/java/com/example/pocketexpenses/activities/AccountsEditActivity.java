@@ -3,6 +3,7 @@ package com.example.pocketexpenses.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +17,13 @@ import com.example.pocketexpenses.fragments.AccountEditFragment;
 import com.example.pocketexpenses.fragments.AccountInputFragment;
 import com.example.pocketexpenses.onclicklisteners.OnEditAccountListener;
 import com.example.pocketexpenses.viewholders.AccountViewHolder;
+import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class AccountsEditActivity extends AppCompatActivity implements OnEditAccountListener {
 
     private ActivityAccountsEditBinding binding;
+    private AccountInputViewModel oAccountInputVM;
     private AccountEditFragment fragment;
 
     @Override
@@ -29,6 +32,8 @@ public class AccountsEditActivity extends AppCompatActivity implements OnEditAcc
         binding = ActivityAccountsEditBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        oAccountInputVM = new ViewModelProvider(this).get(AccountInputViewModel.class);
 
         Intent receivedIntent = getIntent();
         Account oAccount = receivedIntent.getParcelableExtra("AccountItem");

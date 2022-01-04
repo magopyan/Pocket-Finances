@@ -28,7 +28,7 @@ public class AccountTypeViewModel extends AndroidViewModel {
         oLiveDataListAccountTypesWithAccounts = oAccountTypeRepository.getAllAccountTypesWithAccounts();
     }
 
-    public LiveData<AccountType> getAccountTypeByID(int nID){
+    public LiveData<List<AccountType>> getAccountTypeByID(int nID){
         return oAccountTypeRepository.getAccountTypeByID(nID);
     }
 

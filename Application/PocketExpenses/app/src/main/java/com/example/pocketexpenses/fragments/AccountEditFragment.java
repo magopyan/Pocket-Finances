@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ import com.example.pocketexpenses.entities.AccountType;
 import com.example.pocketexpenses.onclicklisteners.OnEditAccountListener;
 import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,8 +92,17 @@ public class AccountEditFragment extends Fragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        LiveData<AccountType> oLiveDataAccountType = oAccountTypeViewModel.getAccountTypeByID(oAccount.getAccountTypeId());
-        binding.accountTypeTextFieldEdit.setText(oLiveDataAccountType.getValue().getName());
+        oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
+
+        List<AccountType> oLiveDataAccountType = new ArrayList<>();
+        oAccountTypeViewModel.getAllAccountTypes(/*oAccount.getAccountTypeId()*/).observe(getViewLifecycleOwner(), new Observer<List<AccountType>>() {
+                    @Override
+                    public void onChanged(List<AccountType> accountTypes) {
+                        oLiveDataAccountType.addAll(accountTypes);
+                    }
+        });
+
+        binding.accountTypeTextFieldEdit.setText(oLiveDataAccountType.get(0).getName());
 
         binding.balanceTextFieldEdit.setText(String.valueOf(oAccount.getBalance()));
         binding.nameTextFieldEdit.setText(oAccount.getName());

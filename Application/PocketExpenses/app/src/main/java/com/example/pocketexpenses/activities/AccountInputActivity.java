@@ -32,7 +32,6 @@ public class AccountInputActivity extends AppCompatActivity {
 
         Intent receivedIntent = getIntent();
 
-
         MaterialToolbar topAppBar = binding.topAppBar;
         String title = receivedIntent.getStringExtra("topBarTitle");
         topAppBar.setTitle(title);
@@ -47,12 +46,11 @@ public class AccountInputActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         AccountInputFragment defaultFragment;
-        if(manager.findFragmentByTag("Input") == null) {
+        if(manager.findFragmentByTag("Account Input") == null) {
             defaultFragment = AccountInputFragment.newInstance();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(R.id.fragmentContainer, defaultFragment, "Input");
+            transaction.add(R.id.fragmentContainer, defaultFragment, "Account Input");
             transaction.commit();
         }
-
     }
 }
