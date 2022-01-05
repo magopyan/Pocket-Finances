@@ -23,6 +23,8 @@ import com.example.pocketexpenses.entities.relationships.AccountTypeWithAccounts
 import com.example.pocketexpenses.viewholders.AccountViewHolder;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,8 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
             holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.red));
         else if(balance > 0)
             holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.green));
+
+        balance = round(balance, 2);
         holder.setTvBalance(String.valueOf(balance));
 
 
@@ -137,5 +141,13 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
             oAccountsList.addAll(accTypeWithAccounts.getAccountList());
         }
         notifyDataSetChanged();
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

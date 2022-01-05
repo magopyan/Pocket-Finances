@@ -44,6 +44,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
     private List<Account> oListAccounts;
     private List<TransactionSubtype> oListTransactionSubtypes;
 
+    public TransactionsAdapter()
+    { }
+
     public TransactionsAdapter(TransactionViewModel oTransactionViewModel, TransactionInputViewModel oTransactionInputVM,
                                AccountTypeViewModel oAccountTypeVM, TransactionTypeViewModel oTransactionTypeVM) {
         this.oTransactionViewModel = oTransactionViewModel;

@@ -13,6 +13,8 @@ import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.databinding.ActivityTransactionsBinding;
 import com.example.pocketexpenses.fragments.TransactionsListFragment;
 
+import java.text.ParseException;
+
 public class TransactionsActivity extends AppCompatActivity {
 
     private ActivityTransactionsBinding binding;
@@ -29,5 +31,6 @@ public class TransactionsActivity extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fragmentContainerTransactions, fragment, "Transactions");
         transaction.commit();
+
     }
 }

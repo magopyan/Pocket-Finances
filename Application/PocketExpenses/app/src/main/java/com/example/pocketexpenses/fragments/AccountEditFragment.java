@@ -24,6 +24,8 @@ import com.example.pocketexpenses.onclicklisteners.OnEditAccountListener;
 import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +106,9 @@ public class AccountEditFragment extends Fragment implements View.OnClickListene
 
         binding.accountTypeTextFieldEdit.setText(oLiveDataAccountType.get(0).getName());
 
-        binding.balanceTextFieldEdit.setText(String.valueOf(oAccount.getBalance()));
+        //oAccount.setBalance(round(oAccount.getBalance(), 2));
+
+        binding.balanceTextFieldEdit.setText(String.valueOf(round(oAccount.getBalance(), 2)));
         binding.nameTextFieldEdit.setText(oAccount.getName());
 
         oAccountTypeViewModel = new ViewModelProvider(requireActivity()).get(AccountTypeViewModel.class);
@@ -147,5 +151,13 @@ public class AccountEditFragment extends Fragment implements View.OnClickListene
         //
         //
         //
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

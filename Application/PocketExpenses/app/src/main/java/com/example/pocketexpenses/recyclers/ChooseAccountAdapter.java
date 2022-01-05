@@ -15,6 +15,8 @@ import com.example.pocketexpenses.onclicklisteners.OnAccountClickListener;
 import com.example.pocketexpenses.viewholders.AccountViewHolder;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,9 @@ public class ChooseAccountAdapter extends RecyclerView.Adapter<AccountViewHolder
         }
         holder.setTvAccountName(account.getName());
         holder.setTvAccountType(accountTypeName);
+
+        account.setBalance(round(account.getBalance(), 2));
+
         holder.setTvBalance(String.valueOf(account.getBalance()));
         holder.setImage(account.getImageId());
 
@@ -76,5 +81,13 @@ public class ChooseAccountAdapter extends RecyclerView.Adapter<AccountViewHolder
             oAccountsList.addAll(accTypeWithAccounts.getAccountList());
         }
         notifyDataSetChanged();
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

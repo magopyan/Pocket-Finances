@@ -23,6 +23,9 @@ import com.example.pocketexpenses.entities.Transaction;
 import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,6 +93,9 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
                 accountForEdit = item;
 
                 binding.nameTextField.setText(item.getName());
+
+                item.setBalance(round(item.getBalance(), 2));
+
                 binding.balanceTextField.setText(String.valueOf(item.getBalance()));
                 // Observe i na AccountType s ID-to ot Account, za da set-nem TextBoxa i sushto v InputRepository
                 oAccountTypeViewModel.getAccountTypeByID(item.getAccountTypeId()).observe(getViewLifecycleOwner(), new Observer<AccountType>() {
@@ -173,5 +179,13 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
             return true;
         else
             return false;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
