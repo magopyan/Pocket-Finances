@@ -2,6 +2,7 @@ package com.example.pocketexpenses.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -49,20 +50,24 @@ public class AccountsActivity extends AppCompatActivity {
                     TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
                                 replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
+                        binding.topAppBar.getMenu().clear();
+                        binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu_date);
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
                         break;
                 case R.id.bottomnav_accounts:
                     AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
                                 replace(R.id.fragmentContainer, accountsFragment, "Accounts").commit();
+                        binding.topAppBar.getMenu().clear();
+                        binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu);
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
                     break;
                 case R.id.bottomnav_statistics:
                     StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
                     getSupportFragmentManager().beginTransaction().
                             replace(R.id.fragmentContainer, statisticsFragment, "Statistics").commit();
-                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
-                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
+                    binding.topAppBar.getMenu().clear();
+                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
                     break;
                 default:
                     break;

@@ -213,6 +213,7 @@ public class StatisticsFragment extends Fragment {
         setupPieChartExpense2();
         loadPieChartDataExpense2();
 
+        // Vikat se v ujasniq nested loop, sled kato se otchete sumata na poslednata tranzakciq ot spisuka
         //setupPieChartExpense3();
         //loadPieChartDataExpense3();
     }

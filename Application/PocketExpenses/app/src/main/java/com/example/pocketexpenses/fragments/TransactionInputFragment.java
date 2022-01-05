@@ -223,10 +223,11 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
             oAccountTypeVM.updateAccount(chosenAccount);
             oTransactionInputVM.reset();
 
-            Intent intent = new Intent(getContext(), AccountsActivity.class);
-            if(newBalance < 0)
-                intent.putExtra("Toast Message", toastMessage);
-            startActivity(intent);
+            getActivity().onBackPressed();
+//            Intent intent = new Intent(getContext(), AccountsActivity.class);
+//            if(newBalance < 0)
+//                intent.putExtra("Toast Message", toastMessage);
+//            startActivity(intent);
         }
     }
 

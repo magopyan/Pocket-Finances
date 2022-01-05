@@ -141,8 +141,9 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
                 oAccountTypeViewModel.updateAccount(accountForEdit);
             }
 
-            Intent intent = new Intent(getContext(), AccountsActivity.class);
-            startActivity(intent);
+            getActivity().onBackPressed();
+//            Intent intent = new Intent(getContext(), AccountsActivity.class);
+//            startActivity(intent);
         }
     }
 

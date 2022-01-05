@@ -102,19 +102,18 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
             @Override
             public boolean onLongClick(View v) {
                 PopupMenu popup = new PopupMenu(v.getContext(), holder.itemView);
-                popup.inflate(R.menu.on_long_click_menu);
+                popup.inflate(R.menu.on_long_click_menu_no_edit);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.edit:
+//                            case R.id.edit:
 //                                boolean isExpense = setTransactionInputData(v, oTransaction);
 //                                Intent intent = new Intent(v.getContext(), TransactionInputActivity.class);
 //                                intent.putExtra("topBarTitle", "Edit Expense"); // ???
 //                                // How to find if expense or Income ???
 //                                intent.putExtra("Edit Transaction", oTransaction);
-
-                                return true;
+//                                return true;
                             case R.id.delete:
                                 oTransactionViewModel.deleteTransaction(oTransaction);
                                 return true;
