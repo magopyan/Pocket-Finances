@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,6 +46,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +67,9 @@ public class StatisticsFragment extends Fragment {
     private List<TransactionDirectionWithTypesAndSubtypes> m_oListTranDirWithTypesAndSubtypes;
     private List<TransactionDirection> m_oListTransactionDirections;
     private List<TransactionType> m_oListTransactionTypes;
+
+    private double expenses = 0;
+    private double income = 0;
 
     private PieChart pieChart1;
     private PieChart pieChart2;
@@ -158,13 +163,46 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-
+        LifecycleOwner owner = getViewLifecycleOwner();
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {
                 if(oListTransactions != null) {
                     m_oListTransactions = oListTransactions;
-                    loadPieChartDataExpense3();
+                    for(Transaction transaction : m_oListTransactions)
+                    {
+                        oTransactionTypeViewModel.getTransactionSubtypeByID(transaction.getTransactionSubtypeId()).observe(owner, new Observer<TransactionSubtype>() {
+                            @Override
+                            public void onChanged(TransactionSubtype transactionSubtype) {
+                                if (transactionSubtype != null) {
+                                    oTransactionTypeViewModel.getTransactionTypeByID(transactionSubtype.getTransactionTypeId()).observe(owner, new Observer<TransactionType>() {
+                                        @Override
+                                        public void onChanged(TransactionType transactionType) {
+                                            if (transactionType != null) {
+                                                oTransactionTypeViewModel.getTransactionDirectionByID(transactionType.getTransactionDirectionId()).observe(owner, new Observer<TransactionDirection>() {
+                                                    @Override
+                                                    public void onChanged(TransactionDirection transactionDirection) {
+                                                        if (transactionDirection != null) {
+                                                            int coefficient = transactionDirection.getCoefficient();
+                                                            if (coefficient > 0)
+                                                                income += transaction.getSum();
+                                                            else
+                                                                expenses += transaction.getSum();
+                                                            // ako tova e poslednata tranzakciq ot spisuka, t.e veche income i expense sa != 0
+                                                            if(transaction == m_oListTransactions.get(m_oListTransactions.size() - 1)) {
+                                                                setupPieChartExpense3();
+                                                                loadPieChartDataExpense3();
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -175,7 +213,7 @@ public class StatisticsFragment extends Fragment {
         setupPieChartExpense2();
         loadPieChartDataExpense2();
 
-        setupPieChartExpense3();
+        //setupPieChartExpense3();
         //loadPieChartDataExpense3();
     }
 
@@ -313,48 +351,24 @@ public class StatisticsFragment extends Fragment {
         l.setEnabled(true);
     }
 
+
     private void loadPieChartDataExpense3() {
         m_entriesExpense.clear();
 
-        double income = 0;
-        double expenses = 0;
-        TransactionSubtype subtype = null;
-        TransactionType type = null;
-        TransactionDirection direction = null;
+        // Primer kak da izchislqvame procenti i da convertirame polucheniq double v float
+//        double total = 673.12;
+//        double expenses = 273.12;
+//        double income = 400.00;
+//        Double percentageExpenses = Double.valueOf(exp * 100 / total);
+//        Double percentageIncome = Double.valueOf(inc * 100 / total);
+//        m_entriesExpense.add(new PieEntry(percentageIncome.floatValue(), "Income"));
+//        m_entriesExpense.add(new PieEntry(percentageExpenses.floatValue(), "Expenses"));
 
-        for(Transaction transaction : m_oListTransactions)
-        {
-            subtype = null;
-            type = null;
-            direction = null;
-            for (TransactionSubtype transactionSubtype : m_oListTransactionSubtypes)
-                if (transactionSubtype.getTransactionTypeId() == transaction.getTransactionSubtypeId())
-                    subtype = transactionSubtype;
-
-            for (TransactionType transactionType : m_oListTransactionTypes)
-                if (transactionType.getId() == subtype.getTransactionTypeId())
-                    type = transactionType;
-
-            for (TransactionDirection transactionDirection : m_oListTransactionDirections)
-                if (transactionDirection.getId() == type.getTransactionDirectionId())
-                    direction = transactionDirection;
-
-            double sum = transaction.getSum();
-            // problem: vischko se otchita kato expense
-            if(direction.getCoefficient() > 0) {
-                income += sum;
-            }
-            else {
-                expenses += sum;
-            }
-        }
-
-        m_entriesExpense.add(new PieEntry(0.15f, "Income"));
-        m_entriesExpense.add(new PieEntry(0.10f, "Expenses"));
-
-        // Ne stava. Kak da namerim otnoshenieto na dvata double-a?
-//        m_entriesExpense.add(new PieEntry(((float) income), "Income"));
-//        m_entriesExpense.add(new PieEntry(((float) expenses), "Expenses"));
+        double total = expenses + income;
+        Double percentageExpenses = Double.valueOf(expenses * 100 / total);
+        Double percentageIncome = Double.valueOf(income * 100 / total);
+        m_entriesExpense.add(new PieEntry(percentageIncome.floatValue(), "Income"));
+        m_entriesExpense.add(new PieEntry(percentageExpenses.floatValue(), "Expenses"));
 
         //setupPieChart1();
 
