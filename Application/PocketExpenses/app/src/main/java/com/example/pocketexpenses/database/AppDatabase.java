@@ -111,8 +111,8 @@ public abstract class AppDatabase extends RoomDatabase {
             oTranTypeDao.insertTransactionDirection(expense);
 
             // Expenses Types
-            TransactionType foodAndDrink= new TransactionType("Food & Drinks", 2, R.drawable.ic_food_and_drinks);                 // id=1
-            TransactionType shopping = new TransactionType("Shopping", 2, R.drawable.ic_shopping);                         // id=2
+            TransactionType foodAndDrink= new TransactionType("Food & Drinks", 2, R.drawable.ic_food_and_drinks);               // id=1
+            TransactionType shopping = new TransactionType("Shopping", 2, R.drawable.ic_shopping);                              // id=2
             TransactionType entertainment = new TransactionType("Entertainment", 2, R.drawable.ic_entertainment);               // id=3
             TransactionType transport = new TransactionType("Transportation", 2, R.drawable.ic_transportation);                  // id=4
             TransactionType vehicle = new TransactionType("Vehicle", 2, R.drawable.ic_vehicle);                           // id=5

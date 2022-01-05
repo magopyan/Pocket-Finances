@@ -26,7 +26,10 @@ import com.example.pocketexpenses.activities.ChooseAccountActivity;
 import com.example.pocketexpenses.databinding.FragmentStatisticsBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
+import com.example.pocketexpenses.entities.TransactionDirection;
 import com.example.pocketexpenses.entities.TransactionSubtype;
+import com.example.pocketexpenses.entities.TransactionType;
+import com.example.pocketexpenses.entities.relationships.TransactionDirectionWithTypesAndSubtypes;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
@@ -53,10 +56,16 @@ public class StatisticsFragment extends Fragment {
     private FragmentStatisticsBinding binding;
     private TransactionViewModel oTransactionViewModel;
     private TransactionTypeViewModel oTransactionTypeViewModel;
+
     private AccountTypeViewModel oAccountTypeViewModel;
     private List<Transaction> m_oListTransactions;
     private List<TransactionSubtype> m_oListTransactionSubtypes;
     private List<Account> m_oListAccounts;
+
+    private List<TransactionDirectionWithTypesAndSubtypes> m_oListTranDirWithTypesAndSubtypes;
+    private List<TransactionDirection> m_oListTransactionDirections;
+    private List<TransactionType> m_oListTransactionTypes;
+
     private PieChart pieChart1;
     private PieChart pieChart2;
     private PieChart pieChart3;
@@ -105,6 +114,7 @@ public class StatisticsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // ne moje li s binding vmesto findViewById?
         pieChart1 = view.findViewById(R.id.activity_main_piechart1);
         pieChart2 = view.findViewById(R.id.activity_main_piechart2);
         pieChart3 = view.findViewById(R.id.activity_main_piechart3);
@@ -113,17 +123,31 @@ public class StatisticsFragment extends Fragment {
         oTransactionTypeViewModel = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
         oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
 
-        oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
-            @Override
-            public void onChanged(@Nullable final List<Transaction> oListTransactions) {
-                m_oListTransactions = oListTransactions;
-            }
-        });
-
         oTransactionTypeViewModel.getAllTransactionSubtypes().observe(getViewLifecycleOwner(), new Observer<List<TransactionSubtype>>() {
             @Override
             public void onChanged(@Nullable final List<TransactionSubtype> oListTransactionSubtypes) {
                 m_oListTransactionSubtypes = oListTransactionSubtypes;
+            }
+        });
+
+        oTransactionTypeViewModel.getAllTransactionDirectionWithTypesAndSubtypes().observe(getViewLifecycleOwner(), new Observer<List<TransactionDirectionWithTypesAndSubtypes>>() {
+            @Override
+            public void onChanged(List<TransactionDirectionWithTypesAndSubtypes> transactionDirectionWithTypesAndSubtypes) {
+                m_oListTranDirWithTypesAndSubtypes = transactionDirectionWithTypesAndSubtypes;
+            }
+        });
+
+        oTransactionTypeViewModel.getAllTransactionDirections().observe(getViewLifecycleOwner(), new Observer<List<TransactionDirection>>() {
+            @Override
+            public void onChanged(List<TransactionDirection> transactionDirections) {
+                m_oListTransactionDirections = transactionDirections;
+            }
+        });
+
+        oTransactionTypeViewModel.getAllTransactionTypes().observe(getViewLifecycleOwner(), new Observer<List<TransactionType>>() {
+            @Override
+            public void onChanged(List<TransactionType> transactionTypes) {
+                m_oListTransactionTypes = transactionTypes;
             }
         });
 
@@ -134,6 +158,17 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
+
+        oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(@Nullable final List<Transaction> oListTransactions) {
+                if(oListTransactions != null) {
+                    m_oListTransactions = oListTransactions;
+                    loadPieChartDataExpense3();
+                }
+            }
+        });
+
         setupPieChartExpense();
         loadPieChartDataExpense();
 
@@ -141,7 +176,7 @@ public class StatisticsFragment extends Fragment {
         loadPieChartDataExpense2();
 
         setupPieChartExpense3();
-        loadPieChartDataExpense3();
+        //loadPieChartDataExpense3();
     }
 
     private void setupPieChart1() {
@@ -266,7 +301,7 @@ public class StatisticsFragment extends Fragment {
         pieChart3.setUsePercentValues(true);
         pieChart3.setEntryLabelTextSize(12);
         pieChart3.setEntryLabelColor(Color.BLACK);
-        pieChart3.setCenterText("Expenses total");
+        pieChart3.setCenterText("Income vs Expenses");
         pieChart3.setCenterTextSize(24);
         pieChart3.getDescription().setEnabled(false);
 
@@ -280,11 +315,46 @@ public class StatisticsFragment extends Fragment {
 
     private void loadPieChartDataExpense3() {
         m_entriesExpense.clear();
-        m_entriesExpense.add(new PieEntry(0.15f, "Medical"));
-        m_entriesExpense.add(new PieEntry(0.10f, "Entertainment"));
-        m_entriesExpense.add(new PieEntry(0.25f, "Electricity and Gas"));
-        m_entriesExpense.add(new PieEntry(0.3f, "Housing"));
-        m_entriesExpense.add(new PieEntry(0.2f, "Food & Dining"));
+
+        double income = 0;
+        double expenses = 0;
+        TransactionSubtype subtype = null;
+        TransactionType type = null;
+        TransactionDirection direction = null;
+
+        for(Transaction transaction : m_oListTransactions)
+        {
+            subtype = null;
+            type = null;
+            direction = null;
+            for (TransactionSubtype transactionSubtype : m_oListTransactionSubtypes)
+                if (transactionSubtype.getTransactionTypeId() == transaction.getTransactionSubtypeId())
+                    subtype = transactionSubtype;
+
+            for (TransactionType transactionType : m_oListTransactionTypes)
+                if (transactionType.getId() == subtype.getTransactionTypeId())
+                    type = transactionType;
+
+            for (TransactionDirection transactionDirection : m_oListTransactionDirections)
+                if (transactionDirection.getId() == type.getTransactionDirectionId())
+                    direction = transactionDirection;
+
+            double sum = transaction.getSum();
+            // problem: vischko se otchita kato expense
+            if(direction.getCoefficient() > 0) {
+                income += sum;
+            }
+            else {
+                expenses += sum;
+            }
+        }
+
+        m_entriesExpense.add(new PieEntry(0.15f, "Income"));
+        m_entriesExpense.add(new PieEntry(0.10f, "Expenses"));
+
+        // Ne stava. Kak da namerim otnoshenieto na dvata double-a?
+//        m_entriesExpense.add(new PieEntry(((float) income), "Income"));
+//        m_entriesExpense.add(new PieEntry(((float) expenses), "Expenses"));
 
         //setupPieChart1();
 
@@ -311,4 +381,38 @@ public class StatisticsFragment extends Fragment {
 
         pieChart3.animateY(1400, Easing.EaseInOutQuad);
     }
+
+//    private void loadPieChartDataExpense3() {
+//        m_entriesExpense.clear();
+//        m_entriesExpense.add(new PieEntry(0.15f, "Medical"));
+//        m_entriesExpense.add(new PieEntry(0.10f, "Entertainment"));
+//        m_entriesExpense.add(new PieEntry(0.25f, "Electricity and Gas"));
+//        m_entriesExpense.add(new PieEntry(0.3f, "Housing"));
+//        m_entriesExpense.add(new PieEntry(0.2f, "Food & Dining"));
+//
+//        //setupPieChart1();
+//
+//        ArrayList<Integer> colors = new ArrayList<>();
+//        for (int color: ColorTemplate.MATERIAL_COLORS) {
+//            colors.add(color);
+//        }
+//
+//        for (int color: ColorTemplate.VORDIPLOM_COLORS) {
+//            colors.add(color);
+//        }
+//
+//        PieDataSet dataSet = new PieDataSet(m_entriesExpense, "Expense Category");
+//        dataSet.setColors(colors);
+//
+//        PieData data = new PieData(dataSet);
+//        data.setDrawValues(true);
+//        data.setValueFormatter(new PercentFormatter(pieChart3));
+//        data.setValueTextSize(12f);
+//        data.setValueTextColor(Color.BLACK);
+//
+//        pieChart3.setData(data);
+//        pieChart3.invalidate();
+//
+//        pieChart3.animateY(1400, Easing.EaseInOutQuad);
+//    }
 }
