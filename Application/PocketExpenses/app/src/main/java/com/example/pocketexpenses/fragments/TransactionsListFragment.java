@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pocketexpenses.activities.TransactionInputActivity;
+import com.example.pocketexpenses.entities.TransactionDirection;
+import com.example.pocketexpenses.entities.TransactionType;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
@@ -112,6 +114,20 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
                 adapter.setAccountsData(oListAccounts);
             }
         });
+        oTransactionTypeViewModel.getAllTransactionTypes().observe(getViewLifecycleOwner(), new Observer<List<TransactionType>>() {
+            @Override
+            public void onChanged(List<TransactionType> oTransactionType) {
+                adapter.setTransactionTypeData(oTransactionType);
+            }
+        });
+
+        oTransactionTypeViewModel.getAllTransactionDirections().observe(getViewLifecycleOwner(), new Observer<List<TransactionDirection>>() {
+            @Override
+            public void onChanged(List<TransactionDirection> oTransactionDirection) {
+                adapter.setTransactionDirectionData(oTransactionDirection);
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         oTransactionsRV.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
         oTransactionsRV.setLayoutManager(layoutManager);

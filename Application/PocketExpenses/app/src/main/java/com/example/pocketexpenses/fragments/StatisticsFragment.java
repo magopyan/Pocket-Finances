@@ -77,6 +77,9 @@ public class StatisticsFragment extends Fragment {
 
     private ArrayList<PieEntry> m_entriesExpense = new ArrayList<>();
     private ArrayList<PieEntry> m_entriesIncome = new ArrayList<>();
+    private ArrayList<PieEntry> m_entriesIncomeVsExpenses = new ArrayList<>();
+
+    LifecycleOwner owner;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -163,7 +166,7 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        LifecycleOwner owner = getViewLifecycleOwner();
+        owner = getViewLifecycleOwner();
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {
@@ -207,30 +210,79 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        setupPieChartExpense();
-        loadPieChartDataExpense();
-
-        setupPieChartExpense2();
-        loadPieChartDataExpense2();
-
-        // Vikat se v ujasniq nested loop, sled kato se otchete sumata na poslednata tranzakciq ot spisuka
-        //setupPieChartExpense3();
-        //loadPieChartDataExpense3();
+        calculateExpensesAndIncomes();
     }
 
-    private void setupPieChart1() {
-        for(int i=0;i<m_oListTransactions.size();i++)
-        {
-            Transaction oTransaction = m_oListTransactions.get(i);
-            for(int j=0;j<m_oListTransactionSubtypes.size();j++)
-            {
-                TransactionSubtype oTransactionSubtype = m_oListTransactionSubtypes.get(j);
-                if(/*oTransaction.getAccountId() == oAccount.getId() &&*/ oTransactionSubtype.getId() == oTransaction.getTransactionSubtypeId())
-                {
-                    m_entriesExpense.add(new PieEntry((float)oTransaction.getSum(), oTransactionSubtype.getName()));
+    private void calculateExpensesAndIncomes() {
+
+        m_entriesIncome.clear();
+        m_entriesExpense.clear();
+
+        oTransactionViewModel.getAllTransactions().observe(owner, new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(@Nullable final List<Transaction> oListTransactions) {
+                if (oListTransactions != null) {
+                    m_oListTransactions = oListTransactions;
+
+                    for(Transaction oTransaction : m_oListTransactions)
+                    {
+
+                        oTransactionTypeViewModel.getAllTransactionSubtypes().observe(owner, new Observer<List<TransactionSubtype>>() {
+                            @Override
+                            public void onChanged(@Nullable final List<TransactionSubtype> oListTransactionSubtypes) {
+
+                                if(oListTransactionSubtypes != null){
+                                    m_oListTransactionSubtypes = oListTransactionSubtypes;
+
+                                    for(TransactionSubtype oTransactionSubtype : m_oListTransactionSubtypes)
+                                    {
+                                        if(oTransactionSubtype.getId() == oTransaction.getTransactionSubtypeId())
+                                        {
+                                            oTransactionTypeViewModel.getTransactionTypeByID(oTransactionSubtype.getTransactionTypeId()).observe(owner, new Observer<TransactionType>() {
+                                                @Override
+                                                public void onChanged(TransactionType transactionType) {
+                                                    if (transactionType != null) {
+                                                        oTransactionTypeViewModel.getTransactionDirectionByID(transactionType.getTransactionDirectionId()).observe(owner, new Observer<TransactionDirection>() {
+                                                            @Override
+                                                            public void onChanged(TransactionDirection transactionDirection) {
+                                                                if (transactionDirection != null) {
+                                                                    int coefficient = transactionDirection.getCoefficient();
+                                                                    if (coefficient > 0)
+                                                                    {
+
+                                                                        m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / 400.00), oTransactionSubtype.getName()));
+                                                                        //m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / income), oTransactionSubtype.getName()));
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        m_entriesExpense.add(new PieEntry((float) ((oTransaction.getSum() * 100) / 273.11), oTransactionSubtype.getName()));
+                                                                        //m_entriesExpense.add(new PieEntry((float) ((oTransaction.getSum() * 100) / expenses), oTransactionSubtype.getName()));
+                                                                    }
+
+                                                                    setupPieChartExpense();
+                                                                    loadPieChartDataExpense();
+
+                                                                    setupPieChartIncome();
+                                                                    loadPieChartDataIncome();
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
-            }
-        }
+                }
+            });
+
+
     }
 
     private void setupPieChartExpense() {
@@ -238,7 +290,7 @@ public class StatisticsFragment extends Fragment {
         pieChart1.setUsePercentValues(true);
         pieChart1.setEntryLabelTextSize(12);
         pieChart1.setEntryLabelColor(Color.BLACK);
-        pieChart1.setCenterText("Expenses total");
+        pieChart1.setCenterText("Total Expenses");
         pieChart1.setCenterTextSize(24);
         pieChart1.getDescription().setEnabled(false);
 
@@ -251,14 +303,6 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void loadPieChartDataExpense() {
-        m_entriesExpense.clear();
-        m_entriesExpense.add(new PieEntry(0.15f, "Medical"));
-        m_entriesExpense.add(new PieEntry(0.10f, "Entertainment"));
-        m_entriesExpense.add(new PieEntry(0.25f, "Electricity and Gas"));
-        m_entriesExpense.add(new PieEntry(0.3f, "Housing"));
-        m_entriesExpense.add(new PieEntry(0.2f, "Food & Dining"));
-
-        //setupPieChart1();
 
         ArrayList<Integer> colors = new ArrayList<>();
         for (int color: ColorTemplate.MATERIAL_COLORS) {
@@ -284,12 +328,12 @@ public class StatisticsFragment extends Fragment {
         pieChart1.animateY(1400, Easing.EaseInOutQuad);
     }
 
-    private void setupPieChartExpense2() {
+    private void setupPieChartIncome() {
         pieChart2.setDrawHoleEnabled(true);
         pieChart2.setUsePercentValues(true);
         pieChart2.setEntryLabelTextSize(12);
         pieChart2.setEntryLabelColor(Color.BLACK);
-        pieChart2.setCenterText("Expenses total");
+        pieChart2.setCenterText("Total Income");
         pieChart2.setCenterTextSize(24);
         pieChart2.getDescription().setEnabled(false);
 
@@ -301,15 +345,7 @@ public class StatisticsFragment extends Fragment {
         l.setEnabled(true);
     }
 
-    private void loadPieChartDataExpense2() {
-        m_entriesExpense.clear();
-        m_entriesExpense.add(new PieEntry(0.15f, "Medical"));
-        m_entriesExpense.add(new PieEntry(0.10f, "Entertainment"));
-        m_entriesExpense.add(new PieEntry(0.25f, "Electricity and Gas"));
-        m_entriesExpense.add(new PieEntry(0.3f, "Housing"));
-        m_entriesExpense.add(new PieEntry(0.2f, "Food & Dining"));
-
-        //setupPieChart1();
+    private void loadPieChartDataIncome() {
 
         ArrayList<Integer> colors = new ArrayList<>();
         for (int color: ColorTemplate.MATERIAL_COLORS) {
@@ -320,7 +356,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesExpense, "Expense Category");
+        PieDataSet dataSet = new PieDataSet(m_entriesIncome, "Income Category");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -354,7 +390,7 @@ public class StatisticsFragment extends Fragment {
 
 
     private void loadPieChartDataExpense3() {
-        m_entriesExpense.clear();
+        m_entriesIncomeVsExpenses.clear();
 
         // Primer kak da izchislqvame procenti i da convertirame polucheniq double v float
 //        double total = 673.12;
@@ -368,10 +404,8 @@ public class StatisticsFragment extends Fragment {
         double total = expenses + income;
         Double percentageExpenses = Double.valueOf(expenses * 100 / total);
         Double percentageIncome = Double.valueOf(income * 100 / total);
-        m_entriesExpense.add(new PieEntry(percentageIncome.floatValue(), "Income"));
-        m_entriesExpense.add(new PieEntry(percentageExpenses.floatValue(), "Expenses"));
-
-        //setupPieChart1();
+        m_entriesIncomeVsExpenses.add(new PieEntry(percentageIncome.floatValue(), "Income"));
+        m_entriesIncomeVsExpenses.add(new PieEntry(percentageExpenses.floatValue(), "Expenses"));
 
         ArrayList<Integer> colors = new ArrayList<>();
         for (int color: ColorTemplate.MATERIAL_COLORS) {
@@ -382,7 +416,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesExpense, "Expense Category");
+        PieDataSet dataSet = new PieDataSet(m_entriesIncomeVsExpenses, "Expense Category");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);

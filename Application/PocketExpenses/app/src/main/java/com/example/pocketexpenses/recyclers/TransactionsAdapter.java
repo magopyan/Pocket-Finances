@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.activities.TransactionInputActivity;
 import com.example.pocketexpenses.entities.AccountType;
+import com.example.pocketexpenses.entities.TransactionDirection;
+import com.example.pocketexpenses.entities.TransactionType;
 import com.example.pocketexpenses.viewholders.AccountTypeViewHolder;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
@@ -43,6 +45,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
     private List<Transaction> oListTransactions;
     private List<Account> oListAccounts;
     private List<TransactionSubtype> oListTransactionSubtypes;
+    private List<TransactionType> oListTransactionType;
+    private List<TransactionDirection> oListTransactionDirection;
 
     public TransactionsAdapter()
     { }
@@ -76,11 +80,30 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         else
             holder.setTvDate(date);
 
+        for(TransactionSubtype transactionSubtype : oListTransactionSubtypes)
+        {
+            for(TransactionType transactionType : oListTransactionType)
+            {
+                for(TransactionDirection transactionDirection : oListTransactionDirection)
+                {
+                    if(transactionSubtype.getId() == oTransaction.getTransactionSubtypeId()
+                        && transactionSubtype.getTransactionTypeId() == transactionType.getId()
+                        && transactionType.getTransactionDirectionId() == transactionDirection.getId()
+                        && transactionDirection.getCoefficient() > 0)
+                    {
+                        holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
+                    }
+                    else
+                        holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
+                }
+            }
+        }
+
         double transactionSum = oTransaction.getSum();
-        if(transactionSum < 0)
-            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
-        else if(transactionSum > 0)
-            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
+        //if(transactionSum < 0)
+          //  holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
+        //else if(transactionSum > 0)
+          //  holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
 
         holder.setTvTransactionSum(String.valueOf(transactionSum));
         holder.setTvNote(oTransaction.getNote());
@@ -173,4 +196,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         this.oListTransactions = oListTransactions;
         notifyDataSetChanged();
     }
+
+    public void setTransactionTypeData(List<TransactionType> oListTransactionType){
+        this.oListTransactionType = oListTransactionType;
+        notifyDataSetChanged();
+    }
+
+    public void setTransactionDirectionData(List<TransactionDirection> oListTransactionDirection){
+        this.oListTransactionDirection = oListTransactionDirection;
+        notifyDataSetChanged();
+    }
+
 }
