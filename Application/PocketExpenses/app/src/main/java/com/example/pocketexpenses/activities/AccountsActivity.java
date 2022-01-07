@@ -69,7 +69,7 @@ public class AccountsActivity extends AppCompatActivity {
                 case R.id.bottomnav_transactions:
                     TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
+                                replace(R.id.fragmentContainer, transactionsFragment, "Fragment").commit();
                         binding.topAppBar.getMenu().clear();
                         binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu_date);
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
@@ -77,17 +77,17 @@ public class AccountsActivity extends AppCompatActivity {
                 case R.id.bottomnav_accounts:
                     AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
                         getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, accountsFragment, "Accounts").commit();
+                                replace(R.id.fragmentContainer, accountsFragment, "Fragment").commit();
                         binding.topAppBar.getMenu().clear();
                         binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu);
                         binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
                     break;
                 case R.id.bottomnav_statistics:
-                    StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
-                    getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragmentContainer, statisticsFragment, "Statistics").commit();
-                    binding.topAppBar.getMenu().clear();
-                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
+                        StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.fragmentContainer, statisticsFragment, "Fragement").commit();
+                        binding.topAppBar.getMenu().clear();
+                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
                     break;
                 default:
                     break;

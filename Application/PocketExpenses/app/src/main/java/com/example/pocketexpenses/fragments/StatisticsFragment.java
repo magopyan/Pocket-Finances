@@ -1,6 +1,5 @@
 package com.example.pocketexpenses.fragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -8,22 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Pie;
 import com.example.pocketexpenses.R;
-import com.example.pocketexpenses.activities.ChooseAccountActivity;
 import com.example.pocketexpenses.databinding.FragmentStatisticsBinding;
 import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
@@ -32,7 +23,6 @@ import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.entities.TransactionType;
 import com.example.pocketexpenses.entities.relationships.TransactionDirectionWithTypesAndSubtypes;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
-import com.example.pocketexpenses.viewmodels.TransactionInputViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionTypeViewModel;
 import com.example.pocketexpenses.viewmodels.TransactionViewModel;
 import com.github.mikephil.charting.animation.Easing;
@@ -46,7 +36,6 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,23 +57,25 @@ public class StatisticsFragment extends Fragment {
     private List<TransactionDirection> m_oListTransactionDirections;
     private List<TransactionType> m_oListTransactionTypes;
 
+
+    // Za Expense vs Income
     private double expenses = 0;
     private double income = 0;
+
+    // Otdelno za drugite 2, inache nqma kak da sinhronizirame 2ta metoda koi purvi shte zavurshi izpulenie
+    private double m_dExpenses = 0;
+    private double m_dIncome = 0;
 
     private PieChart pieChart1;
     private PieChart pieChart2;
     private PieChart pieChart3;
 
-    private ArrayList<PieEntry> m_entriesExpense = new ArrayList<>();
+    private ArrayList<PieEntry> m_entriesExpenses = new ArrayList<>();
     private ArrayList<PieEntry> m_entriesIncome = new ArrayList<>();
     private ArrayList<PieEntry> m_entriesIncomeVsExpenses = new ArrayList<>();
 
-    LifecycleOwner owner;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-    // TODO: Rename and change types of parameters
+    private LifecycleOwner owner;
+    String addedTypesString = null;
 
 
     public StatisticsFragment() {
@@ -123,9 +114,9 @@ public class StatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // ne moje li s binding vmesto findViewById?
-        pieChart1 = view.findViewById(R.id.activity_main_piechart1);
+        pieChart1 = view.findViewById(R.id.activity_main_piechart3);
         pieChart2 = view.findViewById(R.id.activity_main_piechart2);
-        pieChart3 = view.findViewById(R.id.activity_main_piechart3);
+        pieChart3 = view.findViewById(R.id.activity_main_piechart1);
 
         oTransactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         oTransactionTypeViewModel = new ViewModelProvider(this).get(TransactionTypeViewModel.class);
@@ -167,6 +158,18 @@ public class StatisticsFragment extends Fragment {
         });
 
         owner = getViewLifecycleOwner();
+
+        // Pie Chart 1
+        calculateExpensesVsIncome();
+
+        // Pie Chart 2 & 3 - vika se shtom prikluchi gorniq metod
+        //calculateExpensesAndIncomes();
+
+    }
+
+
+
+    private void calculateExpensesVsIncome() {
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {
@@ -193,6 +196,7 @@ public class StatisticsFragment extends Fragment {
                                                                 expenses += transaction.getSum();
                                                             // ako tova e poslednata tranzakciq ot spisuka, t.e veche income i expense sa != 0
                                                             if(transaction == m_oListTransactions.get(m_oListTransactions.size() - 1)) {
+                                                                calculateExpensesAndIncomes();  /// !!! income i expenses double sa veche sumirani
                                                                 setupPieChartExpense3();
                                                                 loadPieChartDataExpense3();
                                                             }
@@ -209,14 +213,16 @@ public class StatisticsFragment extends Fragment {
                 }
             }
         });
-
-        calculateExpensesAndIncomes();
     }
+
+
 
     private void calculateExpensesAndIncomes() {
 
         m_entriesIncome.clear();
-        m_entriesExpense.clear();
+        m_entriesExpenses.clear();
+
+        addedTypesString = "";
 
         oTransactionViewModel.getAllTransactions().observe(owner, new Observer<List<Transaction>>() {
             @Override
@@ -249,21 +255,33 @@ public class StatisticsFragment extends Fragment {
                                                                     int coefficient = transactionDirection.getCoefficient();
                                                                     if (coefficient > 0)
                                                                     {
-
-                                                                        m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / 400.00), oTransactionSubtype.getName()));
+                                                                        // Dobavqme nov cvqt v diagramata samo ako ne sme dobavqli veche takuv TransactionType kum neq
+                                                                        // Da kajem ako imame 2 puti razhod ot Type Vehicle, proverqvame purviq, ne e bil dobavqn -> dobavqme go
+                                                                        // I za vtoriq nqma nujda da suzdavame nov cvqt, toi e ot veche vuveden Type, vuprosut e kak da dobavim sumata mu
+                                                                        // kum veche dobavenata sekciq (cvqt) Vehicle?
+                                                                        if(!addedTypesString.contains(transactionType.getName()))
+                                                                        {
+                                                                            m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / income), oTransactionSubtype.getName()));
+                                                                        }
                                                                         //m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / income), oTransactionSubtype.getName()));
                                                                     }
                                                                     else
                                                                     {
-                                                                        m_entriesExpense.add(new PieEntry((float) ((oTransaction.getSum() * 100) / 273.11), oTransactionSubtype.getName()));
-                                                                        //m_entriesExpense.add(new PieEntry((float) ((oTransaction.getSum() * 100) / expenses), oTransactionSubtype.getName()));
+                                                                        if(!addedTypesString.contains(transactionType.getName()))
+                                                                        {
+                                                                            m_entriesExpenses.add(new PieEntry((float) ((oTransaction.getSum() * 100) / expenses), oTransactionSubtype.getName()));
+                                                                        }
                                                                     }
 
-                                                                    setupPieChartExpense();
-                                                                    loadPieChartDataExpense();
+                                                                    addedTypesString += " " + transactionType.getName();
 
-                                                                    setupPieChartIncome();
-                                                                    loadPieChartDataIncome();
+                                                                    if(oTransaction == m_oListTransactions.get(m_oListTransactions.size() - 1)) {
+                                                                        setupPieChartExpense();
+                                                                        loadPieChartDataExpense();
+
+                                                                        setupPieChartIncome();
+                                                                        loadPieChartDataIncome();
+                                                                    }
                                                                 }
                                                             }
                                                         });
@@ -281,9 +299,9 @@ public class StatisticsFragment extends Fragment {
                 }
                 }
             });
-
-
     }
+
+
 
     private void setupPieChartExpense() {
         pieChart1.setDrawHoleEnabled(true);
@@ -313,7 +331,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesExpense, "Expense Category");
+        PieDataSet dataSet = new PieDataSet(m_entriesExpenses, "Expense Category");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -416,7 +434,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesIncomeVsExpenses, "Expense Category");
+        PieDataSet dataSet = new PieDataSet(m_entriesIncomeVsExpenses, "Transaction Direction");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -430,38 +448,4 @@ public class StatisticsFragment extends Fragment {
 
         pieChart3.animateY(1400, Easing.EaseInOutQuad);
     }
-
-//    private void loadPieChartDataExpense3() {
-//        m_entriesExpense.clear();
-//        m_entriesExpense.add(new PieEntry(0.15f, "Medical"));
-//        m_entriesExpense.add(new PieEntry(0.10f, "Entertainment"));
-//        m_entriesExpense.add(new PieEntry(0.25f, "Electricity and Gas"));
-//        m_entriesExpense.add(new PieEntry(0.3f, "Housing"));
-//        m_entriesExpense.add(new PieEntry(0.2f, "Food & Dining"));
-//
-//        //setupPieChart1();
-//
-//        ArrayList<Integer> colors = new ArrayList<>();
-//        for (int color: ColorTemplate.MATERIAL_COLORS) {
-//            colors.add(color);
-//        }
-//
-//        for (int color: ColorTemplate.VORDIPLOM_COLORS) {
-//            colors.add(color);
-//        }
-//
-//        PieDataSet dataSet = new PieDataSet(m_entriesExpense, "Expense Category");
-//        dataSet.setColors(colors);
-//
-//        PieData data = new PieData(dataSet);
-//        data.setDrawValues(true);
-//        data.setValueFormatter(new PercentFormatter(pieChart3));
-//        data.setValueTextSize(12f);
-//        data.setValueTextColor(Color.BLACK);
-//
-//        pieChart3.setData(data);
-//        pieChart3.invalidate();
-//
-//        pieChart3.animateY(1400, Easing.EaseInOutQuad);
-//    }
 }
