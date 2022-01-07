@@ -35,7 +35,11 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +79,10 @@ public class StatisticsFragment extends Fragment {
     private ArrayList<PieEntry> m_entriesIncomeVsExpenses = new ArrayList<>();
 
     private LifecycleOwner owner;
-    String addedTypesString = null;
+   // String addedTypesString = null;
+    private HashMap<String, Double> incomeTypeWithSumMap = null;
+    private HashMap<String, Double> expensesTypeWithSumMap = null;
+    private Double oldSum;
 
 
     public StatisticsFragment() {
@@ -222,7 +229,8 @@ public class StatisticsFragment extends Fragment {
         m_entriesIncome.clear();
         m_entriesExpenses.clear();
 
-        addedTypesString = "";
+        incomeTypeWithSumMap = new HashMap<>();
+        expensesTypeWithSumMap = new HashMap<>();
 
         oTransactionViewModel.getAllTransactions().observe(owner, new Observer<List<Transaction>>() {
             @Override
@@ -253,27 +261,31 @@ public class StatisticsFragment extends Fragment {
                                                             public void onChanged(TransactionDirection transactionDirection) {
                                                                 if (transactionDirection != null) {
                                                                     int coefficient = transactionDirection.getCoefficient();
+                                                                    String transactionTypeName = transactionType.getName();
+
                                                                     if (coefficient > 0)
                                                                     {
-                                                                        // Dobavqme nov cvqt v diagramata samo ako ne sme dobavqli veche takuv TransactionType kum neq
-                                                                        // Da kajem ako imame 2 puti razhod ot Type Vehicle, proverqvame purviq, ne e bil dobavqn -> dobavqme go
-                                                                        // I za vtoriq nqma nujda da suzdavame nov cvqt, toi e ot veche vuveden Type, vuprosut e kak da dobavim sumata mu
-                                                                        // kum veche dobavenata sekciq (cvqt) Vehicle?
-                                                                        if(!addedTypesString.contains(transactionType.getName()))
-                                                                        {
-                                                                            m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / income), oTransactionSubtype.getName()));
+                                                                        if(incomeTypeWithSumMap.containsKey(transactionTypeName)) {
+                                                                            Double oldValue = incomeTypeWithSumMap.get(transactionTypeName);
+                                                                            oldValue += oTransaction.getSum();
+                                                                            incomeTypeWithSumMap.put(transactionTypeName, oldValue);
                                                                         }
-                                                                        //m_entriesIncome.add(new PieEntry((float) ((oTransaction.getSum() * 100) / income), oTransactionSubtype.getName()));
+                                                                        else {
+                                                                            incomeTypeWithSumMap.put(transactionTypeName, Double.valueOf(oTransaction.getSum()));
+                                                                        }
                                                                     }
                                                                     else
                                                                     {
-                                                                        if(!addedTypesString.contains(transactionType.getName()))
-                                                                        {
-                                                                            m_entriesExpenses.add(new PieEntry((float) ((oTransaction.getSum() * 100) / expenses), oTransactionSubtype.getName()));
+                                                                        if(expensesTypeWithSumMap.containsKey(transactionTypeName)) {
+                                                                            Double oldValue = expensesTypeWithSumMap.get(transactionTypeName);
+                                                                            oldValue += oTransaction.getSum();
+                                                                            expensesTypeWithSumMap.put(transactionTypeName, oldValue);
+                                                                        }
+                                                                        else {
+                                                                            expensesTypeWithSumMap.put(transactionTypeName, Double.valueOf(oTransaction.getSum()));
                                                                         }
                                                                     }
 
-                                                                    addedTypesString += " " + transactionType.getName();
 
                                                                     if(oTransaction == m_oListTransactions.get(m_oListTransactions.size() - 1)) {
                                                                         setupPieChartExpense();
@@ -304,18 +316,24 @@ public class StatisticsFragment extends Fragment {
 
 
     private void setupPieChartExpense() {
+
+        for (Map.Entry<String, Double> entry : expensesTypeWithSumMap.entrySet())
+            m_entriesExpenses.add(new PieEntry((float) ((entry.getValue() * 100) / expenses), entry.getKey()));
+
+
         pieChart1.setDrawHoleEnabled(true);
         pieChart1.setUsePercentValues(true);
         pieChart1.setEntryLabelTextSize(12);
         pieChart1.setEntryLabelColor(Color.BLACK);
-        pieChart1.setCenterText("Total Expenses");
-        pieChart1.setCenterTextSize(24);
+        pieChart1.setCenterText("Expenses Categories");
+        pieChart1.setCenterTextSize(22);
         pieChart1.getDescription().setEnabled(false);
 
         Legend l = pieChart1.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setTextSize(12);
         l.setDrawInside(false);
         l.setEnabled(true);
     }
@@ -331,7 +349,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesExpenses, "Expense Category");
+        PieDataSet dataSet = new PieDataSet(m_entriesExpenses, "Categories");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -347,18 +365,23 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void setupPieChartIncome() {
+
+        for (Map.Entry<String, Double> entry : incomeTypeWithSumMap.entrySet())
+            m_entriesIncome.add(new PieEntry((float) ((entry.getValue() * 100) / income), entry.getKey()));
+
         pieChart2.setDrawHoleEnabled(true);
         pieChart2.setUsePercentValues(true);
         pieChart2.setEntryLabelTextSize(12);
         pieChart2.setEntryLabelColor(Color.BLACK);
-        pieChart2.setCenterText("Total Income");
-        pieChart2.setCenterTextSize(24);
+        pieChart2.setCenterText("Income Categories");
+        pieChart2.setCenterTextSize(22);
         pieChart2.getDescription().setEnabled(false);
 
         Legend l = pieChart2.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setTextSize(12);
         l.setDrawInside(false);
         l.setEnabled(true);
     }
@@ -374,7 +397,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesIncome, "Income Category");
+        PieDataSet dataSet = new PieDataSet(m_entriesIncome, "Categories");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -399,9 +422,10 @@ public class StatisticsFragment extends Fragment {
         pieChart3.getDescription().setEnabled(false);
 
         Legend l = pieChart3.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setTextSize(12);
         l.setDrawInside(false);
         l.setEnabled(true);
     }

@@ -217,8 +217,8 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
             Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId(), chosenTransactionSubtype.getImageId());
             oTransactionVM.insertTransaction(inputTransaction);
 
-            double newBalance = chosenAccount.getBalance() - amount;
-            String toastMessage = "You have exceeded " + chosenAccount.getName() + "'s balance, it is now negative.";
+            double newBalance = -1 * chosenAccount.getBalance() - amount;
+            //String toastMessage = "You have exceeded " + chosenAccount.getName() + "'s balance, it is now negative.";
             chosenAccount.setBalance(newBalance);
             oAccountTypeVM.updateAccount(chosenAccount);
             oTransactionInputVM.reset();

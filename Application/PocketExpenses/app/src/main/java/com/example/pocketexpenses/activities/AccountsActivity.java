@@ -112,6 +112,8 @@ public class AccountsActivity extends AppCompatActivity {
 
     private void sortTransactionListItemsByCurrentDate() throws ParseException {
         TransactionViewModel oTransactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        // GetValue() vrushta LiveData. nqma kak da se cast-ne kum List<Transaction>.ili trqbva observe(), ili da napravish ot Dao nagore
+        // edin metod getAllTransactionsSortDate kudeto e select * from Transactions order by date asc/desc
         List<Transaction> oListTransactions = oTransactionViewModel.getAllTransactions().getValue();
 
         List<Transaction> oListTransactionsLesserThanCurrentDate = new ArrayList<>();

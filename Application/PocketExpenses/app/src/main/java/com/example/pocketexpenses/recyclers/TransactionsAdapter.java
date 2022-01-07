@@ -80,30 +80,31 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
         else
             holder.setTvDate(date);
 
-        for(TransactionSubtype transactionSubtype : oListTransactionSubtypes)
-        {
-            for(TransactionType transactionType : oListTransactionType)
-            {
-                for(TransactionDirection transactionDirection : oListTransactionDirection)
-                {
-                    if(transactionSubtype.getId() == oTransaction.getTransactionSubtypeId()
-                        && transactionSubtype.getTransactionTypeId() == transactionType.getId()
-                        && transactionType.getTransactionDirectionId() == transactionDirection.getId()
-                        && transactionDirection.getCoefficient() > 0)
-                    {
-                        holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
-                    }
-                    else
-                        holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
-                }
-            }
-        }
+
+//        for(TransactionSubtype transactionSubtype : oListTransactionSubtypes)
+//        {
+//            for(TransactionType transactionType : oListTransactionType)
+//            {
+//                for(TransactionDirection transactionDirection : oListTransactionDirection)
+//                {
+//                    if(transactionSubtype.getId() == oTransaction.getTransactionSubtypeId()
+//                        && transactionSubtype.getTransactionTypeId() == transactionType.getId()
+//                        && transactionType.getTransactionDirectionId() == transactionDirection.getId()
+//                        && transactionDirection.getCoefficient() > 0)
+//                    {
+//                        holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
+//                    }
+//                    else
+//                        holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
+//                }
+//            }
+//        }
 
         double transactionSum = oTransaction.getSum();
-        //if(transactionSum < 0)
-          //  holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
-        //else if(transactionSum > 0)
-          //  holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
+        if(transactionSum < 0)
+            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
+        else if(transactionSum > 0)
+            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
 
         holder.setTvTransactionSum(String.valueOf(transactionSum));
         holder.setTvNote(oTransaction.getNote());

@@ -31,6 +31,5 @@ public class TransactionsActivity extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fragmentContainerTransactions, fragment, "Transactions");
         transaction.commit();
-
     }
 }
