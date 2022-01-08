@@ -50,6 +50,7 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
     private AccountTypeViewModel oAccountTypeVM;
 
     private Account chosenAccount;
+    private TransactionType chosenTransactionType;
     private TransactionSubtype chosenTransactionSubtype;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -116,9 +117,15 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
                 chosenAccount = item;
             }
         });
-        oTransactionInputVM.getTransactionSubtype().observe(getViewLifecycleOwner(), item -> {
+        oTransactionInputVM.getTransactionType().observe(getViewLifecycleOwner(), item -> {
             if(item != null) {
                 binding.categoryTextField.setText(item.getName());
+                chosenTransactionType = item;
+            }
+        });
+        oTransactionInputVM.getTransactionSubtype().observe(getViewLifecycleOwner(), item -> {
+            if(item != null) {
+                binding.subcategoryTextField.setText(item.getName());
                 chosenTransactionSubtype = item;
             }
         });
@@ -176,9 +183,24 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 binding.categoryLayout.setError(null);
-                Intent intent = new Intent(getContext(), ChooseTransactionSubtypeActivity.class);
+                Intent intent = new Intent(getContext(), ChooseTransactionTypeActivity.class);
                 intent.putExtra("TransactionTypeID", -1);
                 startActivity(intent);
+            }
+        });
+
+        binding.subcategoryTextField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(chosenTransactionType == null) {
+                    binding.subcategoryLayout.setError("You need to select a Category first!");
+                }
+                else {
+                    binding.subcategoryLayout.setError(null);
+                    Intent intent = new Intent(getContext(), ChooseTransactionSubtypeActivity.class);
+                    intent.putExtra("TransactionTypeID", chosenTransactionType.getId());
+                    startActivity(intent);
+                }
             }
         });
 
@@ -224,11 +246,13 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
             binding.accountLayout.setError("You have to select an account!");
         if(binding.categoryTextField.getText().toString().isEmpty() || binding.categoryTextField.getText().toString() == null)
             binding.categoryLayout.setError("You have to select a category!");
+        if(binding.subcategoryTextField.getText().toString().isEmpty() || binding.subcategoryTextField.getText().toString() == null)
+            binding.subcategoryLayout.setError("You have to select a subcategory!");
     }
 
     private boolean noErrors() {
         if(binding.dateLayout.getError() == null && binding.amountLayout.getError() == null && binding.accountLayout.getError() == null
-                && binding.categoryLayout.getError() == null)
+                && binding.categoryLayout.getError() == null && binding.subcategoryLayout.getError() == null)
             return true;
         else
             return false;

@@ -99,7 +99,7 @@
             app:endIconDrawable="@drawable/ic_dropdown"
             app:endIconMode="custom"
             app:errorEnabled="true"
-            app:layout_constraintBottom_toTopOf="@+id/noteLayout"
+            app:layout_constraintBottom_toTopOf="@+id/subcategoryLayout"
             app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/guideline2"
@@ -115,6 +115,31 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/subcategoryLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:hint="Subcategory"
+            app:endIconDrawable="@drawable/ic_dropdown"
+            app:endIconMode="custom"
+            app:errorEnabled="true"
+            app:layout_constraintBottom_toTopOf="@+id/noteLayout"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/categoryLayout"
+            app:startIconDrawable="@drawable/ic_input_subcategory">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/subcategoryTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/noteLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
@@ -128,7 +153,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/categoryLayout"
+            app:layout_constraintTop_toBottomOf="@+id/subcategoryLayout"
             app:startIconDrawable="@drawable/ic_input_note">
 
             <com.google.android.material.textfield.TextInputEditText
