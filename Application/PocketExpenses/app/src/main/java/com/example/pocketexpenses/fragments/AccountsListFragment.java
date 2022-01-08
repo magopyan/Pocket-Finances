@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pocketexpenses.activities.AccountInputActivity;
+import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.viewmodels.AccountInputViewModel;
 import com.example.pocketexpenses.viewmodels.AccountTypeViewModel;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
@@ -36,6 +37,7 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
     private RecyclerView oAccountsRV;
     private AccountTypeViewModel oViewModel;
     private AccountInputViewModel oAccountInputVM;
+    private AccountsAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,7 +85,7 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
         oViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
         oAccountInputVM = new ViewModelProvider(this).get(AccountInputViewModel.class);
 
-        AccountsAdapter adapter = new AccountsAdapter(oViewModel, oAccountInputVM);
+        adapter = new AccountsAdapter(oViewModel, oAccountInputVM);
         oViewModel.getAllAccountTypesWithAccounts().observe(getViewLifecycleOwner(), new Observer<List<AccountTypeWithAccounts>>() {
             @Override
             public void onChanged(@Nullable final List<AccountTypeWithAccounts> accTypesWithAccounts) {
@@ -102,5 +104,9 @@ public class AccountsListFragment extends Fragment implements View.OnClickListen
         Intent intent = new Intent(getContext(), AccountInputActivity.class);
         intent.putExtra("topBarTitle", "Add new Account");
         startActivity(intent);
+    }
+
+    public void updateRecyclerViewAdapterItems(List<Account> oListAccounts) {
+        adapter.setDataAccountsSorted(oListAccounts);
     }
 }

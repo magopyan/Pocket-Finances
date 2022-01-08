@@ -27,6 +27,11 @@ public class TransactionViewModel extends AndroidViewModel {
         oLiveDataListAllTransactionSubtypesWithTransactions = oTransactionRepository.getAllTransactionSubtypesWithTransactions();
     }
 
+    public LiveData<List<Transaction>> getAllTransactionsSortByDate()
+    {
+        return oTransactionRepository.getAllTransactionSortByDate();
+    }
+
     public LiveData<Transaction> getTransactionByID(int nID){
         return oTransactionRepository.getTransactionByID(nID);
     }

@@ -143,6 +143,11 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setDataAccountsSorted(List<Account> oListAccounts){
+        oAccountsList = oListAccounts;
+        notifyDataSetChanged();
+    }
+
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 

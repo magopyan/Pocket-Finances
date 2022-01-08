@@ -3,16 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/top_search"
-        android:icon="@drawable/ic_topnav_search"
-        android:title="Search"
-        android:contentDescription=""
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/top_sort"
         android:icon="@drawable/ic_topnav_filter"
-        android:title="Filter"
+        android:title="Sort by balance"
         android:contentDescription=""
         app:showAsAction="ifRoom" />
 

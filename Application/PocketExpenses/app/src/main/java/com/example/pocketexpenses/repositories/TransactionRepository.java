@@ -29,6 +29,11 @@ public class TransactionRepository {
         oLiveDataListAllTransactionSubtypesWithTransactions = oTransactionDao.getAllTransactionSubtypesWithTransactions();
     }
 
+    public LiveData<List<Transaction>> getAllTransactionSortByDate()
+    {
+        return oTransactionDao.getAllTransactionsSortByDate();
+    }
+
     public LiveData<List<Transaction>> getAllTransactions() {
         return oLiveDataListAllTransactions;
     }

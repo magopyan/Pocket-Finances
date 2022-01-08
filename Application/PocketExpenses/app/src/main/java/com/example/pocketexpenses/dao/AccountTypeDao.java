@@ -79,4 +79,8 @@ public interface AccountTypeDao {  // za AccountTypeWithAccounts
     @Transaction
     @Query("SELECT * FROM account_type where id = :arg0 LIMIT 1")
     LiveData<AccountTypeWithAccounts> getAccountTypeWithAccountsById(int arg0);
+
+    @Transaction
+    @Query("SELECT * FROM account ORDER BY balance DESC")
+    LiveData<List<Account>> getAllAccountsSortByBalance();
 }

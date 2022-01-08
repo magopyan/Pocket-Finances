@@ -44,7 +44,7 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
     private TransactionTypeViewModel oTransactionTypeViewModel;
     private AccountTypeViewModel oAccountTypeViewModel;
     private TransactionInputViewModel oTransactionInputVM;
-
+    private TransactionsAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,7 +95,7 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
         oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
         oTransactionInputVM = new ViewModelProvider(this).get(TransactionInputViewModel.class);
 
-        TransactionsAdapter adapter = new TransactionsAdapter(oTransactionViewModel, oTransactionInputVM, oAccountTypeViewModel, oTransactionTypeViewModel);
+        adapter = new TransactionsAdapter(oTransactionViewModel, oTransactionInputVM, oAccountTypeViewModel, oTransactionTypeViewModel);
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {
@@ -139,5 +139,10 @@ public class TransactionsListFragment extends Fragment implements View.OnClickLi
         Intent intent = new Intent(getContext(), TransactionInputActivity.class);
         intent.putExtra("topBarTitle", "Add new Expense");
         startActivity(intent);
+    }
+
+    public void updateRecyclerViewAdapterItems(List<Transaction> oListTransaction)
+    {
+        adapter.setTransactionsData(oListTransaction);
     }
 }

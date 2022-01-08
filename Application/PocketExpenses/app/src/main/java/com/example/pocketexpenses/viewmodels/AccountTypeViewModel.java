@@ -28,6 +28,10 @@ public class AccountTypeViewModel extends AndroidViewModel {
         oLiveDataListAccountTypesWithAccounts = oAccountTypeRepository.getAllAccountTypesWithAccounts();
     }
 
+    public LiveData<List<Account>> getAllAccountsSortByBalance() {
+        return oAccountTypeRepository.getAllAccountsSortByBalance();
+    }
+
     public LiveData<AccountType> getAccountTypeByID(int nID){
         return oAccountTypeRepository.getAccountTypeByID(nID);
     }

@@ -64,4 +64,8 @@ public interface TransactionDao { // za AccountWithTransactions i TransactionSub
     @Query("SELECT * FROM transaction_subtype WHERE id = :arg0 LIMIT 1")
     LiveData<TransactionSubtypeWithTransactions> getTransactionSubtypesWithTransactionsByID(int arg0);
 
+    @androidx.room.Transaction
+    @Query("SELECT * FROM `transaction` ORDER BY date DESC")
+    LiveData<List<Transaction>> getAllTransactionsSortByDate();
+
 }

@@ -31,6 +31,11 @@ public class AccountTypeRepository {
         oLiveDataListAccountTypesWithAccounts = oAccountTypeDao.getAllAccountTypesWithAccounts();
     }
 
+    public LiveData<List<Account>> getAllAccountsSortByBalance()
+    {
+        return oAccountTypeDao.getAllAccountsSortByBalance();
+    }
+
     public LiveData<List<AccountTypeWithAccounts>> getAllAccountTypesWithAccounts() {
         return oLiveDataListAccountTypesWithAccounts;
     }

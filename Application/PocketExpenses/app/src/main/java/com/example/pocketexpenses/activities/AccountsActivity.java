@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,12 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.pocketexpenses.R;
 import com.example.pocketexpenses.databinding.ActivityAccountsBinding;
 import com.example.pocketexpenses.databinding.ActivityMainBinding;
 import com.example.pocketexpenses.databinding.FragmentAccountsListBinding;
+import com.example.pocketexpenses.entities.Account;
 import com.example.pocketexpenses.entities.Transaction;
+import com.example.pocketexpenses.entities.TransactionSubtype;
 import com.example.pocketexpenses.fragments.AccountsListFragment;
 import com.example.pocketexpenses.fragments.StatisticsFragment;
 import com.example.pocketexpenses.fragments.TransactionsListFragment;
@@ -45,6 +50,9 @@ import java.util.Locale;
 public class AccountsActivity extends AppCompatActivity {
 
     private ActivityAccountsBinding binding;
+    private LifecycleOwner owner;
+    private List<Transaction> m_oListTransactions;
+    private List<Account> m_oListAccounts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +61,14 @@ public class AccountsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        //setSupportActionBar(binding.topAppBar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.logo_circle));
+        //getSupportActionBar().setTitle("Pocket Finances");
+
         Intent receivedIntent = getIntent();
         String toastMessage = receivedIntent.getStringExtra("Toast Message");
-        if(toastMessage != null)
+        if (toastMessage != null)
             Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
 
         FragmentManager manager = getSupportFragmentManager();
@@ -68,26 +81,26 @@ public class AccountsActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.bottomnav_transactions:
                     TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, transactionsFragment, "Fragment").commit();
-                        binding.topAppBar.getMenu().clear();
-                        binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu_date);
-                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
-                        break;
+                    getSupportFragmentManager().beginTransaction().
+                            replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
+                    binding.topAppBar.getMenu().clear();
+                    binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu_date);
+                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
+                    break;
                 case R.id.bottomnav_accounts:
                     AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, accountsFragment, "Fragment").commit();
-                        binding.topAppBar.getMenu().clear();
-                        binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu);
-                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
+                    getSupportFragmentManager().beginTransaction().
+                            replace(R.id.fragmentContainer, accountsFragment, "Accounts").commit();
+                    binding.topAppBar.getMenu().clear();
+                    binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu);
+                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
                     break;
                 case R.id.bottomnav_statistics:
-                        StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, statisticsFragment, "Fragement").commit();
-                        binding.topAppBar.getMenu().clear();
-                        binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
+                    StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().
+                            replace(R.id.fragmentContainer, statisticsFragment, "Statistics").commit();
+                    binding.topAppBar.getMenu().clear();
+                    binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
                     break;
                 default:
                     break;
@@ -95,110 +108,65 @@ public class AccountsActivity extends AppCompatActivity {
             return true;
         });
 
-        binding.topAppBar.setNavigationOnClickListener(menuItem -> {
-            switch(menuItem.getId()) {
-                case R.id.top_search:
-                    break;
-                case R.id.top_sort:
-                    try {
-                        sortTransactionListItemsByCurrentDate();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+        binding.topAppBar.setOnMenuItemClickListener(new androidx.appcompat.widget.Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.top_sort_date:
+                        try {
+                            sortTransactionListItemsByCurrentDate();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.top_sort:
+                        try {
+                            sortAccountsListItemsByBalance();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    default:
+                }
+
+                return false;
             }
         });
     }
 
     private void sortTransactionListItemsByCurrentDate() throws ParseException {
         TransactionViewModel oTransactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        // GetValue() vrushta LiveData. nqma kak da se cast-ne kum List<Transaction>.ili trqbva observe(), ili da napravish ot Dao nagore
-        // edin metod getAllTransactionsSortDate kudeto e select * from Transactions order by date asc/desc
-        List<Transaction> oListTransactions = oTransactionViewModel.getAllTransactions().getValue();
 
-        List<Transaction> oListTransactionsLesserThanCurrentDate = new ArrayList<>();
-        List<Transaction> oListTransactionsEqualToCurrentDate = new ArrayList<>();
-        List<Transaction> oListTransactionsGreaterThanCurrentDate = new ArrayList<>();
-
-        Date currentDate = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = df.format(currentDate);
-
-
-        for(int i = 0;i<oListTransactions.size();i++)
-        {
-            Transaction oTransaction = oListTransactions.get(i);
-
-            Date d1 = df.parse(oTransaction.getDate());
-            Date CurrentDate = df.parse(formattedDate);
-
-            if(d1.compareTo(CurrentDate) == -1)
-            {
-                oListTransactionsLesserThanCurrentDate.add(oListTransactions.get(i));
-            }
-            else if(d1.compareTo(CurrentDate) == 0)
-            {
-                oListTransactionsEqualToCurrentDate.add(oListTransactions.get(i));
-            }
-            else if(d1.compareTo(CurrentDate) == 1)
-            {
-                oListTransactionsGreaterThanCurrentDate.add(oListTransactions.get(i));
-            }
-        }
-
-        Collections.sort(oListTransactionsLesserThanCurrentDate, new Comparator<Transaction>() {
+        oTransactionViewModel.getAllTransactionsSortByDate().observe(this, new Observer<List<Transaction>>() {
             @Override
-            public int compare(Transaction o1, Transaction o2) {
+            public void onChanged(@Nullable final List<Transaction> oListTransaction) {
+                m_oListTransactions = oListTransaction;
 
-                Date d1 = null;
-                Date d2 = null;
-
-                try {
-                    d1 = df.parse(o1.getDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("Transactions");
+                if(fragment instanceof TransactionsListFragment){
+                    TransactionsListFragment oTransactionsListFragment = (TransactionsListFragment) fragment;
+                    oTransactionsListFragment.updateRecyclerViewAdapterItems(m_oListTransactions);
                 }
-                try {
-                    d2 = df.parse(o2.getDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-                return d1.compareTo(d2);
             }
         });
-
-        Collections.sort(oListTransactionsGreaterThanCurrentDate, new Comparator<Transaction>() {
-            @Override
-            public int compare(Transaction o1, Transaction o2) {
-
-                Date d1 = null;
-                Date d2 = null;
-
-                try {
-                    d1 = df.parse(o1.getDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    d2 = df.parse(o2.getDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-                return d1.compareTo(d2);
-            }
-        });
-
-        List<Transaction> newData = oListTransactionsEqualToCurrentDate;
-
-        newData.addAll(oListTransactionsLesserThanCurrentDate);
-        newData.addAll(0, oListTransactionsGreaterThanCurrentDate);
-
-        TransactionsAdapter adapter = new TransactionsAdapter();
-        adapter.setTransactionsData(newData);
 
     }
+
+    private void sortAccountsListItemsByBalance() throws ParseException {
+        AccountTypeViewModel oAccountTypeViewModel = new ViewModelProvider(this).get(AccountTypeViewModel.class);
+
+        oAccountTypeViewModel.getAllAccountsSortByBalance().observe(this, new Observer<List<Account>>() {
+            @Override
+            public void onChanged(@Nullable final List<Account> oListAccount) {
+                m_oListAccounts = oListAccount;
+
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("Accounts");
+                if(fragment instanceof AccountsListFragment){
+                    AccountsListFragment oAccountsListFragment = (AccountsListFragment) fragment;
+                    oAccountsListFragment.updateRecyclerViewAdapterItems(m_oListAccounts);
+                }
+            }
+        });
+
+    }
+
 }
