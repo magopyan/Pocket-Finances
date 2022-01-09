@@ -50,7 +50,6 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
     private AccountTypeViewModel oAccountTypeVM;
 
     private Account chosenAccount;
-    private TransactionType chosenTransactionType;
     private TransactionSubtype chosenTransactionSubtype;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -70,8 +69,8 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
+     //     * @param param1 Parameter 1.
+     //     * @param param2 Parameter 2.
      * @return A new instance of fragment IncomeInputFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -117,21 +116,17 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
                 chosenAccount = item;
             }
         });
-        oTransactionInputVM.getTransactionType().observe(getViewLifecycleOwner(), item -> {
-            if(item != null) {
-                binding.categoryTextField.setText(item.getName());
-                chosenTransactionType = item;
-            }
-        });
         oTransactionInputVM.getTransactionSubtype().observe(getViewLifecycleOwner(), item -> {
             if(item != null) {
-                binding.subcategoryTextField.setText(item.getName());
+                binding.categoryTextField.setText(item.getName());
                 chosenTransactionSubtype = item;
             }
         });
 
 
         TextInputEditText etDate = binding.dateTextField;
+        Date currentDate = new Date();
+        etDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(currentDate));
 
         MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select a date")
@@ -183,24 +178,9 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 binding.categoryLayout.setError(null);
-                Intent intent = new Intent(getContext(), ChooseTransactionTypeActivity.class);
+                Intent intent = new Intent(getContext(), ChooseTransactionSubtypeActivity.class);
                 intent.putExtra("TransactionTypeID", -1);
                 startActivity(intent);
-            }
-        });
-
-        binding.subcategoryTextField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(chosenTransactionType == null) {
-                    binding.subcategoryLayout.setError("You need to select a Category first!");
-                }
-                else {
-                    binding.subcategoryLayout.setError(null);
-                    Intent intent = new Intent(getContext(), ChooseTransactionSubtypeActivity.class);
-                    intent.putExtra("TransactionTypeID", chosenTransactionType.getId());
-                    startActivity(intent);
-                }
             }
         });
 
@@ -246,13 +226,11 @@ public class IncomeInputFragment extends Fragment implements View.OnClickListene
             binding.accountLayout.setError("You have to select an account!");
         if(binding.categoryTextField.getText().toString().isEmpty() || binding.categoryTextField.getText().toString() == null)
             binding.categoryLayout.setError("You have to select a category!");
-        if(binding.subcategoryTextField.getText().toString().isEmpty() || binding.subcategoryTextField.getText().toString() == null)
-            binding.subcategoryLayout.setError("You have to select a subcategory!");
     }
 
     private boolean noErrors() {
         if(binding.dateLayout.getError() == null && binding.amountLayout.getError() == null && binding.accountLayout.getError() == null
-                && binding.categoryLayout.getError() == null && binding.subcategoryLayout.getError() == null)
+                && binding.categoryLayout.getError() == null)
             return true;
         else
             return false;

@@ -131,6 +131,8 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
 
 
         TextInputEditText etDate = binding.dateTextField;
+        Date currentDate = new Date();
+        etDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(currentDate));
 
         MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select a date")
@@ -211,13 +213,13 @@ public class TransactionInputFragment extends Fragment implements View.OnClickLi
 
         if(noErrors()) {
             String date = binding.dateTextField.getText().toString();
-            double amount = Double.parseDouble(binding.amountTextField.getText().toString());
+            double amount = -1 * Double.parseDouble(binding.amountTextField.getText().toString());
             String note = binding.noteTextField.getText().toString();
 
             Transaction inputTransaction = new Transaction(date, amount, note, chosenAccount.getId(), chosenTransactionSubtype.getId(), chosenTransactionSubtype.getImageId());
             oTransactionVM.insertTransaction(inputTransaction);
 
-            double newBalance = -1 * chosenAccount.getBalance() - amount;
+            double newBalance = chosenAccount.getBalance() + amount;
             //String toastMessage = "You have exceeded " + chosenAccount.getName() + "'s balance, it is now negative.";
             chosenAccount.setBalance(newBalance);
             oAccountTypeVM.updateAccount(chosenAccount);

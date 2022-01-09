@@ -56,9 +56,9 @@ public class ChooseAccountAdapter extends RecyclerView.Adapter<AccountViewHolder
 
         double balance = account.getBalance();
         if(balance < 0)
-            holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.red));
+            holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.dark_red));
         else if(balance > 0)
-            holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.green));
+            holder.setTvBalanceColor(ContextCompat.getColor(holder.getBalanceTextView().getContext(), R.color.dark_green));
 
         account.setBalance(round(balance, 2));
 

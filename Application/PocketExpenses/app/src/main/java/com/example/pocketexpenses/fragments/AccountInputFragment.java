@@ -136,14 +136,14 @@ public class AccountInputFragment extends Fragment implements View.OnClickListen
             String strAccountName = binding.nameTextField.getText().toString();
 
             if(isAccountEdit == false) {
-                Account newAccount = new Account(dBalance, strAccountName, chosenAccountType.getId(), R.drawable.ic_input_account);
+                Account newAccount = new Account(dBalance, strAccountName, chosenAccountType.getId(), oAccountTypeInputVM.getAccountType().getValue().getImageId());
                 oAccountTypeViewModel.insertAccount(newAccount);
             }
             else {
                 accountForEdit.setBalance(dBalance);
                 accountForEdit.setName(strAccountName);
                 accountForEdit.setAccountTypeId(chosenAccountType.getId());
-                accountForEdit.setImageId(R.drawable.ic_input_account);
+                accountForEdit.setImageId(oAccountTypeInputVM.getAccountType().getValue().getImageId());
                 oAccountTypeViewModel.updateAccount(accountForEdit);
             }
 

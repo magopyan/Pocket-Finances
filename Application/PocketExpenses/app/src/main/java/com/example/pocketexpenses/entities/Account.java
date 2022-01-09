@@ -25,6 +25,7 @@ public class Account implements Parcelable {  // Parcelable? Serializable?
 
     private String name;
 
+    @ColumnInfo(name = "image_id")
     private Integer ImageId;
 
     @ColumnInfo(name = "acc_type_id")

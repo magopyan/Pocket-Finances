@@ -26,6 +26,7 @@ public class TransactionType {
 
     private String name;
 
+    @ColumnInfo(name = "image_id")
     private Integer ImageId;
 
     @ColumnInfo(name = "tran_dir_id")

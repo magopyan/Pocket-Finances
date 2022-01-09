@@ -88,17 +88,19 @@ public abstract class AppDatabase extends RoomDatabase {
 
         private void insertAccountsAndAccountTypes() {
             // Account Types
-            AccountType cash = new AccountType("Cash", R.drawable.ic_input_account);                     // id=1
-            AccountType creditCard = new AccountType("Credit Card", R.drawable.ic_input_account);        // id=2
-            AccountType debitCard = new AccountType("Debit Card", R.drawable.ic_input_account);          // id=3
-            AccountType discountCard = new AccountType("Discount Card", R.drawable.ic_input_account);    // id=4
+            AccountType cash = new AccountType("Cash", R.drawable.ic_cash_account);                     // id=1
+            AccountType savingsAccount = new AccountType("Savings Account", R.drawable.ic_savings_account);    // id=2
+            AccountType creditCard = new AccountType("Credit Card", R.drawable.ic_input_account);        // id=3
+            AccountType debitCard = new AccountType("Debit Card", R.drawable.ic_debit_account);          // id=4
+
             oAccountTypeDao.insertAccountType(cash);
+            oAccountTypeDao.insertAccountType(savingsAccount);
             oAccountTypeDao.insertAccountType(creditCard);
             oAccountTypeDao.insertAccountType(debitCard);
-            oAccountTypeDao.insertAccountType(discountCard);
+
 
             // Accounts
-            Account cashStartingAccount = new Account(0, "Cash", 1, R.drawable.ic_input_account); // id=1
+            Account cashStartingAccount = new Account(0, "Cash", 1, R.drawable.ic_cash_account); // id=1
             oAccountTypeDao.insertAccount(cashStartingAccount);
         }
 
@@ -225,7 +227,7 @@ public abstract class AppDatabase extends RoomDatabase {
             TransactionSubtype leasing = new TransactionSubtype("Leasing", 5, R.drawable.ic_leasing);                      // id=32
             TransactionSubtype insurance = new TransactionSubtype("Vehicle Insurance", 5, R.drawable.ic_vehicle_insurance);          // id=33
             TransactionSubtype remont = new TransactionSubtype("Maintenance & Repairs", 5, R.drawable.ic_maintainance_and_repairs);         // id=34
-            TransactionSubtype rental = new TransactionSubtype("Rentals", 5, R.drawable.ic_rent);                       // id=35
+            TransactionSubtype rental = new TransactionSubtype("Rentals", 5, R.drawable.ic_car_rental);                       // id=35
             oTranTypeDao.insertTransactionSubtype(fuel);
             oTranTypeDao.insertTransactionSubtype(parking);
             oTranTypeDao.insertTransactionSubtype(leasing);

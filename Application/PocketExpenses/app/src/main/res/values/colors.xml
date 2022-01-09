@@ -14,4 +14,6 @@
     <color name="snow">#FFFAFA</color>
     <color name="colorPrimary">#0272B9</color>
     <color name="colorPrimaryVariant">#274679</color>
+    <color name="dark_green">#007A39</color>
+    <color name="dark_red">#BB0000</color>
 </resources>

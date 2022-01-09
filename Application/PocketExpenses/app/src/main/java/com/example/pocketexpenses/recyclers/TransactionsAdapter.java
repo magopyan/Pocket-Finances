@@ -102,9 +102,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionViewHol
 
         double transactionSum = oTransaction.getSum();
         if(transactionSum < 0)
-            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.red));
+            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.dark_red));
         else if(transactionSum > 0)
-            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.green));
+            holder.setTvTransactionSumColor(ContextCompat.getColor(holder.getTransactionSumTextView().getContext(), R.color.dark_green));
 
         holder.setTvTransactionSum(String.valueOf(transactionSum));
         holder.setTvNote(oTransaction.getNote());

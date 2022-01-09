@@ -1,5 +1,6 @@
 package com.example.pocketexpenses.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -16,6 +17,7 @@ public class AccountType {
 
     private String name;
 
+    @ColumnInfo(name = "image_id")
     private Integer ImageId;
 
     @Ignore

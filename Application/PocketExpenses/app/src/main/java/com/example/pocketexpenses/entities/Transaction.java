@@ -30,6 +30,7 @@ public class Transaction implements Parcelable {
 
     private String note;
 
+    @ColumnInfo(name = "image_id")
     private Integer ImageId;
 
     @ColumnInfo(name = "account_id")

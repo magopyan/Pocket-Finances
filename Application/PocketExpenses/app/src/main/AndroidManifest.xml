@@ -20,7 +20,8 @@
         <activity android:name=".activities.ChooseAccountActivity" />
         <activity android:name=".activities.TransactionInputActivity" />
         <activity android:name=".activities.TransactionsActivity" />
-        <activity android:name=".activities.AccountsActivity" />
+        <!--<activity android:name=".activities.AccountsActivity" />-->
+        <activity android:name=".MainActivity" />
         <activity android:name=".activities.AccountInputActivity" />
         <activity
             android:name=".activities.BaseActivity"
@@ -38,8 +39,7 @@
             android:value="true" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+            android:name=".activities.AccountsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/top_sort_date"
-        android:icon="@drawable/ic_input_date"
+        android:icon="@drawable/ic_topbar_date"
         android:title="Sort by date"
         android:contentDescription=""
         app:showAsAction="ifRoom" />

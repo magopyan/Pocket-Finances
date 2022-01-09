@@ -35,11 +35,9 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,10 +64,6 @@ public class StatisticsFragment extends Fragment {
     private double expenses = 0;
     private double income = 0;
 
-    // Otdelno za drugite 2, inache nqma kak da sinhronizirame 2ta metoda koi purvi shte zavurshi izpulenie
-    private double m_dExpenses = 0;
-    private double m_dIncome = 0;
-
     private PieChart pieChart1;
     private PieChart pieChart2;
     private PieChart pieChart3;
@@ -79,10 +73,8 @@ public class StatisticsFragment extends Fragment {
     private ArrayList<PieEntry> m_entriesIncomeVsExpenses = new ArrayList<>();
 
     private LifecycleOwner owner;
-   // String addedTypesString = null;
     private HashMap<String, Double> incomeTypeWithSumMap = null;
     private HashMap<String, Double> expensesTypeWithSumMap = null;
-    private Double oldSum;
 
 
     public StatisticsFragment() {
@@ -165,18 +157,12 @@ public class StatisticsFragment extends Fragment {
         });
 
         owner = getViewLifecycleOwner();
-
-        // Pie Chart 1
-        calculateExpensesVsIncome();
-
-        // Pie Chart 2 & 3 - vika se shtom prikluchi gorniq metod
-        //calculateExpensesAndIncomes();
-
+        visualizePieCharts();
     }
 
 
 
-    private void calculateExpensesVsIncome() {
+    private void visualizePieCharts() {
         oTransactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable final List<Transaction> oListTransactions) {
@@ -379,8 +365,8 @@ public class StatisticsFragment extends Fragment {
 
         Legend l = pieChart2.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setTextSize(12);
         l.setDrawInside(false);
         l.setEnabled(true);
@@ -397,7 +383,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesIncome, "Categories");
+        PieDataSet dataSet = new PieDataSet(m_entriesIncome, "");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);

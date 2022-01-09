@@ -79,26 +79,51 @@ public class AccountsActivity extends AppCompatActivity {
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
+
                 case R.id.bottomnav_transactions:
-                    TransactionsListFragment transactionsFragment = TransactionsListFragment.newInstance();
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag("Transactions");
+                    TransactionsListFragment oTransactionsListFragment = null;
+                    if(fragment instanceof TransactionsListFragment)
+                        oTransactionsListFragment = (TransactionsListFragment) fragment;
+                    else
+                        oTransactionsListFragment = TransactionsListFragment.newInstance();
+
                     getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragmentContainer, transactionsFragment, "Transactions").commit();
+                            replace(R.id.fragmentContainer, oTransactionsListFragment, "Transactions").commit();
+
                     binding.topAppBar.getMenu().clear();
                     binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu_date);
                     binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_transactions).setChecked(true);
                     break;
+
+
                 case R.id.bottomnav_accounts:
-                    AccountsListFragment accountsFragment = AccountsListFragment.newInstance();
+                    fragment = getSupportFragmentManager().findFragmentByTag("Accounts");
+                    AccountsListFragment oAccountsListFragment = null;
+                    if(fragment instanceof AccountsListFragment)
+                        oAccountsListFragment = (AccountsListFragment) fragment;
+                    else
+                        oAccountsListFragment = AccountsListFragment.newInstance();
+
                     getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragmentContainer, accountsFragment, "Accounts").commit();
+                            replace(R.id.fragmentContainer, oAccountsListFragment, "Accounts").commit();
+
                     binding.topAppBar.getMenu().clear();
                     binding.topAppBar.inflateMenu(R.menu.top_app_bar_menu);
                     binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_accounts).setChecked(true);
                     break;
+
+
                 case R.id.bottomnav_statistics:
-                    StatisticsFragment statisticsFragment = StatisticsFragment.newInstance();
+                    fragment = getSupportFragmentManager().findFragmentByTag("Statistics");
+                    StatisticsFragment oStatisticsFragment = null;
+                    if(fragment instanceof StatisticsFragment)
+                        oStatisticsFragment = (StatisticsFragment) fragment;
+                    else
+                        oStatisticsFragment = StatisticsFragment.newInstance();
                     getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragmentContainer, statisticsFragment, "Statistics").commit();
+                            replace(R.id.fragmentContainer, oStatisticsFragment, "Statistics").commit();
+
                     binding.topAppBar.getMenu().clear();
                     binding.bottomNavigationView.getMenu().findItem(R.id.bottomnav_statistics).setChecked(true);
                     break;
