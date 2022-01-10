@@ -300,20 +300,20 @@ public abstract class AppDatabase extends RoomDatabase {
         private void insertSampleAccountsAndTransactions() {
 
             // Accounts
-            Account account1 = new Account(1367.65, "credit card", 2, R.drawable.ic_input_account);  // id=1
-            Account account2 = new Account(89.14, "credit card2", 2, R.drawable.ic_input_account);   // id=2
-            oAccountTypeDao.insertAccount(account1);
-            oAccountTypeDao.insertAccount(account2);
+//            Account account1 = new Account(1367.65, "credit card", 2, R.drawable.ic_input_account);  // id=1
+//            Account account2 = new Account(89.14, "credit card2", 2, R.drawable.ic_input_account);   // id=2
+//            oAccountTypeDao.insertAccount(account1);
+//            oAccountTypeDao.insertAccount(account2);
 
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate localDate = LocalDate.now();
-            String date = dtf.format(localDate);
-
-            // Transactions
-            Transaction tran1 = new Transaction(date, 51.24, "canned food", 1, 1, R.drawable.ic_shopping_2);
-            Transaction tran2 = new Transaction(date, 20.99, "mcDonalds", 1, 2, R.drawable.ic_restaurant);
-            oTransactionDao.insertTransaction(tran1);
-            oTransactionDao.insertTransaction(tran2);
+//            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//            LocalDate localDate = LocalDate.now();
+//            String date = dtf.format(localDate);
+//
+//            // Transactions
+//            Transaction tran1 = new Transaction(date, 51.24, "canned food", 1, 1, R.drawable.ic_shopping_2);
+//            Transaction tran2 = new Transaction(date, 20.99, "mcDonalds", 1, 2, R.drawable.ic_restaurant);
+//            oTransactionDao.insertTransaction(tran1);
+//            oTransactionDao.insertTransaction(tran2);
         }
     }
 }

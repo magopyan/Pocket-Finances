@@ -62,6 +62,7 @@ public class StatisticsFragment extends Fragment {
 
     // Za Expense vs Income
     private double expenses = 0;
+    private double expenses2 = 0; // Za Income Vs Expenses, inache se bugva
     private double income = 0;
 
     private PieChart pieChart1;
@@ -189,6 +190,7 @@ public class StatisticsFragment extends Fragment {
                                                                 expenses += transaction.getSum();
                                                             // ako tova e poslednata tranzakciq ot spisuka, t.e veche income i expense sa != 0
                                                             if(transaction == m_oListTransactions.get(m_oListTransactions.size() - 1)) {
+                                                                expenses2 = expenses * -1;
                                                                 calculateExpensesAndIncomes();  /// !!! income i expenses double sa veche sumirani
                                                                 setupPieChartExpense3();
                                                                 loadPieChartDataExpense3();
@@ -317,8 +319,8 @@ public class StatisticsFragment extends Fragment {
 
         Legend l = pieChart1.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setTextSize(12);
         l.setDrawInside(false);
         l.setEnabled(true);
@@ -404,13 +406,13 @@ public class StatisticsFragment extends Fragment {
         pieChart3.setEntryLabelTextSize(12);
         pieChart3.setEntryLabelColor(Color.BLACK);
         pieChart3.setCenterText("Income vs Expenses");
-        pieChart3.setCenterTextSize(24);
+        pieChart3.setCenterTextSize(22);
         pieChart3.getDescription().setEnabled(false);
 
         Legend l = pieChart3.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setTextSize(12);
         l.setDrawInside(false);
         l.setEnabled(true);
@@ -429,8 +431,8 @@ public class StatisticsFragment extends Fragment {
 //        m_entriesExpense.add(new PieEntry(percentageIncome.floatValue(), "Income"));
 //        m_entriesExpense.add(new PieEntry(percentageExpenses.floatValue(), "Expenses"));
 
-        double total = expenses + income;
-        Double percentageExpenses = Double.valueOf(expenses * 100 / total);
+        double total = expenses2 + income;
+        Double percentageExpenses = Double.valueOf(expenses2 * 100 / total);
         Double percentageIncome = Double.valueOf(income * 100 / total);
         m_entriesIncomeVsExpenses.add(new PieEntry(percentageIncome.floatValue(), "Income"));
         m_entriesIncomeVsExpenses.add(new PieEntry(percentageExpenses.floatValue(), "Expenses"));
@@ -444,7 +446,7 @@ public class StatisticsFragment extends Fragment {
             colors.add(color);
         }
 
-        PieDataSet dataSet = new PieDataSet(m_entriesIncomeVsExpenses, "Transaction Direction");
+        PieDataSet dataSet = new PieDataSet(m_entriesIncomeVsExpenses, "");
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
