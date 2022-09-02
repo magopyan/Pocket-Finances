@@ -1,2 +1,2 @@
 # Pocket-Finances
-An Android app for managing finances 
+An Android app for logging and tracking personal finances
